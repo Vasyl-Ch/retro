@@ -6,6 +6,7 @@ from apps.core.conf_checks import (
     assert_allowed_hosts,
     assert_production_secret,
 )
+from apps.core.sanitizer import sanitize_html
 
 
 class ProductionSecretGuardTests(SimpleTestCase):
@@ -32,9 +33,6 @@ class AllowedHostsGuardTests(SimpleTestCase):
 
     def test_nonempty_accepted(self):
         assert_allowed_hosts(["example.com"])
-
-
-from apps.core.sanitizer import sanitize_html
 
 
 class SanitizeHtmlTests(SimpleTestCase):
