@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{{ site_settings.brand_name|default:_("Дистриб’ютор") }}{% endblock %}
+{% block meta_description %}{{ site_settings.meta_description|default:_("Широкий каталог товарів, актуальні акції та новини") }}{% endblock %}
+
+{% block content %}
+
+{# ---- HERO ---- #}
+{% if site_settings.home_layout == 'cinematic' and banners %}
+{# Cinematic: full-screen banner slider (legacy) #}
+<section class="relative">
+  <div class="relative pt-24 lg:pt-28">
+    <div class="swiper heroSlider">
+      <div class="swiper-wrapper">
+        {% for banner in banners %}
+        <div class="swiper-slide">
+          <div class="min-h-[80vh] flex items-center relative overflow-hidden bg-gray-950"
+               {% if banner.background %}style="background-image:url('{{ banner.background.url }}');background-size:cover;background-position:center"{% endif %}>
+            <div class="absolute inset-0 bg-gradient-to-tr from-gray-950/80 via-gray-950/40 to-transparent"></div>
+            <div class="relative mx-auto px-6 max-w-7xl md:px-12">
+              <h1 class="text-5xl md:text-7xl font-semibold text-white max-w-3xl [line-height:1.05]">
+                {{ banner.title }}
+              </h1>
+              {% if banner.subtitle %}
+              <p class="mt-6 max-w-2xl text-lg text-white/80">{{ banner.subtitle }}</p>
+              {% endif %}
+              {% if banner.button_text and banner.button_url %}
+              <a href="{{ banner.button_url }}" class="btn variant-primary sz-lg mt-8 inline-flex">
+                <span class="btn-label">{{ banner.button_text }}</span>
+              </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+  </div>
+</section>
+
+{% else %}
+{# Editorial: large kinetic typography, asymmetric grid, breathing space #}
+<section class="relative overflow-hidden pt-36 pb-24 lg:pt-44 lg:pb-32">
+  <div class="mx-auto px-6 max-w-7xl">
+    <div class="grid lg:grid-cols-12 gap-y-12 lg:gap-x-12 items-end">
+      <div class="lg:col-span-8">
+        <span class="hero-editorial-eyebrow">
+          {{ site_settings.hero_eyebrow|default:_("Офіційний представник · 2026") }}
+        </span>
+        <h1 class="hero-editorial-title text-title mt-6"
+            data-kinetic-text="{{ site_settings.hero_title|default:_('Інша **відстань** до якісних брендів.') }}"></h1>
+      </div>
+      <div class="lg:col-span-4 lg:pb-4" data-reveal>
+        <p class="text-body text-lg leading-relaxed max-w-md">
+          {{ site_settings.hero_subtitle|default:_("Каталог, який доносить продукт без зайвого шуму. Запит на зв'язок — у два кліки.") }}
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="{% url 'catalog:product_list' %}" data-magnetic
+             class="btn variant-primary sz-lg">
+            <span class="btn-label">{% blocktrans with label=site_settings.nav_catalog_label|default:_("Каталог") %}Переглянути {{ label }}{% endblocktrans %}</span>
+          </a>
+          <button type="button" onclick="openContactModal('general')" data-magnetic
+                  class="btn variant-ghost sz-lg">
+            <span class="btn-label">{{ site_settings.cta_label|default:_("Зв'язатись") }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    {% if banners %}
+    {# Editorial collage strip — first banner as wide feature, rest as small thumbs #}
+    <div class="mt-24 grid grid-cols-12 gap-3 lg:gap-4" data-reveal-stagger>
+      {% for banner in banners|slice:":4" %}
+      <a href="{{ banner.button_url|default:'#' }}"
+         class="{% if forloop.first %}col-span-12 lg:col-span-8 aspect-[16/9]{% else %}col-span-6 lg:col-span-{% if banners|length == 2 %}4{% else %}{% if forloop.counter == 2 %}4{% else %}2{% endif %}{% endif %} aspect-[4/3]{% endif %}
+                relative overflow-hidden rounded-[--card-radius] group block bg-ui-soft">
+        {% if banner.background %}
+        <img src="{{ banner.background.url }}" alt="{{ banner.title }}"
+             class="w-full h-full object-cover transition-transform duration-[800ms] ease-out group-hover:scale-105">
+        {% endif %}
+        <div class="absolute inset-0 bg-gradient-to-t from-gray-950/85 via-gray-950/20 to-transparent"></div>
+        <div class="absolute inset-x-0 bottom-0 p-5 lg:p-7">
+          <h3 class="text-white font-semibold {% if forloop.first %}text-2xl lg:text-3xl{% else %}text-base lg:text-lg{% endif %} max-w-md leading-tight">
+            {{ banner.title }}
+          </h3>
+          {% if banner.subtitle and forloop.first %}
+          <p class="mt-2 text-white/70 text-sm max-w-md hidden lg:block">{{ banner.subtitle|truncatechars:120 }}</p>
+          {% endif %}
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}
+
+{# ---- БРЕНДИ ---- #}
+{% if brands and site_settings.nav_brands_visible %}
+<section class="pt-24">
+  <div class="mx-auto px-6 max-w-6xl">
+    <h2 class="text-3xl text-title font-semibold text-center" data-reveal>
+      {% blocktrans with plural=site_settings.term_brand_plural|default:_("бренди") %}Наші {{ plural }}{% endblocktrans %}
+    </h2>
+    <div class="mt-12 swiper brandsSlider">
+      <div class="swiper-wrapper items-stretch">
+        {% for brand in brands %}
+        <div class="swiper-slide h-auto">
+          <a href="{{ brand.get_absolute_url }}"
+             class="card variant-outlined h-full min-h-[7rem] p-4 flex flex-col items-center justify-center text-center
+                    hover:shadow-lg hover:shadow-primary-500/10 hover:border-primary-400
+                    transition-[box-shadow,border-color] duration-300">
+            {% if brand.logo %}
+            <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="h-10 w-auto object-contain mb-3">
+            {% endif %}
+            <p class="font-medium text-title">{{ brand.name }}</p>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# ---- АКЦІЇ ---- #}
+{% if active_promos and site_settings.nav_promos_visible %}
+<section class="pt-24">
+  <div class="mx-auto px-6 max-w-6xl">
+    <div class="flex items-center justify-between" data-reveal>
+      <h2 class="text-3xl text-title font-semibold">
+        {{ site_settings.nav_promos_label|default:_("Акції") }}
+      </h2>
+      <a href="{% url 'content:promo_list' %}"
+         class="btn variant-ghost sz-sm">{% blocktrans with label=site_settings.nav_promos_label|default:_("акції") %}Усі {{ label }}{% endblocktrans %} →</a>
+    </div>
+    <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-3" data-reveal-stagger>
+      {% for promo in active_promos %}
+        {% include 'partials/_promo_card.html' with promo=promo %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# ---- РЕКОМЕНДОВАНІ ---- #}
+{% if featured and site_settings.nav_catalog_visible %}
+<section class="pt-24">
+  <div class="mx-auto px-6 max-w-6xl">
+    <div class="flex items-center justify-between" data-reveal>
+      <h2 class="text-3xl text-title font-semibold">
+        {% blocktrans with plural=site_settings.term_product_plural|default:_("товари") %}Популярні {{ plural }}{% endblocktrans %}
+      </h2>
+      <a href="{% url 'catalog:product_list' %}"
+         class="btn variant-ghost sz-sm">{% blocktrans with label=site_settings.nav_catalog_label|default:_("каталог") %}Весь {{ label }}{% endblocktrans %} →</a>
+    </div>
+    <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-3" data-reveal-stagger>
+      {% for product in featured %}
+        {% include 'partials/_product_card.html' with product=product %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# ---- НОВИНИ ---- #}
+{% if latest_news and site_settings.nav_news_visible %}
+<section class="py-24">
+  <div class="mx-auto px-6 max-w-6xl">
+    <div class="flex items-center justify-between" data-reveal>
+      <h2 class="text-3xl text-title font-semibold">{{ site_settings.nav_news_label|default:_("Новини") }}</h2>
+      <a href="{% url 'content:news_list' %}"
+         class="btn variant-ghost sz-sm">{% blocktrans with label=site_settings.nav_news_label|default:_("новини") %}Усі {{ label }}{% endblocktrans %} →</a>
+    </div>
+    <div class="mt-8 grid sm:grid-cols-3 gap-3" data-reveal-stagger>
+      {% for news in latest_news %}
+        {% include 'partials/_news_card.html' with news=news %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  if (document.querySelector('.heroSlider')) {
+    new Swiper('.heroSlider', {
+      loop: true,
+      autoplay: { delay: 5000, disableOnInteraction: false },
+      pagination: { el: '.swiper-pagination', clickable: true },
+      navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }
+    });
+  }
+</script>
+{% endblock %}

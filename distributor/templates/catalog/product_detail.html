@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{{ object.name }} — {{ object.brand.name }}{% endblock %}
+{% block og_image %}{% if object.image %}{{ object.image.url }}{% endif %}{% endblock %}
+{% block content %}
+<div class="pt-28 pb-24">
+  <div class="mx-auto px-6 max-w-6xl">
+
+    {# Breadcrumb #}
+    <nav class="text-sm text-caption mb-8 flex flex-wrap gap-x-2 gap-y-1">
+      <a href="{% url 'content:home' %}" class="hover:link">{% trans "Головна" %}</a>
+      <span>/</span>
+      <a href="{% url 'catalog:product_list' %}" class="hover:link">{{ site_settings.nav_catalog_label|default:_("Каталог") }}</a>
+      <span>/</span>
+      <a href="{{ object.brand.get_absolute_url }}" class="hover:link">{{ object.brand.name }}</a>
+      <span>/</span>
+      <span class="text-title">{{ object.name }}</span>
+    </nav>
+
+    <div class="grid lg:grid-cols-2 gap-8 items-start">
+
+      {# ---- Галерея ---- #}
+      {# min-w-0 обов'язковий: інакше слайд Swiper (width:100%) роздуває grid-колонку #}
+      <div class="min-w-0">
+        {% if object.image or gallery %}
+        <div class="swiper productGallery rounded-[--card-radius] overflow-hidden relative
+                    bg-[--ui-soft-bg] border border-[color:var(--ui-border-color)]">
+          <div class="swiper-wrapper">
+            {% if object.image %}
+            <div class="swiper-slide">
+              <a href="{{ object.image.url }}" class="pswp-link block"
+                 data-pswp-width="{{ object.image.width|default:1600 }}"
+                 data-pswp-height="{{ object.image.height|default:1200 }}"
+                 target="_blank" rel="noreferrer">
+                <img src="{{ object.image.url }}" alt="{{ object.name }}"
+                     class="w-full h-64 sm:h-80 lg:h-96 object-contain cursor-zoom-in transition-transform duration-500 hover:scale-[1.02]">
+              </a>
+            </div>
+            {% endif %}
+            {% for img in gallery %}
+            <div class="swiper-slide">
+              <a href="{{ img.image.url }}" class="pswp-link block"
+                 data-pswp-width="{{ img.image.width|default:1600 }}"
+                 data-pswp-height="{{ img.image.height|default:1200 }}"
+                 target="_blank" rel="noreferrer">
+                <img src="{{ img.image.url }}" alt="{{ object.name }}"
+                     class="w-full h-64 sm:h-80 lg:h-96 object-contain cursor-zoom-in transition-transform duration-500 hover:scale-[1.02]">
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+
+          <button type="button" aria-label="{% trans 'Попереднє' %}"
+                  class="productGallery-prev absolute left-3 top-1/2 -translate-y-1/2 z-10
+                         size-10 rounded-full bg-black/50 hover:bg-black/70 text-white backdrop-blur
+                         transition active:scale-95 grid place-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none"
+                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
+            </svg>
+          </button>
+          <button type="button" aria-label="{% trans 'Наступне' %}"
+                  class="productGallery-next absolute right-3 top-1/2 -translate-y-1/2 z-10
+                         size-10 rounded-full bg-black/50 hover:bg-black/70 text-white backdrop-blur
+                         transition active:scale-95 grid place-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none"
+                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
+            </svg>
+          </button>
+          <div class="productGallery-pagination absolute bottom-3 right-3 z-10
+                      px-3 py-1 rounded-full text-xs font-medium bg-black/60 text-white backdrop-blur"></div>
+        </div>
+
+        {% if gallery %}
+        <div class="swiper productThumb mt-3">
+          <div class="swiper-wrapper">
+            {% if object.image %}
+            <div class="swiper-slide cursor-pointer">
+              <img src="{{ object.image.url }}" alt=""
+                   class="w-full h-20 object-cover rounded opacity-60 hover:opacity-100 transition-opacity bg-[--ui-soft-bg]">
+            </div>
+            {% endif %}
+            {% for img in gallery %}
+            <div class="swiper-slide cursor-pointer">
+              <img src="{{ img.image.url }}" alt=""
+                   class="w-full h-20 object-cover rounded opacity-60 hover:opacity-100 transition-opacity bg-[--ui-soft-bg]">
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
+        {% else %}
+        {# Плейсхолдер, якщо фото немає #}
+        <div class="rounded-[--card-radius] border border-[color:var(--ui-border-color)] bg-[--ui-soft-bg]
+                    aspect-[4/3] flex flex-col items-center justify-center gap-3 text-caption">
+          <svg xmlns="http://www.w3.org/2000/svg" class="size-12 opacity-50" fill="none"
+               viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M18 9.75h.008v.008H18V9.75ZM2.25 6A2.25 2.25 0 0 1 4.5 3.75h15A2.25 2.25 0 0 1 21.75 6v12a2.25 2.25 0 0 1-2.25 2.25h-15A2.25 2.25 0 0 1 2.25 18V6Z"/>
+          </svg>
+          <span class="text-sm">{% trans "Фото відсутнє" %}</span>
+        </div>
+        {% endif %}
+      </div>
+
+      {# ---- Інформація (на підкладці для читабельності поверх фону) ---- #}
+      <div class="min-w-0 bg-[--ui-bg] border border-[color:var(--ui-border-color)] rounded-2xl p-6 lg:p-8 shadow-sm">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="badge variant-neutral sz-sm">{{ object.brand.name }}</span>
+          {% if object.category %}
+          <span class="badge variant-soft sz-sm">{{ object.category.name }}</span>
+          {% endif %}
+        </div>
+
+        <h1 class="mt-4 text-3xl font-semibold text-title">{{ object.name }}</h1>
+        {% if object.article %}
+        <p class="mt-2 text-caption">{% trans "Артикул" %}: {{ object.article }}</p>
+        {% endif %}
+        {% if object.location %}
+        <p class="mt-2 text-caption">📍 {{ object.location }}</p>
+        {% endif %}
+
+        {% if object.price %}
+        <div class="mt-5 flex flex-wrap items-baseline gap-3">
+          <span class="text-3xl font-semibold text-title">
+            {{ object.price|floatformat:'0' }} {{ object.get_currency_display }}
+          </span>
+          {% if object.has_discount %}
+          <span class="text-lg text-caption line-through">{{ object.old_price|floatformat:'0' }}</span>
+          {% endif %}
+          <span class="badge variant-soft sz-sm">{{ object.get_availability_display }}</span>
+        </div>
+        {% endif %}
+
+        {% if object.description %}
+        <div class="mt-6 text-body max-w-none leading-relaxed">
+          {{ object.description|linebreaks }}
+        </div>
+        {% endif %}
+
+        {# Характеристики: рядки (читабельні на мобайлі), 2 колонки на десктопі #}
+        {% if vehicle or specs %}
+        <dl class="mt-6 pt-5 border-t border-[color:var(--ui-border-color)] text-sm
+                   sm:grid sm:grid-cols-2 sm:gap-x-8">
+          {% if vehicle %}
+            {% if vehicle.year %}<div class="flex justify-between gap-4 py-1.5"><dt class="text-caption">{% trans "Рік випуску" %}</dt><dd class="text-title font-medium">{{ vehicle.year }}</dd></div>{% endif %}
+            {% if vehicle.mileage %}<div class="flex justify-between gap-4 py-1.5"><dt class="text-caption">{% trans "Пробіг" %}</dt><dd class="text-title font-medium">{{ vehicle.mileage }} {% trans "км" %}</dd></div>{% endif %}
+            {% if vehicle.fuel_type %}<div class="flex justify-between gap-4 py-1.5"><dt class="text-caption">{% trans "Тип палива" %}</dt><dd class="text-title font-medium">{{ vehicle.get_fuel_type_display }}</dd></div>{% endif %}
+            {% if vehicle.transmission %}<div class="flex justify-between gap-4 py-1.5"><dt class="text-caption">{% trans "Коробка передач" %}</dt><dd class="text-title font-medium">{{ vehicle.get_transmission_display }}</dd></div>{% endif %}
+            {% if vehicle.engine_volume %}<div class="flex justify-between gap-4 py-1.5"><dt class="text-caption">{% trans "Об'єм двигуна" %}</dt><dd class="text-title font-medium">{{ vehicle.engine_volume }} {% trans "л" %}</dd></div>{% endif %}
+            {% if vehicle.power %}<div class="flex justify-between gap-4 py-1.5"><dt class="text-caption">{% trans "Потужність" %}</dt><dd class="text-title font-medium">{{ vehicle.power }} {% trans "к.с." %}</dd></div>{% endif %}
+            {% if vehicle.color %}<div class="flex justify-between gap-4 py-1.5"><dt class="text-caption">{% trans "Колір" %}</dt><dd class="text-title font-medium">{{ vehicle.color }}</dd></div>{% endif %}
+            {% if vehicle.condition %}<div class="flex justify-between gap-4 py-1.5"><dt class="text-caption">{% trans "Стан" %}</dt><dd class="text-title font-medium">{{ vehicle.get_condition_display }}</dd></div>{% endif %}
+            {% if vehicle.vin %}<div class="flex justify-between gap-4 py-1.5"><dt class="text-caption">VIN</dt><dd class="text-title font-medium">{{ vehicle.vin }}</dd></div>{% endif %}
+          {% endif %}
+          {% for spec in specs %}
+          <div class="flex justify-between gap-4 py-1.5"><dt class="text-caption">{{ spec.label }}</dt><dd class="text-title font-medium">{{ spec.value }}</dd></div>
+          {% endfor %}
+        </dl>
+        {% endif %}
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          {% if site_settings.cart_enabled and object.price %}
+          <button type="button" data-add-to-cart="{{ object.id }}" class="btn variant-primary sz-lg">
+            <span class="btn-label">{% trans "У кошик" %}</span>
+          </button>
+          {% else %}
+          <button onclick="openContactModal('{{ object.name|escapejs }}')" class="btn variant-primary sz-lg">
+            <span class="btn-label">{% trans "Запитати ціну" %}</span>
+          </button>
+          {% endif %}
+          <a href="{{ object.brand.get_absolute_url }}" class="btn variant-outlined sz-lg">
+            <span>{% blocktrans with plural=site_settings.term_product_plural|default:_("Товари") %}Усі {{ plural }} бренду{% endblocktrans %}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    {# Схожі товари #}
+    {% if related %}
+    <div class="mt-20">
+      <h2 class="text-2xl font-semibold text-title mb-8">
+        {% blocktrans with brand=object.brand.name plural=site_settings.term_product_plural|default:_("товари") %}Інші {{ plural }} — {{ brand }}{% endblocktrans %}
+      </h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        {% for product in related %}
+          {% include 'partials/_product_card.html' with product=product %}
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}{% endblock %}

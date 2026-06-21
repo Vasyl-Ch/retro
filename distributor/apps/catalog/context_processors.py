@@ -1,7 +1,13 @@
-from .models import Brand
+from typing import Any
+
+from django.http import HttpRequest
+
+from .models import Category
 
 
-def global_nav(request):
+def global_nav(request: HttpRequest) -> dict[str, Any]:
     return {
-        "nav_brands": Brand.objects.filter(is_active=True).only("name", "slug"),
+        "nav_categories": Category.objects.filter(is_active=True, parent=None)
+        .prefetch_related("children")
+        .order_by("name"),
     }

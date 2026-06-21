@@ -1,67 +1,182 @@
+{% load i18n %}
 <header id="header" class="group">
-    <nav class="fixed overflow-hidden z-20 w-full border-b bg-white/50 dark:bg-gray-950/50 backdrop-blur-2xl">
-        <div class="px-6 m-auto max-w-6xl">
-            <div class="flex flex-wrap items-center justify-between py-2 sm:py-4">
-                <div class="w-full items-center flex justify-between lg:w-auto">
-                    <a href="{% url 'content:home' %}" class="text-title font-semibold text-lg" aria-label="Главная">
-                        Дистрибьютор
-                    </a>
-                    <div class="flex lg:hidden">
-                        <button id="menu-btn" aria-label="open menu" class="btn variant-ghost sz-md icon-only relative z-20 -mr-2.5 block cursor-pointer lg:hidden">
-                            <svg class="text-title m-auto size-6 transition-[transform,opacity] duration-300 group-data-[state=active]:rotate-180 group-data-[state=active]:scale-0 group-data-[state=active]:opacity-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5"></path>
-                            </svg>
-                            <svg class="text-title absolute inset-0 m-auto size-6 -rotate-180 scale-0 opacity-0 transition-[transform,opacity] duration-300 group-data-[state=active]:rotate-0 group-data-[state=active]:scale-100 group-data-[state=active]:opacity-100" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <div class="w-full group-data-[state=active]:h-fit h-0 lg:w-fit flex-wrap justify-end items-center space-y-8 lg:space-y-0 lg:flex lg:h-fit md:flex-nowrap">
-                    <div class="mt-6 dark:text-body md:-ml-4 lg:pr-4 lg:mt-0">
-                        <ul class="space-y-6 tracking-wide text-base lg:text-sm lg:flex lg:space-y-0">
-                            <li>
-                                <a href="{% url 'catalog:product_list' %}" class="hover:link md:px-4 block">
-                                    <span>Каталог</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{% url 'brands:brand_list' %}" class="hover:link md:px-4 block">
-                                    <span>Бренды</span>
-                                </a>
-                            </li>
-                            {% for brand in nav_brands %}
-                            <li>
-                                <a href="{{ brand.get_absolute_url }}" class="hover:link md:px-4 block">
-                                    <span>{{ brand.name }}</span>
-                                </a>
-                            </li>
-                            {% endfor %}
-                            <li>
-                                <a href="{% url 'content:promo_list' %}" class="hover:link md:px-4 block">
-                                    <span>Акции</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{% url 'content:news_list' %}" class="hover:link md:px-4 block">
-                                    <span>Новости</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{% url 'vacancies:list' %}" class="hover:link md:px-4 block">
-                                    <span>Вакансии</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+<nav class="site-nav fixed z-20 w-full">
+  <div class="px-6 m-auto max-w-6xl">
+    <div class="flex flex-wrap lg:flex-nowrap items-center justify-between gap-x-4 py-3 lg:py-4">
 
-                    <div class="w-full space-y-2 gap-2 pt-6 pb-4 lg:pb-0 border-t items-center flex flex-col lg:flex-row lg:space-y-0 lg:w-fit lg:border-l lg:border-t-0 lg:pt-0 lg:pl-2">
-                        <button type="button" onclick="openContactModal('general')" class="btn variant-neutral sz-sm">
-                            <span>Связаться</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
+      {# ---- Лого + бургер (мобайл) ---- #}
+      <div class="w-full items-center flex justify-between lg:w-auto lg:shrink-0">
+        <a href="{% url 'content:home' %}"
+           class="site-nav-brand flex items-center gap-2.5 sm:gap-3 font-semibold
+                  text-lg lg:text-xl xl:text-2xl tracking-tight
+                  transition-colors duration-200">
+          {% if site_settings.brand_logo %}
+            <img src="{{ site_settings.brand_logo.url }}" alt="{{ site_settings.brand_name }}"
+                 class="h-12 xl:h-14 w-auto object-contain">
+          {% else %}
+            <span class="inline-block size-3 rounded-full bg-gradient-to-br from-primary-500 to-primary-700"></span>
+          {% endif %}
+          <span class="brand-style-{{ site_settings.brand_style|default:'plain' }}">{{ site_settings.brand_name|default:_("Дистриб’ютор") }}</span>
+        </a>
+
+        <button id="menu-btn" aria-label="{% trans 'Меню' %}"
+                class="lg:hidden inline-flex items-center justify-center
+                       size-10 rounded-full text-title
+                       ring-1 ring-[color:var(--ui-border-color)] hover:bg-primary-500/15
+                       transition-colors duration-200 active:scale-95">
+          <svg class="text-title size-5 transition-[transform,opacity] duration-300
+                      group-data-[state=active]:rotate-180 group-data-[state=active]:scale-0
+                      group-data-[state=active]:opacity-0"
+               xmlns="http://www.w3.org/2000/svg" fill="none"
+               viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5"/>
+          </svg>
+          <svg class="text-title absolute size-5 -rotate-180 scale-0 opacity-0
+                      transition-[transform,opacity] duration-300
+                      group-data-[state=active]:rotate-0 group-data-[state=active]:scale-100
+                      group-data-[state=active]:opacity-100"
+               xmlns="http://www.w3.org/2000/svg" fill="none"
+               viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      {# ---- Меню + правая часть ---- #}
+      <div class="w-full group-data-[state=active]:max-h-[480px] max-h-0 lg:max-h-none lg:w-fit
+                  overflow-hidden lg:overflow-visible transition-[max-height] duration-300
+                  lg:flex lg:items-center lg:gap-4">
+
+        <ul class="mt-4 lg:mt-0 flex flex-col lg:flex-row lg:items-center
+                   gap-1 lg:gap-0.5 text-sm font-medium">
+          {% if site_settings.nav_catalog_visible %}
+          <li>
+            <a href="{% url 'catalog:product_list' %}"
+               class="block px-2.5 py-2 rounded-full whitespace-nowrap
+                      hover:text-primary-600 hover:bg-primary-500/15
+                      transition-colors duration-200">
+              {{ site_settings.nav_catalog_label|default:_("Каталог") }}
+            </a>
+          </li>
+          {% endif %}
+          {% if site_settings.nav_brands_visible %}
+          <li>
+            <a href="{% url 'brands:brand_list' %}"
+               class="block px-2.5 py-2 rounded-full whitespace-nowrap
+                      hover:text-primary-600 hover:bg-primary-500/15
+                      transition-colors duration-200">
+              {{ site_settings.nav_brands_label|default:_("Бренди") }}
+            </a>
+          </li>
+          {% endif %}
+          {% if site_settings.nav_promos_visible %}
+          <li>
+            <a href="{% url 'content:promo_list' %}"
+               class="block px-2.5 py-2 rounded-full whitespace-nowrap
+                      hover:text-primary-600 hover:bg-primary-500/15
+                      transition-colors duration-200">
+              {{ site_settings.nav_promos_label|default:_("Акції") }}
+            </a>
+          </li>
+          {% endif %}
+          {% if site_settings.nav_news_visible %}
+          <li>
+            <a href="{% url 'content:news_list' %}"
+               class="block px-2.5 py-2 rounded-full whitespace-nowrap
+                      hover:text-primary-600 hover:bg-primary-500/15
+                      transition-colors duration-200">
+              {{ site_settings.nav_news_label|default:_("Новини") }}
+            </a>
+          </li>
+          {% endif %}
+          {% if site_settings.nav_vacancies_visible %}
+          <li>
+            <a href="{% url 'vacancies:list' %}"
+               class="block px-2.5 py-2 rounded-full whitespace-nowrap
+                      hover:text-primary-600 hover:bg-primary-500/15
+                      transition-colors duration-200">
+              {{ site_settings.nav_vacancies_label|default:_("Вакансії") }}
+            </a>
+          </li>
+          {% endif %}
+          {% if site_settings.nav_contacts_visible %}
+          <li>
+            <a href="{% url 'contacts:contact' %}"
+               class="block px-2.5 py-2 rounded-full whitespace-nowrap
+                      hover:text-primary-600 hover:bg-primary-500/15
+                      transition-colors duration-200">
+              {{ site_settings.nav_contacts_label|default:_("Контакти") }}
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+
+        {# ---- Правая часть: переключатель языка + CTA ---- #}
+        <div class="mt-4 lg:mt-0 pt-4 lg:pt-0 border-t lg:border-0 lg:border-l
+                    border-[color:var(--ui-border-color)] lg:pl-4
+                    flex flex-col sm:flex-row items-stretch sm:items-center gap-3 lg:gap-2.5">
+
+          {# ---- Языковой свитчер (UA / EN) ---- #}
+          <form action="{% url 'set_language' %}" method="post"
+                class="inline-flex items-center rounded-full p-0.5
+                       bg-[--ui-soft-bg] ring-1 ring-inset ring-[color:var(--ui-border-color)]
+                       text-xs font-semibold self-center">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            {% get_current_language as CURRENT_LANG %}
+            {% for code, label in LANGUAGES %}
+            <button type="submit" name="language" value="{{ code }}"
+                    aria-pressed="{% if code == CURRENT_LANG %}true{% else %}false{% endif %}"
+                    class="px-2.5 py-1 rounded-full uppercase tracking-wide
+                           transition-colors duration-200
+                           {% if code == CURRENT_LANG %}
+                             bg-primary-600 text-white shadow-sm
+                           {% else %}
+                             text-body hover:text-primary-600
+                           {% endif %}">
+              {{ code }}
+            </button>
+            {% endfor %}
+          </form>
+
+          {# ---- Кошик (режим магазину) ---- #}
+          {% if site_settings.cart_enabled %}
+          <a href="{% url 'cart:detail' %}" aria-label="{% trans 'Кошик' %}"
+             class="relative inline-flex items-center justify-center size-10 rounded-full text-title
+                    ring-1 ring-[color:var(--ui-border-color)] hover:bg-primary-500/15
+                    transition-colors duration-200 self-center">
+            <svg class="text-title size-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                 viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M2.25 3h1.386c.51 0 .955.343 1.087.836l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+            </svg>
+            <span data-cart-count
+                  class="absolute -top-1.5 -right-1.5 min-w-5 h-5 px-1 inline-flex items-center justify-center
+                         rounded-full bg-primary-600 text-white text-[11px] font-semibold
+                         {% if not cart_count %}hidden{% endif %}">{{ cart_count }}</span>
+          </a>
+          {% endif %}
+
+          {# ---- CTA ---- #}
+          <button type="button" onclick="openContactModal('general')" data-magnetic
+                  class="group/cta inline-flex items-center justify-center gap-2
+                         rounded-full px-5 py-2.5 text-sm font-semibold text-white
+                         bg-primary-600 hover:bg-primary-700
+                         shadow-md shadow-primary-500/25 hover:shadow-lg hover:shadow-primary-500/40
+                         transition-all duration-200 active:scale-[0.98]
+                         focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400
+                         focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-950">
+            <span>{{ site_settings.cta_label|default:_("Зв’язатись") }}</span>
+            <svg class="size-4 transition-transform duration-200 group-hover/cta:translate-x-0.5"
+                 xmlns="http://www.w3.org/2000/svg" fill="none"
+                 viewBox="0 0 24 24" stroke-width="2.25" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+          </button>
         </div>
-    </nav>
+      </div>
+
+    </div>
+  </div>
+</nav>
 </header>

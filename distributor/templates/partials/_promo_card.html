@@ -1,0 +1,31 @@
+{% load i18n %}
+<div class="card variant-outlined overflow-hidden">
+  {% if promo.image %}
+  <a href="{{ promo.get_absolute_url }}">
+    <img src="{{ promo.image.url }}" alt="{{ promo.title }}"
+         class="w-full h-48 object-cover">
+  </a>
+  {% endif %}
+  <div class="p-6">
+    <div class="flex items-center gap-2 mb-2">
+      {% if promo.brand %}
+      <span class="badge variant-neutral sz-xs">{{ promo.brand.name }}</span>
+      {% endif %}
+      {% if promo.is_current %}
+      <span class="badge variant-success sz-xs">{% trans "Активна" %}</span>
+      {% else %}
+      <span class="badge variant-neutral sz-xs">{% trans "Завершена" %}</span>
+      {% endif %}
+    </div>
+    <h3 class="text-lg font-medium text-title">
+      <a href="{{ promo.get_absolute_url }}" class="hover:link">
+        {{ promo.title }}
+      </a>
+    </h3>
+    {% if promo.date_end %}
+    <p class="text-caption text-sm mt-1">
+      {% trans "До" %} {{ promo.date_end|date:"d.m.Y" }}
+    </p>
+    {% endif %}
+  </div>
+</div>

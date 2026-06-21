@@ -1,0 +1,46 @@
+# Stage 1: build frontend
+FROM node:20-alpine AS frontend-builder
+
+WORKDIR /ada-frontend
+COPY ada-frontend/package*.json ./
+RUN npm ci
+COPY ada-frontend/ ./
+
+# Build outputs to /distributor/static/ada via vite.config.js outDir
+RUN npm run build:django
+
+# Stage 2: production Django
+FROM python:3.12-slim AS production
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y \
+    libpq-dev gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY distributor/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt gunicorn==21.2.0
+
+COPY distributor/ /app/
+
+# Copy frontend build from Stage 1
+COPY --from=frontend-builder /distributor/static/ada /app/static/ada
+
+# Build-time placeholders so production settings can import for collectstatic.
+# Real values are supplied via .env.prod at runtime.
+ENV DB_NAME=build \
+    DB_USER=build \
+    SECRET_KEY=build-time-placeholder \
+    ALLOWED_HOSTS=localhost
+
+RUN python manage.py collectstatic --noinput \
+    --settings=config.settings.production
+
+EXPOSE 8000
+
+CMD ["gunicorn", "config.wsgi:application", \
+     "--bind", "0.0.0.0:8000", \
+     "--workers", "3", \
+     "--timeout", "60", \
+     "--access-logfile", "-", \
+     "--error-logfile", "-"]

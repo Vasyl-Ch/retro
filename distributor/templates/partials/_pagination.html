@@ -1,0 +1,81 @@
+{% load i18n pagination_tags %}
+{% if page_obj.has_other_pages %}
+<nav class="flex items-center justify-center gap-1.5 mt-12 flex-wrap"
+     aria-label="{% trans 'Пагінація' %}">
+
+  {# Перша #}
+  {% if page_obj.number > 2 %}
+  <a href="{% querystring page=1 %}"
+     class="size-9 grid place-items-center rounded-full text-sm
+            text-caption hover:text-primary-500 hover:bg-primary-500/15
+            transition-colors duration-200" aria-label="{% trans 'Перша' %}">
+    <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none"
+         viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M18.75 19.5 11.25 12l7.5-7.5M12.75 19.5 5.25 12l7.5-7.5"/>
+    </svg>
+  </a>
+  {% endif %}
+
+  {# Попередня #}
+  {% if page_obj.has_previous %}
+  <a href="{% querystring page=page_obj.previous_page_number %}"
+     class="px-3 h-9 inline-flex items-center gap-1 rounded-full text-sm font-medium
+            text-body
+            ring-1 ring-inset ring-[color:var(--ui-border-color)]
+            hover:text-primary-500 hover:bg-primary-500/15
+            transition-colors duration-200" rel="prev">
+    <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none"
+         viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
+    </svg>
+    <span class="hidden sm:inline">{% trans "Назад" %}</span>
+  </a>
+  {% endif %}
+
+  {# Сторінки з ellipsis #}
+  {% for num in page_obj.paginator|elided_range:page_obj.number %}
+    {% if num == page_obj.paginator.ELLIPSIS %}
+      <span class="size-9 grid place-items-center text-caption">…</span>
+    {% elif num == page_obj.number %}
+      <span aria-current="page"
+            class="size-9 grid place-items-center rounded-full text-sm font-semibold
+                   bg-primary-600 text-white shadow shadow-primary-500/30">{{ num }}</span>
+    {% else %}
+      <a href="{% querystring page=num %}"
+         class="size-9 grid place-items-center rounded-full text-sm
+                text-body
+                hover:text-primary-500 hover:bg-primary-500/15
+                transition-colors duration-200">{{ num }}</a>
+    {% endif %}
+  {% endfor %}
+
+  {# Наступна #}
+  {% if page_obj.has_next %}
+  <a href="{% querystring page=page_obj.next_page_number %}"
+     class="px-3 h-9 inline-flex items-center gap-1 rounded-full text-sm font-medium
+            text-body
+            ring-1 ring-inset ring-[color:var(--ui-border-color)]
+            hover:text-primary-500 hover:bg-primary-500/15
+            transition-colors duration-200" rel="next">
+    <span class="hidden sm:inline">{% trans "Вперед" %}</span>
+    <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none"
+         viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
+    </svg>
+  </a>
+  {% endif %}
+
+  {# Остання #}
+  {% if page_obj.number < page_obj.paginator.num_pages|add:'-1' %}
+  <a href="{% querystring page=page_obj.paginator.num_pages %}"
+     class="size-9 grid place-items-center rounded-full text-sm
+            text-caption hover:text-primary-500 hover:bg-primary-500/15
+            transition-colors duration-200" aria-label="{% trans 'Остання' %}">
+    <svg xmlns="http://www.w3.org/2000/svg" class="size-4" fill="none"
+         viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5"/>
+    </svg>
+  </a>
+  {% endif %}
+</nav>
+{% endif %}

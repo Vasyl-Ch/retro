@@ -1,0 +1,74 @@
+{% load i18n %}
+<div class="card variant-outlined relative group overflow-hidden">
+  <div aria-hidden="true"
+       class="inset-0 absolute aspect-video border rounded-full
+              -translate-y-1/2 group-hover:-translate-y-1/4 duration-300
+              bg-gradient-to-b from-primary-300 to-white
+              dark:from-white dark:to-white blur-2xl opacity-10"></div>
+  <div class="relative">
+    {% if product.image %}
+    <a href="{{ product.get_absolute_url }}">
+      <img src="{{ product.image.url }}" alt="{{ product.name }}"
+           class="w-full h-48 object-contain rounded-[--card-radius] mb-4">
+    </a>
+    {% endif %}
+
+    <div class="flex items-center gap-2 flex-wrap">
+      <span class="badge variant-neutral sz-xs">{{ product.brand.name }}</span>
+      {% if product.is_featured %}
+      <span class="badge variant-danger sz-xs">{% trans "Рекомендоване" %}</span>
+      {% endif %}
+      {% if product.location %}
+      <span class="text-caption text-xs">📍 {{ product.location }}</span>
+      {% endif %}
+    </div>
+
+    <h3 class="mt-3 text-lg font-medium text-title">
+      <a href="{{ product.get_absolute_url }}" class="hover:link">
+        {{ product.name }}
+      </a>
+    </h3>
+
+    {% with v=product.vehicle_or_none %}
+    {% if v %}
+    <p class="text-sm text-caption mt-1 flex flex-wrap gap-x-3 gap-y-0.5">
+      {% if v.year %}<span>{{ v.year }}</span>{% endif %}
+      {% if v.mileage %}<span>{{ v.mileage }} {% trans "км" %}</span>{% endif %}
+      {% if v.fuel_type %}<span>{{ v.get_fuel_type_display }}</span>{% endif %}
+      {% if v.transmission %}<span>{{ v.get_transmission_display }}</span>{% endif %}
+    </p>
+    {% elif product.article %}
+    <p class="text-sm text-caption mt-1">{% trans "Арт." %} {{ product.article }}</p>
+    {% endif %}
+    {% endwith %}
+
+    {% if product.price %}
+    <p class="mt-3 text-xl font-semibold text-title">
+      {{ product.price|floatformat:'0' }} {{ product.get_currency_display }}
+      {% if product.has_discount %}
+      <span class="text-sm font-normal text-caption line-through ml-1">
+        {{ product.old_price|floatformat:'0' }}
+      </span>
+      {% endif %}
+    </p>
+    {% endif %}
+
+    <div class="flex gap-3 mt-4 -mb-[--card-padding] py-4 border-t">
+      <a href="{{ product.get_absolute_url }}"
+         class="btn variant-soft sz-sm">
+        <span>{% trans "Детальніше" %}</span>
+      </a>
+      {% if site_settings.cart_enabled and product.price %}
+      <button type="button" data-add-to-cart="{{ product.id }}"
+              class="btn variant-primary sz-sm">
+        <span class="btn-label">{% trans "У кошик" %}</span>
+      </button>
+      {% else %}
+      <button onclick="openContactModal('{{ product.name|escapejs }}')"
+              class="btn variant-outlined sz-sm">
+        <span>{{ site_settings.cta_label|default:_("Запитати") }}</span>
+      </button>
+      {% endif %}
+    </div>
+  </div>
+</div>

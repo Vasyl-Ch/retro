@@ -1,34 +1,91 @@
-{% load static vite_tags %}
+{% load static vite_tags i18n %}
 <!DOCTYPE html>
-<html data-shade="950" data-rounded="3xlarge" lang="ru">
+<html data-shade="950" data-rounded="3xlarge"
+      data-theme="{{ site_settings.theme|default:'classic' }}"
+      lang="{{ LANGUAGE_CODE|default:'uk' }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Дистрибьютор{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}{% endblock %}">
+    <title>{% block title %}{{ site_settings.brand_name|default:_("Дистриб’ютор") }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{{ site_settings.meta_description|default:'' }}{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}{{ site_settings.brand_name|default:_("Дистриб’ютор") }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ site_settings.meta_description|default:'' }}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{% endblock %}">
+    <meta property="og:type" content="website">
+    {% if site_settings.favicon %}
+    <link rel="icon" href="{{ site_settings.favicon.url }}">
+    {% else %}
     <link rel="icon" type="image/svg+xml" href="{% static 'ada/favicon.svg' %}" media="(prefers-color-scheme: light)">
     <link rel="icon" type="image/svg+xml" href="{% static 'ada/darkfavicon.svg' %}" media="(prefers-color-scheme: dark)">
+    {% endif %}
+    {% if site_settings.anim_page_transitions %}
+    <meta name="view-transition" content="same-origin">
+    {% endif %}
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&display=swap">
     {% vite_css %}
+    {% if page_background %}
+    <style>
+      body.has-page-bg {
+        background-image:
+          linear-gradient(rgba(255, 255, 255, calc({{ page_background_overlay }} / 100)),
+                          rgba(255, 255, 255, calc({{ page_background_overlay }} / 100))),
+          url("{{ page_background }}");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+      }
+      /* Тёмні теми: затемнюємо фон (а не освітлюємо), щоб світлий текст лишався читабельним —
+         прив'язка до data-theme, бо тема не залежить від prefers-color-scheme. */
+      html[data-theme="darklux"] body.has-page-bg,
+      html[data-theme="cyberpunk"] body.has-page-bg {
+        background-image:
+          linear-gradient(rgba(9, 9, 11, calc(({{ page_background_overlay }} + 35) / 100)),
+                          rgba(9, 9, 11, calc(({{ page_background_overlay }} + 35) / 100))),
+          url("{{ page_background }}");
+      }
+    </style>
+    {% endif %}
     {% block extra_css %}{% endblock %}
 </head>
-<body class="bg-white dark:bg-gray-950">
+<body class="bg-white dark:bg-gray-950{% if page_background %} has-page-bg{% endif %}"
+      data-anim-scroll-reveal="{{ site_settings.anim_scroll_reveal|yesno:'1,0' }}"
+      data-anim-magnetic="{{ site_settings.anim_magnetic_buttons|yesno:'1,0' }}"
+      data-anim-cursor="{{ site_settings.anim_cursor_follower|yesno:'1,0' }}"
+      data-anim-kinetic-hero="{{ site_settings.anim_kinetic_hero|yesno:'1,0' }}"
+      data-anim-page-transitions="{{ site_settings.anim_page_transitions|yesno:'1,0' }}">
+
     {% include 'partials/_navbar.html' %}
 
     {% if messages %}
-    <div class="fixed top-20 right-4 z-50 space-y-2">
+    <div id="flash-messages" class="fixed top-20 right-4 z-50 space-y-2 max-w-sm">
         {% for message in messages %}
-        <div class="card variant-outlined p-4 text-sm {{ message.tags }}">
+        <div class="card variant-outlined p-4 text-sm border-l-4
+                    {% if message.tags == 'success' %}border-green-500{% else %}border-red-500{% endif %}">
             {{ message }}
         </div>
         {% endfor %}
     </div>
+    <script>
+      setTimeout(function () {
+        var el = document.getElementById('flash-messages');
+        if (!el) return;
+        el.style.transition = 'opacity .4s ease';
+        el.style.opacity = '0';
+        setTimeout(function () { el.remove(); }, 400);
+      }, 5000);
+    </script>
     {% endif %}
 
     <main class="overflow-hidden">
         {% block content %}{% endblock %}
     </main>
 
+    {% include 'partials/_side_logos.html' %}
     {% include 'partials/_footer.html' %}
     {% include 'partials/_contact_modal.html' %}
 

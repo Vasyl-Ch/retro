@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{{ object.title }} — {{ site_settings.nav_vacancies_label|default:_("Вакансії") }}{% endblock %}
+{% block og_image %}{% if object.cover_image %}{{ object.cover_image.url }}{% endif %}{% endblock %}
+{% block content %}
+<div class="pt-28 pb-24">
+  <div class="mx-auto px-6 max-w-5xl">
+
+    <nav class="text-sm text-caption mb-8 flex gap-2">
+      <a href="{% url 'content:home' %}" class="hover:link">{% trans "Головна" %}</a>
+      <span>/</span>
+      <a href="{% url 'vacancies:list' %}" class="hover:link">{{ site_settings.nav_vacancies_label|default:_("Вакансії") }}</a>
+      <span>/</span>
+      <span class="text-title">{{ object.title }}</span>
+    </nav>
+
+    <div class="grid lg:grid-cols-5 gap-10 lg:gap-12">
+
+      {# Ліва колонка — фото / галерея #}
+      {# min-w-0 обов'язковий: інакше слайд Swiper роздуває grid-колонку #}
+      <div class="lg:col-span-3 min-w-0">
+        {% if object.cover_image or object.images.exists %}
+        <div class="swiper productGallery rounded-[--card-radius] overflow-hidden relative
+                    bg-[--ui-soft-bg] border border-[color:var(--ui-border-color)]">
+          <div class="swiper-wrapper">
+            {% if object.cover_image %}
+            <div class="swiper-slide">
+              <a href="{{ object.cover_image.url }}" class="pswp-link block"
+                 data-pswp-width="{{ object.cover_image.width|default:1600 }}"
+                 data-pswp-height="{{ object.cover_image.height|default:1200 }}"
+                 target="_blank" rel="noreferrer">
+                <img src="{{ object.cover_image.url }}" alt="{{ object.title }}"
+                     class="w-full h-64 sm:h-80 lg:h-96 object-contain cursor-zoom-in transition-transform duration-500 hover:scale-[1.02]">
+              </a>
+            </div>
+            {% endif %}
+            {% for img in object.images.all %}
+            <div class="swiper-slide">
+              <a href="{{ img.image.url }}" class="pswp-link block"
+                 data-pswp-width="{{ img.image.width|default:1600 }}"
+                 data-pswp-height="{{ img.image.height|default:1200 }}"
+                 target="_blank" rel="noreferrer">
+                <img src="{{ img.image.url }}" alt="{{ img.caption|default:object.title }}"
+                     class="w-full h-64 sm:h-80 lg:h-96 object-contain cursor-zoom-in transition-transform duration-500 hover:scale-[1.02]">
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+
+          {% if object.images.exists or object.cover_image %}
+          <button type="button" aria-label="{% trans 'Попереднє' %}"
+                  class="productGallery-prev absolute left-3 top-1/2 -translate-y-1/2 z-10
+                         size-10 rounded-full bg-black/50 hover:bg-black/70 text-white backdrop-blur
+                         transition active:scale-95 grid place-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none"
+                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
+            </svg>
+          </button>
+          <button type="button" aria-label="{% trans 'Наступне' %}"
+                  class="productGallery-next absolute right-3 top-1/2 -translate-y-1/2 z-10
+                         size-10 rounded-full bg-black/50 hover:bg-black/70 text-white backdrop-blur
+                         transition active:scale-95 grid place-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none"
+                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
+            </svg>
+          </button>
+          <div class="productGallery-pagination absolute bottom-3 right-3 z-10
+                      px-3 py-1 rounded-full text-xs font-medium bg-black/60 text-white backdrop-blur"></div>
+          {% endif %}
+        </div>
+
+        {% if object.images.exists %}
+        <div class="swiper productThumb mt-3">
+          <div class="swiper-wrapper">
+            {% if object.cover_image %}
+            <div class="swiper-slide cursor-pointer">
+              <img src="{{ object.cover_image.url }}" alt=""
+                   class="w-full h-20 object-cover rounded opacity-60 hover:opacity-100 transition-opacity">
+            </div>
+            {% endif %}
+            {% for img in object.images.all %}
+            <div class="swiper-slide cursor-pointer">
+              <img src="{{ img.image.url }}" alt=""
+                   class="w-full h-20 object-cover rounded opacity-60 hover:opacity-100 transition-opacity">
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+        {% endif %}
+      </div>
+
+      {# Права колонка — текст #}
+      <div class="lg:col-span-2 min-w-0 bg-[--ui-bg] border border-[color:var(--ui-border-color)]
+                  rounded-2xl p-6 lg:self-start">
+        <div class="flex flex-wrap gap-2 mb-4">
+          {% if object.is_urgent %}<span class="badge variant-danger sz-sm">{% trans "Виділено" %}</span>{% endif %}
+          {% if object.city %}<span class="badge variant-neutral sz-sm">📍 {{ object.city }}</span>{% endif %}
+        </div>
+
+        <h1 class="text-3xl lg:text-4xl font-semibold text-title leading-tight">{{ object.title }}</h1>
+
+        {% if object.short_tagline %}
+        <p class="mt-3 text-body text-lg">{{ object.short_tagline }}</p>
+        {% endif %}
+
+        <div class="mt-8 flex flex-col sm:flex-row gap-3">
+          <button onclick="openContactModal('vacancy: {{ object.title|escapejs }}')" data-magnetic
+                  class="btn variant-primary sz-lg">
+            <span class="btn-label">{{ site_settings.vacancy_apply_label|default:_("Відгукнутися") }}</span>
+          </button>
+          <a href="{% url 'vacancies:list' %}" class="btn variant-ghost sz-md">
+            ← {% blocktrans with label=site_settings.nav_vacancies_label|default:_("Вакансії") %}Усі {{ label }}{% endblocktrans %}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    {# Опис, вимоги, умови — широка одна колонка під галереєю #}
+    {% if object.description or object.requirements or object.conditions %}
+    <div class="mt-12 max-w-3xl bg-[--ui-bg] border border-[color:var(--ui-border-color)]
+                rounded-2xl p-6 lg:p-8">
+      {% if object.description %}
+      <h2 class="text-2xl font-semibold text-title mb-4" data-reveal>{{ site_settings.vacancy_description_label|default:_("Опис") }}</h2>
+      <div class="prose max-w-none text-body" data-reveal>{{ object.description|safe }}</div>
+      {% endif %}
+
+      {% if object.requirements %}
+      <h2 class="text-2xl font-semibold text-title mt-12 mb-4" data-reveal>{{ site_settings.vacancy_requirements_label|default:_("Вимоги") }}</h2>
+      <div class="prose max-w-none text-body" data-reveal>{{ object.requirements|safe }}</div>
+      {% endif %}
+
+      {% if object.conditions %}
+      <h2 class="text-2xl font-semibold text-title mt-12 mb-4" data-reveal>{{ site_settings.vacancy_conditions_label|default:_("Умови") }}</h2>
+      <div class="prose max-w-none text-body" data-reveal>{{ object.conditions|safe }}</div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}

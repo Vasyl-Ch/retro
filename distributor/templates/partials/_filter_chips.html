@@ -1,0 +1,19 @@
+{% load i18n %}
+{# Параметри: legend, name, choices (список (value,label)), selected (список обраних value) #}
+<fieldset>
+  <legend class="mb-2 block text-xs font-semibold uppercase tracking-wide text-caption">{{ legend }}</legend>
+  <div class="flex flex-wrap gap-2">
+    {% for value, label in choices %}
+    <label class="cursor-pointer">
+      <input type="checkbox" name="{{ name }}" value="{{ value }}" class="peer sr-only"
+             {% if value in selected %}checked{% endif %}>
+      <span class="inline-flex items-center px-3 py-1.5 rounded-full text-sm border
+                   border-[color:var(--ui-border-color)] bg-[--ui-soft-bg] text-body
+                   hover:border-primary-400
+                   peer-checked:bg-primary-600 peer-checked:text-white peer-checked:border-primary-600
+                   peer-focus-visible:ring-2 peer-focus-visible:ring-primary-400 peer-focus-visible:ring-offset-1
+                   transition-colors">{{ label }}</span>
+    </label>
+    {% endfor %}
+  </div>
+</fieldset>

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Кошик" %} — {{ site_settings.brand_name }}{% endblock %}
+{% block content %}
+<div class="pt-28 pb-24">
+  <div class="mx-auto px-6 max-w-5xl">
+    <h1 class="text-4xl font-semibold text-title mb-8">{% trans "Кошик" %}</h1>
+
+    {% if cart|length %}
+    <div class="grid lg:grid-cols-[1fr_360px] gap-8 items-start">
+
+      {# ---- Позиції ---- #}
+      <div class="bg-[--ui-bg] rounded-2xl shadow-sm border border-[color:var(--ui-border-color)] divide-y divide-[color:var(--ui-border-color)]"
+           id="cart-items">
+        {% for row in cart %}
+        <div class="flex items-center gap-4 p-4" data-cart-row data-product-id="{{ row.product.id }}">
+          {% if row.product.image %}
+          <a href="{{ row.product.get_absolute_url }}" class="shrink-0">
+            <img src="{{ row.product.image.url }}" alt="{{ row.product.name }}"
+                 class="size-20 object-contain rounded-lg bg-ui-soft">
+          </a>
+          {% endif %}
+          <div class="flex-1 min-w-0">
+            <a href="{{ row.product.get_absolute_url }}" class="font-medium text-title hover:link block truncate">
+              {{ row.product.name }}
+            </a>
+            <p class="text-sm text-caption mt-0.5">
+              {{ row.product.price|floatformat:'0' }} {{ row.product.get_currency_display }}
+            </p>
+            <div class="flex items-center gap-3 mt-2">
+              <input type="number" min="1" value="{{ row.quantity }}"
+                     data-cart-qty data-product-id="{{ row.product.id }}"
+                     class="input variant-outlined w-20 py-1">
+              <button type="button" data-cart-remove data-product-id="{{ row.product.id }}"
+                      class="text-sm text-caption hover:text-danger-600 transition-colors">
+                {% trans "Видалити" %}
+              </button>
+            </div>
+          </div>
+          <div class="text-right font-semibold text-title whitespace-nowrap" data-cart-subtotal>
+            {{ row.subtotal|floatformat:'0' }} {{ row.product.get_currency_display }}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      {# ---- Підсумок + оформлення ---- #}
+      <div class="bg-[--ui-bg] rounded-2xl shadow-sm border border-[color:var(--ui-border-color)] p-6 lg:sticky lg:top-24">
+        <div class="flex items-baseline justify-between mb-5">
+          <span class="text-caption">{% trans "Разом" %}</span>
+          <span class="text-2xl font-semibold text-title">
+            <span data-cart-total>{{ cart.total|floatformat:'0' }}</span> {{ cart.currency_display }}
+          </span>
+        </div>
+
+        <form method="post" action="{% url 'cart:checkout' %}" class="space-y-3">
+          {% csrf_token %}
+          {% if form.non_field_errors %}
+          <p class="text-sm text-danger-600">{{ form.non_field_errors|join:" " }}</p>
+          {% endif %}
+          <div>{{ form.name }}{% if form.name.errors %}<p class="text-xs text-danger-600 mt-1">{{ form.name.errors|join:" " }}</p>{% endif %}</div>
+          <div>{{ form.phone }}</div>
+          <div>{{ form.email }}</div>
+          <div>{{ form.comment }}</div>
+          <button type="submit" class="btn variant-primary sz-lg w-full">
+            <span class="btn-label">{% trans "Оформити замовлення" %}</span>
+          </button>
+          <p class="text-xs text-caption text-center">
+            {% trans "Без онлайн-оплати — менеджер зв’яжеться для підтвердження." %}
+          </p>
+        </form>
+      </div>
+    </div>
+
+    {% else %}
+    {# ---- Порожній кошик ---- #}
+    <div class="text-center py-24">
+      <p class="text-body text-lg">{% trans "Ваш кошик порожній." %}</p>
+      <a href="{% url 'catalog:product_list' %}" class="btn variant-primary sz-md mt-4">
+        <span class="btn-label">{% blocktrans with plural=site_settings.term_product_plural|default:_("товарів") %}Перейти до {{ plural }}{% endblocktrans %}</span>
+      </a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

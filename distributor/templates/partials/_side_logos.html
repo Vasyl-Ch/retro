@@ -1,0 +1,31 @@
+{% load i18n %}
+{% if site_settings.side_logo_left or site_settings.side_logo_right %}
+{% with sz=site_settings.side_logo_size|default:'md' %}
+
+{# ---- Широкі екрани: лого на всю бічну смугу (від краю до стрічки), тримається при скролі ---- #}
+{% if site_settings.side_logo_left %}
+<div class="hidden 2xl:flex side-logo-gutter left is-{{ sz }}">
+  <img src="{{ site_settings.side_logo_left.url }}" alt="{{ site_settings.brand_name }}" aria-hidden="true" class="select-none">
+</div>
+{% endif %}
+{% if site_settings.side_logo_right %}
+<div class="hidden 2xl:flex side-logo-gutter right is-{{ sz }}">
+  <img src="{{ site_settings.side_logo_right.url }}" alt="{{ site_settings.brand_name }}" aria-hidden="true" class="select-none">
+</div>
+{% endif %}
+
+{# ---- Вузькі екрани / смартфон: обидва лого в ряд унизу перед футером ---- #}
+<div class="2xl:hidden mx-auto px-6 max-w-6xl mt-16">
+  <div class="flex items-center justify-center gap-6 sm:gap-10 flex-wrap">
+    {% if site_settings.side_logo_left %}
+    <img src="{{ site_settings.side_logo_left.url }}" alt="{{ site_settings.brand_name }}"
+         class="side-logo-bottom is-{{ sz }}">
+    {% endif %}
+    {% if site_settings.side_logo_right %}
+    <img src="{{ site_settings.side_logo_right.url }}" alt="{{ site_settings.brand_name }}"
+         class="side-logo-bottom is-{{ sz }}">
+    {% endif %}
+  </div>
+</div>
+{% endwith %}
+{% endif %}

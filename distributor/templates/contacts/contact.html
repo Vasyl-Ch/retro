@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Контакти" %} — {% trans "Дистриб’ютор" %}{% endblock %}
+{% block content %}
+<div class="pt-28 pb-24">
+  <div class="mx-auto px-6 max-w-2xl">
+    <h1 class="text-4xl font-semibold text-title mb-4 text-center">
+      {% trans "Зв’яжіться з нами" %}
+    </h1>
+    <p class="text-body text-center mb-12">
+      {% trans "Заповніть форму, і ми відповімо найближчим часом" %}
+    </p>
+    <div class="card variant-outlined p-8">
+      <form method="post">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+        <div class="mb-4 p-3 rounded bg-danger-50 text-danger-700 text-sm">
+          {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+        <div class="space-y-4">
+          <div>
+            <label class="text-sm font-medium text-title mb-1 block">
+              {% trans "Ім’я" %} *
+            </label>
+            {{ form.name }}
+            {% if form.name.errors %}
+            <p class="text-danger-600 text-xs mt-1">{{ form.name.errors.0 }}</p>
+            {% endif %}
+          </div>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="text-sm font-medium text-title mb-1 block">
+                {% trans "Телефон" %}
+              </label>
+              {{ form.phone }}
+            </div>
+            <div>
+              <label class="text-sm font-medium text-title mb-1 block">
+                Email
+              </label>
+              {{ form.email }}
+            </div>
+          </div>
+          <div>
+            <label class="text-sm font-medium text-title mb-1 block">
+              {% trans "Тема" %}
+            </label>
+            {{ form.subject }}
+          </div>
+          <div>
+            <label class="text-sm font-medium text-title mb-1 block">
+              {% trans "Повідомлення" %} *
+            </label>
+            {{ form.message }}
+            {% if form.message.errors %}
+            <p class="text-danger-600 text-xs mt-1">
+              {{ form.message.errors.0 }}
+            </p>
+            {% endif %}
+          </div>
+        </div>
+        <button type="submit" class="btn variant-primary w-full mt-6">
+          <span class="btn-label">{% trans "Надіслати повідомлення" %}</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% if form.errors %}
+<script>openContactModal();</script>
+{% endif %}
+{% endblock %}

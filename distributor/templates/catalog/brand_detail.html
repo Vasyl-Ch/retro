@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{{ object.name }} — {% trans "Дистриб’ютор" %}{% endblock %}
+{% block og_image %}{% if object.logo %}{{ object.logo.url }}{% endif %}{% endblock %}
+{% block content %}
+<div class="pt-28 pb-24">
+  <div class="mx-auto px-6 max-w-6xl">
+
+    {# Шапка бренду #}
+    <div class="flex flex-col sm:flex-row items-start gap-8 mb-12">
+      {% if object.logo %}
+      <img src="{{ object.logo.url }}" alt="{{ object.name }}"
+           class="h-24 w-auto object-contain">
+      {% endif %}
+      <div>
+        <h1 class="text-4xl font-semibold text-title">{{ object.name }}</h1>
+        {% if object.description %}
+        <p class="mt-4 text-body max-w-2xl">{{ object.description }}</p>
+        {% endif %}
+        {% if object.website %}
+        <a href="{{ object.website }}" target="_blank" rel="noopener"
+           class="btn variant-ghost sz-sm mt-4">
+          <span>{% trans "Офіційний сайт" %} →</span>
+        </a>
+        {% endif %}
+      </div>
+    </div>
+
+    {# Фільтр за категоріями #}
+    {% if categories %}
+    <div class="flex flex-wrap gap-2 mb-8">
+      <span class="text-caption text-sm self-center">{% trans "Категорії:" %}</span>
+      {% for cat in categories %}
+      <span class="badge variant-soft sz-sm">{{ cat.name }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {# Товари бренду #}
+    {% if products %}
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      {% for product in products %}
+        {% include 'partials/_product_card.html' with product=product %}
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-body text-center py-12">{% trans "Товари цього бренду поки не додано" %}</p>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}

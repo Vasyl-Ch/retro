@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Бренди" %} — {% trans "Дистриб’ютор" %}{% endblock %}
+{% block content %}
+<div class="pt-28 pb-24">
+  <div class="mx-auto px-6 max-w-6xl">
+    <h1 class="text-4xl font-semibold text-title mb-12 text-center">{% trans "Наші бренди" %}</h1>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {% for brand in brands %}
+      <a href="{{ brand.get_absolute_url }}"
+         class="card variant-outlined p-8 flex flex-col items-center
+                hover:scale-105 transition-transform">
+        {% if brand.logo %}
+        <img src="{{ brand.logo.url }}" alt="{{ brand.name }}"
+             class="h-16 w-auto object-contain mb-4">
+        {% endif %}
+        <h2 class="text-xl font-semibold text-title">{{ brand.name }}</h2>
+        {% if brand.description %}
+        <p class="mt-2 text-body text-sm text-center line-clamp-2">
+          {{ brand.description }}
+        </p>
+        {% endif %}
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

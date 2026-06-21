@@ -1,4 +1,5 @@
 """Template tags for wiring the Vite-built Ada bundle into Django templates."""
+
 import json
 from pathlib import Path
 

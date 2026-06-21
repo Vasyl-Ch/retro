@@ -1,0 +1,12 @@
+{% load i18n %}
+{# Параметри: legend, name, vmin, vmax, min_value(опц.) #}
+<div>
+  <span class="mb-2 block text-xs font-semibold uppercase tracking-wide text-caption">{{ legend }}</span>
+  <div class="flex items-center gap-2">
+    <input type="number" name="{{ name }}_min" value="{{ vmin }}" min="{{ min_value|default:0 }}" inputmode="numeric"
+           placeholder="{% trans 'від' %}" class="input variant-outlined sz-md w-full">
+    <span class="text-caption select-none">–</span>
+    <input type="number" name="{{ name }}_max" value="{{ vmax }}" min="{{ min_value|default:0 }}" inputmode="numeric"
+           placeholder="{% trans 'до' %}" class="input variant-outlined sz-md w-full">
+  </div>
+</div>

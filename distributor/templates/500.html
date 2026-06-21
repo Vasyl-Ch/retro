@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Помилка сервера" %}{% endblock %}
+{% block content %}
+<div class="pt-28 pb-24 text-center">
+  <div class="mx-auto px-6 max-w-xl">
+    <p class="text-8xl font-semibold text-caption">500</p>
+    <h1 class="mt-4 text-3xl font-semibold text-title">
+      {% trans "Помилка сервера" %}
+    </h1>
+    <p class="mt-4 text-body">
+      {% trans "Щось пішло не так. Ми вже працюємо над виправленням." %}
+    </p>
+    <a href="{% url 'content:home' %}"
+       class="btn variant-primary sz-lg mt-8 inline-flex">
+      <span class="btn-label">{% trans "На головну" %}</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

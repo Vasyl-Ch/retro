@@ -1,74 +1,68 @@
-<footer class="card variant-outlined !bg-transparent">
-    <div class="max-w-6xl mx-auto space-y-16 px-6 py-16">
-        <div class="flex flex-wrap items-center justify-between gap-4 border-b pb-8">
-            <a href="{% url 'content:home' %}" class="text-title font-semibold text-lg" aria-label="Главная">
-                Дистрибьютор
-            </a>
-            <div class="flex gap-3">
-                <a href="#" target="_blank" rel="noopener" aria-label="telegram" class="size-8 flex *:m-auto rounded-[--btn-border-radius] text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500">
-                    <svg class="size-5" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M9.78 18.65l.28-4.23l7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3L3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/>
-                    </svg>
-                </a>
-                <a href="#" target="_blank" rel="noopener" aria-label="whatsapp" class="size-8 flex *:m-auto rounded-[--btn-border-radius] text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500">
-                    <svg class="size-5" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967c-.273-.099-.471-.148-.67.15c-.197.297-.767.966-.94 1.164c-.173.199-.347.223-.644.075c-.297-.15-1.255-.463-2.39-1.475c-.883-.788-1.48-1.761-1.653-2.059c-.173-.297-.018-.458.13-.606c.134-.133.298-.347.446-.52c.149-.174.198-.298.298-.497c.099-.198.05-.371-.025-.52c-.075-.149-.669-1.612-.916-2.207c-.242-.579-.487-.5-.669-.51a13 13 0 0 0-.57-.01c-.198 0-.52.074-.792.372c-.272.297-1.04 1.016-1.04 2.479c0 1.462 1.065 2.875 1.213 3.074c.149.198 2.096 3.2 5.077 4.487c.709.306 1.262.489 1.694.625c.712.227 1.36.195 1.871.118c.571-.085 1.758-.719 2.006-1.413c.248-.694.248-1.289.173-1.413c-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214l-3.741.982l.998-3.648l-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884c2.64 0 5.122 1.03 6.988 2.898a9.83 9.83 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.82 11.82 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.88 11.88 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.82 11.82 0 0 0-3.48-8.413"/>
-                    </svg>
-                </a>
-                <button type="button" onclick="openContactModal('general')" aria-label="связаться" class="size-8 flex *:m-auto rounded-[--btn-border-radius] text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500">
-                    <svg class="size-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-6 sm:grid-cols-4">
-            <div>
-                <span class="font-medium text-gray-950 dark:text-white">Компания</span>
-                <ul class="mt-4 list-inside space-y-4">
-                    <li><a href="#" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500">О нас</a></li>
-                    <li><a href="#" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500">Клиенты</a></li>
-                    <li><a href="#" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500">Партнёры</a></li>
-                    <li><a href="{% url 'vacancies:list' %}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500">Вакансии</a></li>
-                </ul>
-            </div>
-            <div>
-                <span class="text-sm font-medium text-gray-950 dark:text-white">Каталог</span>
-                <ul class="mt-4 list-inside space-y-4">
-                    <li><a href="{% url 'catalog:product_list' %}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500">Все товары</a></li>
-                    <li><a href="{% url 'brands:brand_list' %}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500">Бренды</a></li>
-                    <li><a href="{% url 'content:promo_list' %}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500">Акции</a></li>
-                    <li><a href="{% url 'content:news_list' %}" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500">Новости</a></li>
-                </ul>
-            </div>
-            <div>
-                <span class="text-sm font-medium text-gray-950 dark:text-white">Поддержка</span>
-                <ul class="mt-4 list-inside space-y-4">
-                    <li><a href="#" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500">Доставка</a></li>
-                    <li><a href="#" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500">Гарантия</a></li>
-                    <li><a href="#" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500">Возврат</a></li>
-                    <li><a href="#" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500">FAQ</a></li>
-                </ul>
-            </div>
-            <div>
-                <span class="text-sm font-medium text-gray-950 dark:text-white">Контакты</span>
-                <ul class="mt-4 list-inside space-y-4">
-                    <li><a href="tel:+70000000000" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500">+7 (000) 000-00-00</a></li>
-                    <li><a href="mailto:info@example.com" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-500">info@example.com</a></li>
-                    <li><span class="text-sm text-gray-600 dark:text-gray-400">г. Москва, ул. Примерная, 1</span></li>
-                    <li>
-                        <button type="button" onclick="openContactModal('general')" class="btn variant-neutral sz-sm mt-2">
-                            <span>Связаться с нами</span>
-                        </button>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="flex items-center justify-between rounded-md px-6 py-3 card variant-soft">
-            <span class="text-title">&copy; {% now "Y" %} Все права защищены</span>
-            <a href="#" class="text-sm text-body hover:text-primary-600 dark:hover:text-primary-500">Политика конфиденциальности</a>
-        </div>
+{% load i18n %}
+<footer class="site-footer relative py-12 mt-12">
+  <div class="mx-auto px-6 max-w-6xl">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div>
+        <a href="{% url 'content:home' %}"
+           class="brand-style-{{ site_settings.brand_style|default:'plain' }} text-title font-semibold text-lg">{{ site_settings.brand_name|default:_("Дистриб’ютор") }}</a>
+        <p class="mt-3 text-body text-sm">
+          {{ site_settings.tagline|default:_("Офіційний представник провідних світових брендів") }}
+        </p>
+      </div>
+      <div>
+        <h3 class="font-medium text-title mb-3">{{ site_settings.nav_catalog_label|default:_("Каталог") }}</h3>
+        <ul class="space-y-2 text-sm text-body">
+          {% if site_settings.nav_catalog_visible %}
+          <li><a href="{% url 'catalog:product_list' %}" class="hover:link">{{ site_settings.term_product_plural|default:_("Товари") }}</a></li>
+          {% endif %}
+          {% if site_settings.nav_brands_visible %}
+          <li><a href="{% url 'brands:brand_list' %}" class="hover:link">{{ site_settings.nav_brands_label|default:_("Бренди") }}</a></li>
+          {% endif %}
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-medium text-title mb-3">{% trans "Компанія" %}</h3>
+        <ul class="space-y-2 text-sm text-body">
+          {% if site_settings.nav_news_visible %}
+          <li><a href="{% url 'content:news_list' %}" class="hover:link">{{ site_settings.nav_news_label|default:_("Новини") }}</a></li>
+          {% endif %}
+          {% if site_settings.nav_promos_visible %}
+          <li><a href="{% url 'content:promo_list' %}" class="hover:link">{{ site_settings.nav_promos_label|default:_("Акції") }}</a></li>
+          {% endif %}
+          {% if site_settings.nav_vacancies_visible %}
+          <li><a href="{% url 'vacancies:list' %}" class="hover:link">{{ site_settings.nav_vacancies_label|default:_("Вакансії") }}</a></li>
+          {% endif %}
+        </ul>
+      </div>
+      <div>
+        <h3 class="font-medium text-title mb-3">{% trans "Контакти" %}</h3>
+        <ul class="space-y-2 text-sm text-body">
+          {% if site_settings.contact_phone %}
+          <li><a href="tel:{{ site_settings.contact_phone }}" class="hover:link">{{ site_settings.contact_phone }}</a></li>
+          {% endif %}
+          {% if site_settings.contact_email %}
+          <li><a href="mailto:{{ site_settings.contact_email }}" class="hover:link">{{ site_settings.contact_email }}</a></li>
+          {% endif %}
+          {% if site_settings.contact_address %}
+          <li>{{ site_settings.contact_address }}</li>
+          {% endif %}
+          <li>
+            <button onclick="openContactModal('general')"
+                    class="hover:link text-left">
+              {{ site_settings.cta_label|default:_("Написати нам") }}
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
+    <div class="mt-12 pt-8 border-t flex flex-col sm:flex-row
+                justify-between items-center gap-4">
+      <p class="text-caption text-sm">
+        © {% now "Y" %} {{ site_settings.footer_copyright|default:_("ТОВ «Дистриб’ютор». Усі права захищено.") }}
+      </p>
+      <a href="{% url 'contacts:contact' %}" class="text-caption text-sm hover:link">
+        {% trans "Політика конфіденційності" %}
+      </a>
+    </div>
+  </div>
 </footer>

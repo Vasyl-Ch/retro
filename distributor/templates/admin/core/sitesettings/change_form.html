@@ -1,0 +1,36 @@
+{% extends "admin/change_form.html" %}
+{% load i18n %}
+
+{% block content %}
+<div style="margin: 0 0 24px; padding: 18px 22px; border-radius: 10px;
+            background: linear-gradient(135deg, #f9fafb, #eef2ff);
+            border: 1px solid #e5e7eb;">
+  <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+    <div>
+      <h3 style="margin:0 0 4px; font-size:16px; font-weight:600; color:#111827;">
+        ⚡ {% trans "Швидкі пресети" %}
+      </h3>
+      <p style="margin:0; font-size:13px; color:#6b7280;">
+        {% trans "Один клік — і весь сайт перейменовується під обрану вертикаль (тема, лейбли меню, терміни, hero, секції вакансій)." %}
+      </p>
+    </div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      {% for key, label in preset_choices %}
+      <a href="{% url 'admin:core_sitesettings_apply_preset' key %}"
+         onclick="return confirm('{% trans 'Перезаписати поточні налаштування цим пресетом?' %}');"
+         style="display:inline-flex; align-items:center; gap:6px;
+                padding:8px 14px; border-radius:8px;
+                background:#111827; color:#fff; font-size:13px; font-weight:500;
+                text-decoration:none; transition:all .15s;">
+        {{ label }}
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  <p style="margin:12px 0 0; font-size:12px; color:#9ca3af;">
+    ⚠️ {% trans "Пресет переписує лейбли меню, терміни, hero і тему. Назва сайту, лого та контент (товари/новини) залишаться." %}
+  </p>
+</div>
+
+{{ block.super }}
+{% endblock %}

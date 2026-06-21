@@ -3,6 +3,252 @@
 @tailwind utilities;
 
 
+/* ============================================================
+   Editorial layer — kinetic words, custom cursor, view-transitions
+   ============================================================ */
+
+.kinetic-word {
+    display: inline-block;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+}
+.kinetic-accent {
+    position: relative;
+    color: rgb(var(--primary-600));
+    font-style: italic;
+    font-family: 'Fraunces', 'Geist', serif;
+}
+.kinetic-accent::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: -0.05em;
+    height: 0.08em;
+    background: linear-gradient(90deg, rgb(var(--primary-400)), rgb(var(--primary-700)));
+    transform-origin: left;
+    animation: kinetic-underline 0.9s ease-out 0.6s both;
+}
+@keyframes kinetic-underline {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+}
+
+/* Custom cursor */
+.cursor-dot, .cursor-ring {
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    border-radius: 9999px;
+    will-change: transform;
+}
+.cursor-dot {
+    width: 6px; height: 6px;
+    background: rgb(var(--primary-600));
+    mix-blend-mode: difference;
+}
+.cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid rgb(var(--primary-500) / 0.7);
+    transition: width 0.25s ease, height 0.25s ease, background-color 0.25s ease;
+}
+.cursor-ring.is-hover {
+    width: 56px; height: 56px;
+    background: rgb(var(--primary-500) / 0.08);
+    border-color: rgb(var(--primary-500));
+}
+@media (hover: none), (pointer: coarse) {
+    .cursor-dot, .cursor-ring { display: none; }
+}
+
+/* View Transitions */
+@media (prefers-reduced-motion: no-preference) {
+    ::view-transition-old(root) {
+        animation: editorial-fade-out 0.32s cubic-bezier(0.4, 0, 0.2, 1) both;
+    }
+    ::view-transition-new(root) {
+        animation: editorial-fade-in 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+}
+@keyframes editorial-fade-out {
+    to { opacity: 0; transform: translateY(-8px); }
+}
+@keyframes editorial-fade-in {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Editorial hero typography */
+.hero-editorial-title {
+    font-family: 'Fraunces', 'Geist', serif;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 0.92;
+    font-size: clamp(2.8rem, 9vw, 8.5rem);
+}
+.hero-editorial-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--caption-text-color);
+}
+.hero-editorial-eyebrow::before {
+    content: "";
+    width: 2rem; height: 1px;
+    background: rgb(var(--primary-500));
+}
+
+/* Theme-aware site chrome (navbar + footer) */
+.site-nav {
+    background-color: var(--chrome-bg);
+    border-bottom: 1px solid var(--chrome-border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+.site-nav a, .site-nav button {
+    color: var(--chrome-text);
+}
+.site-nav a:hover, .site-nav button:hover {
+    color: var(--chrome-text-hover);
+}
+.site-nav .site-nav-brand {
+    color: var(--display-text-color);
+}
+.site-footer {
+    background-color: var(--chrome-bg);
+    border-top: 1px solid var(--chrome-border);
+    color: var(--chrome-text);
+}
+.site-footer a {
+    color: var(--chrome-text);
+}
+.site-footer a:hover {
+    color: var(--chrome-text-hover);
+}
+.site-footer h3 {
+    color: var(--display-text-color);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+    }
+}
+
+
+/* ============================================================
+   Theme palettes — switched via <html data-theme="...">
+   Variables are RGB triplets so Tailwind <alpha-value> works.
+   ============================================================ */
+:root,
+:root[data-theme="classic"] {
+    --primary-50:  239 246 255;
+    --primary-100: 219 234 254;
+    --primary-200: 191 219 254;
+    --primary-300: 147 197 253;
+    --primary-400: 96 165 250;
+    --primary-500: 59 130 246;
+    --primary-600: 37 99 235;
+    --primary-700: 29 78 216;
+    --primary-800: 30 64 175;
+    --primary-900: 30 58 138;
+    --primary-950: 23 37 84;
+    --chrome-bg: rgb(255 255 255 / 0.85);
+    --chrome-border: rgb(0 0 0 / 0.08);
+    --chrome-text: rgb(55 65 81);
+    --chrome-text-hover: rgb(29 78 216);
+}
+
+:root[data-theme="cyberpunk"] {
+    --primary-50:  253 244 255;
+    --primary-100: 250 232 255;
+    --primary-200: 245 208 254;
+    --primary-300: 240 171 252;
+    --primary-400: 232 121 249;
+    --primary-500: 217 70 239;
+    --primary-600: 192 38 211;
+    --primary-700: 162 28 175;
+    --primary-800: 134 25 143;
+    --primary-900: 112 26 117;
+    --primary-950: 74 4 78;
+    color-scheme: dark;
+}
+:root[data-theme="cyberpunk"] body {
+    background-color: rgb(10 10 14);
+    color: rgb(229 231 235);
+    --display-text-color: rgb(255 255 255);
+    --title-text-color: rgb(245 208 254);
+    --body-text-color: rgb(212 212 216);
+    --caption-text-color: rgb(161 161 170);
+    --ui-border-color: rgb(63 63 70);
+    --ui-soft-bg: rgb(24 24 27);
+    --ui-bg: rgb(15 15 19);
+    --chrome-bg: rgb(15 15 19 / 0.78);
+    --chrome-border: rgb(217 70 239 / 0.25);
+    --chrome-text: rgb(229 231 235);
+    --chrome-text-hover: rgb(245 208 254);
+}
+
+:root[data-theme="nude"] {
+    --primary-50:  255 241 242;
+    --primary-100: 255 228 230;
+    --primary-200: 254 205 211;
+    --primary-300: 253 164 175;
+    --primary-400: 251 113 133;
+    --primary-500: 244 63 94;
+    --primary-600: 225 29 72;
+    --primary-700: 190 18 60;
+    --primary-800: 159 18 57;
+    --primary-900: 136 19 55;
+    --primary-950: 76 5 25;
+}
+:root[data-theme="nude"] body {
+    background-color: rgb(252 247 243);
+    --display-text-color: rgb(67 41 30);
+    --title-text-color: rgb(67 41 30);
+    --body-text-color: rgb(99 71 59);
+    --caption-text-color: rgb(138 110 96);
+    --ui-soft-bg: rgb(247 237 230);
+    --chrome-bg: rgb(252 247 243 / 0.85);
+    --chrome-border: rgb(67 41 30 / 0.12);
+    --chrome-text: rgb(67 41 30);
+    --chrome-text-hover: rgb(190 18 60);
+}
+
+:root[data-theme="darklux"] {
+    --primary-50:  255 251 235;
+    --primary-100: 254 243 199;
+    --primary-200: 253 230 138;
+    --primary-300: 252 211 77;
+    --primary-400: 251 191 36;
+    --primary-500: 245 158 11;
+    --primary-600: 217 119 6;
+    --primary-700: 180 83 9;
+    --primary-800: 146 64 14;
+    --primary-900: 120 53 15;
+    --primary-950: 69 26 3;
+    color-scheme: dark;
+}
+:root[data-theme="darklux"] body {
+    background-color: rgb(12 10 9);
+    color: rgb(231 229 228);
+    --display-text-color: rgb(252 211 77);
+    --title-text-color: rgb(254 243 199);
+    --body-text-color: rgb(214 211 209);
+    --caption-text-color: rgb(168 162 158);
+    --ui-border-color: rgb(68 64 60);
+    --ui-soft-bg: rgb(28 25 23);
+    --ui-bg: rgb(20 18 17);
+    --chrome-bg: rgb(20 18 17 / 0.82);
+    --chrome-border: rgb(245 158 11 / 0.22);
+    --chrome-text: rgb(231 229 228);
+    --chrome-text-hover: rgb(252 211 77);
+}
+
 
 /* html tailus ui */
 @layer base {
@@ -816,7 +1062,7 @@
 
 @font-face {
     font-family: 'Geist';
-    src: url('/fonts/Geist-Bold.otf') format('opentype');
+    src: url('/static/ada/fonts/Geist-Bold.otf') format('opentype');
     font-weight: bold;
     font-style: normal;
     font-display: swap;
@@ -824,7 +1070,7 @@
 
 @font-face {
     font-family: 'Geist';
-    src: url('/fonts/Geist-SemiBold.otf') format('opentype');
+    src: url('/static/ada/fonts/Geist-SemiBold.otf') format('opentype');
     font-weight: 600;
     font-style: normal;
     font-display: swap;
@@ -832,7 +1078,7 @@
 
 @font-face {
     font-family: 'Geist';
-    src: url('/fonts/Geist-Medium.otf') format('opentype');
+    src: url('/static/ada/fonts/Geist-Medium.otf') format('opentype');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
@@ -840,7 +1086,7 @@
 
 @font-face {
     font-family: 'Geist';
-    src: url('/fonts/Geist-Regular.otf') format('opentype');
+    src: url('/static/ada/fonts/Geist-Regular.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -848,7 +1094,7 @@
 
 @font-face {
     font-family: 'GeistMono';
-    src: url('/fonts/GeistMono-Regular.otf') format('opentype');
+    src: url('/static/ada/fonts/GeistMono-Regular.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -866,4 +1112,54 @@
     to {
         offset-distance: 100%;
     }
+}
+
+/* Стилі назви сайту (SiteSettings.brand_style) */
+.brand-style-gradient {
+    background-image: linear-gradient(90deg, rgb(var(--primary-400)), rgb(var(--primary-600)));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.brand-style-underline {
+    text-decoration-line: underline;
+    text-decoration-color: rgb(var(--primary-500));
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+}
+.brand-style-script {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 600;
+}
+
+/* Розмір бокових лого (SiteSettings.side_logo_size: is-sm / is-md(базовий) / is-lg) */
+/* Десктоп — лого займає всю бічну смугу: від краю екрана до центральної стрічки контенту.
+   Ширина смуги = (екран − стрічка)/2, де стрічка = 80rem (max-w-7xl, як hero). Розмір керує
+   внутрішнім відступом (% від смуги), тож лого не перекриває контент на жодній вкладці. */
+.side-logo-gutter {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: calc((100vw - 80rem) / 2);
+    z-index: 30;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+.side-logo-gutter.left  { left: 0; }
+.side-logo-gutter.right { right: 0; }
+/* Однаковий КВАДРАТНИЙ слот: лого будь-яких пропорцій/розмірів нормалізуються до одного
+   розміру (object-contain вписує без обрізки). Розмір = ширина слота у % від смуги. */
+.side-logo-gutter img { width: 88%; aspect-ratio: 1 / 1; object-fit: contain; }
+.side-logo-gutter.is-sm img { width: 64%; }
+.side-logo-gutter.is-lg img { width: 100%; }
+/* Смартфон — у ряд унизу: такий самий квадратний слот, ширина обмежена max-width:45% (два влізають) */
+.side-logo-bottom { width: 7rem; max-width: 45%; aspect-ratio: 1 / 1; object-fit: contain; }
+.side-logo-bottom.is-sm { width: 5rem; }
+.side-logo-bottom.is-lg { width: 9rem; }
+@media (min-width: 640px) {
+    .side-logo-bottom { width: 10rem; }
+    .side-logo-bottom.is-sm { width: 7rem; }
+    .side-logo-bottom.is-lg { width: 13rem; }
 }

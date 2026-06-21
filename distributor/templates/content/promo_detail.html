@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{{ object.title }} — {% trans "Дистриб’ютор" %}{% endblock %}
+{% block meta_description %}{{ object.title }}{% endblock %}
+{% block og_image %}{% if object.image %}{{ object.image.url }}{% endif %}{% endblock %}
+{% block content %}
+<div class="pt-28 pb-24">
+  <div class="mx-auto px-6 max-w-3xl">
+    <nav class="text-sm text-caption mb-8 flex gap-2">
+      <a href="{% url 'content:home' %}" class="hover:link">{% trans "Головна" %}</a>
+      <span>/</span>
+      <a href="{% url 'content:promo_list' %}" class="hover:link">{% trans "Акції" %}</a>
+      <span>/</span>
+      <span class="text-title">{{ object.title }}</span>
+    </nav>
+    {% if object.image %}
+    <img src="{{ object.image.url }}" alt="{{ object.title }}"
+         class="w-full h-64 object-cover rounded-[--card-radius] mb-8">
+    {% endif %}
+    <div class="flex flex-wrap gap-2 mb-4">
+      {% if object.brand %}
+      <span class="badge variant-neutral sz-sm">{{ object.brand.name }}</span>
+      {% endif %}
+      {% if object.is_current %}
+      <span class="badge variant-success sz-sm">{% trans "Активна" %}</span>
+      {% endif %}
+      {% if object.date_start and object.date_end %}
+      <span class="badge variant-soft sz-sm">
+        {{ object.date_start|date:"d.m.Y" }} — {{ object.date_end|date:"d.m.Y" }}
+      </span>
+      {% endif %}
+    </div>
+    <h1 class="text-4xl font-semibold text-title mb-6">{{ object.title }}</h1>
+    <div class="prose max-w-none text-body">
+      {{ object.description|safe }}
+    </div>
+    <div class="mt-8 flex gap-3">
+      <button onclick="openContactModal('{% filter escapejs %}{% trans "Акція:" %} {{ object.title }}{% endfilter %}')"
+              class="btn variant-primary sz-lg">
+        <span class="btn-label">{% trans "Дізнатися деталі" %}</span>
+      </button>
+      <a href="{% url 'content:promo_list' %}"
+         class="btn variant-outlined sz-md"><span class="btn-label">← {% trans "Усі акції" %}</span></a>
+    </div>
+  </div>
+</div>
+{% endblock %}

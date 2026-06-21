@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{{ site_settings.nav_catalog_label|default:_("Каталог") }} — {{ site_settings.brand_name|default:_("Дистриб’ютор") }}{% endblock %}
+{% block content %}
+<div class="pt-28 pb-24">
+  <div class="mx-auto px-6 max-w-6xl">
+    <h1 class="text-4xl font-semibold text-title mb-8">
+      {% blocktrans with label=site_settings.nav_catalog_label|default:_("Каталог") plural=site_settings.term_product_plural|default:_("товарів") %}{{ label }} {{ plural }}{% endblocktrans %}
+    </h1>
+
+    {% if site_settings.preset == 'auto' %}
+    {# ============ Розширена панель фільтрів (Автосалон) ============ #}
+    <form method="get" class="grid lg:grid-cols-[280px_1fr] gap-8 items-start">
+      <aside class="lg:sticky lg:top-24">
+        <div class="rounded-[--card-radius] border border-[color:var(--ui-border-color)] bg-[--ui-bg] shadow-sm overflow-hidden">
+
+          {# Заголовок панелі #}
+          <div class="flex items-center justify-between gap-3 px-5 py-4 border-b border-[color:var(--ui-border-color)]">
+            <h2 class="font-semibold text-title flex items-center gap-2">
+              <svg class="size-4 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+                   viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M6.75 12h10.5m-7.5 5.25h4.5"/>
+              </svg>
+              {% trans "Фільтри" %}
+            </h2>
+            {% if has_active_filters %}
+            <a href="{% url 'catalog:product_list' %}"
+               class="text-xs font-medium text-caption hover:text-primary-600 transition-colors">
+              {% trans "Скинути всі" %}
+            </a>
+            {% endif %}
+          </div>
+
+          <div class="p-5 space-y-5">
+            {# Пошук #}
+            <div>
+              <label class="mb-2 block text-xs font-semibold uppercase tracking-wide text-caption">{% trans "Пошук" %}</label>
+              <input type="text" name="q" value="{{ filters.q }}"
+                     placeholder="{% trans 'Назва, VIN…' %}" class="input variant-outlined sz-md w-full">
+            </div>
+
+            {# Марка (автокомпліт) #}
+            <div class="relative">
+              <label class="mb-2 block text-xs font-semibold uppercase tracking-wide text-caption">{{ site_settings.term_brand_singular|default:_("Марка") }}</label>
+              <input type="text" autocomplete="off"
+                     value="{% if current_make %}{{ current_make.name }}{% endif %}"
+                     placeholder="{% trans 'Почніть вводити марку…' %}"
+                     class="input variant-outlined sz-md w-full"
+                     data-autocomplete="{% url 'catalog:make_autocomplete' %}"
+                     data-autocomplete-hidden="#make-slug">
+              <input type="hidden" name="brand" id="make-slug" value="{{ current_make.slug|default:'' }}">
+            </div>
+          </div>
+
+          {# Діапазони #}
+          <div class="p-5 pt-0 space-y-4 border-t border-[color:var(--ui-border-color)] mt-1">
+            <div class="pt-5">
+              {% include 'partials/_filter_range.html' with legend=_("Ціна") name="price" vmin=filters.price_min vmax=filters.price_max %}
+            </div>
+            {% include 'partials/_filter_range.html' with legend=_("Рік випуску") name="year" vmin=filters.year_min vmax=filters.year_max min_value=1950 %}
+            {% include 'partials/_filter_range.html' with legend=_("Пробіг, км") name="mileage" vmin=filters.mileage_min vmax=filters.mileage_max %}
+          </div>
+
+          {# Чіпи-перемикачі #}
+          <div class="p-5 pt-0 space-y-5 border-t border-[color:var(--ui-border-color)]">
+            <div class="pt-5 space-y-5">
+              {% if categories %}
+              {% include 'partials/_filter_chips.html' with legend=site_settings.term_category_singular|default:_("Тип кузова") name="category" choices=category_chips selected=filters.category %}
+              {% endif %}
+              {% include 'partials/_filter_chips.html' with legend=_("Тип палива") name="fuel" choices=fuel_choices selected=filters.fuel %}
+              {% include 'partials/_filter_chips.html' with legend=_("Коробка передач") name="transmission" choices=transmission_choices selected=filters.transmission %}
+              {% include 'partials/_filter_chips.html' with legend=_("Стан") name="condition" choices=condition_choices selected=filters.condition %}
+            </div>
+          </div>
+
+          {# Місто #}
+          <div class="p-5 pt-0 border-t border-[color:var(--ui-border-color)]">
+            <div class="relative pt-5">
+              <label class="mb-2 block text-xs font-semibold uppercase tracking-wide text-caption">{% trans "Місто" %}</label>
+              <input type="text" name="location" value="{{ filters.location }}" autocomplete="off"
+                     placeholder="{% trans 'Будь-яке місто' %}" class="input variant-outlined sz-md w-full"
+                     data-autocomplete="{% url 'catalog:city_autocomplete' %}">
+            </div>
+          </div>
+
+          {# Кнопка #}
+          <div class="p-5 pt-0">
+            <button type="submit" class="btn variant-primary sz-md w-full">
+              <span class="btn-label">{% trans "Застосувати" %}</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      {# Праворуч: сортування + сітка #}
+      <div>
+        <div class="flex items-center justify-between gap-3 mb-5">
+          <p class="text-caption text-sm">
+            {% blocktrans count counter=paginator.count %}{{ counter }} оголошення{% plural %}{{ counter }} оголошень{% endblocktrans %}
+          </p>
+          <label class="flex items-center gap-2 text-sm">
+            <span class="text-caption">{% trans "Сортувати" %}:</span>
+            <select name="sort" onchange="this.form.submit()" class="input variant-outlined sz-md">
+              {% for value, label in sort_choices %}
+              <option value="{{ value }}" {% if value == filters.sort %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+          </label>
+        </div>
+
+        {% if products %}
+        <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-3" data-reveal-stagger>
+          {% for product in products %}
+            {% include 'partials/_product_card.html' with product=product %}
+          {% endfor %}
+        </div>
+        {% include 'partials/_pagination.html' %}
+        {% else %}
+        <div class="text-center py-24">
+          <p class="text-body text-lg">{% blocktrans with plural=site_settings.term_product_plural|default:_("Авто") %}{{ plural }} не знайдено{% endblocktrans %}</p>
+          <a href="{% url 'catalog:product_list' %}" class="btn variant-ghost sz-md mt-4">{% trans "Скинути фільтри" %}</a>
+        </div>
+        {% endif %}
+      </div>
+    </form>
+
+    {% else %}
+    {# ============ Базова панель фільтрів (інші вертикалі) ============ #}
+    <div class="bg-[--ui-bg] border border-[color:var(--ui-border-color)] rounded-2xl shadow-sm p-6 mb-8">
+      <form method="get" class="flex flex-wrap gap-3 w-full">
+        <input type="text" name="q" value="{{ filters.q }}"
+               placeholder="{% trans 'Пошук за назвою або артикулом…' %}"
+               class="input variant-outlined sz-md flex-1 min-w-48">
+        <select name="brand" class="input variant-outlined sz-md">
+          <option value="">{% blocktrans with plural=site_settings.term_brand_plural|default:_("Бренди") %}Усі {{ plural }}{% endblocktrans %}</option>
+          {% for brand in brands %}
+          <option value="{{ brand.slug }}" {% if brand.slug in filters.brand %}selected{% endif %}>{{ brand.name }}</option>
+          {% endfor %}
+        </select>
+        <select name="category" class="input variant-outlined sz-md">
+          <option value="">{% blocktrans with plural=site_settings.term_category_plural|default:_("Категорії") %}Усі {{ plural }}{% endblocktrans %}</option>
+          {% for cat in categories %}
+          <option value="{{ cat.slug }}" {% if cat.slug in filters.category %}selected{% endif %}>{{ cat.name }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit" class="btn variant-neutral sz-md">
+          <span>{% trans "Знайти" %}</span>
+        </button>
+        {% if has_active_filters %}
+        <a href="{% url 'catalog:product_list' %}" class="btn variant-ghost sz-md">{% trans "Скинути" %}</a>
+        {% endif %}
+      </form>
+    </div>
+
+    {% if products %}
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3" data-reveal-stagger>
+      {% for product in products %}
+        {% include 'partials/_product_card.html' with product=product %}
+      {% endfor %}
+    </div>
+    {% include 'partials/_pagination.html' %}
+    {% else %}
+    <div class="text-center py-24">
+      <p class="text-body text-lg">{% blocktrans with plural=site_settings.term_product_plural|default:_("Товари") %}{{ plural }} не знайдено{% endblocktrans %}</p>
+      <a href="{% url 'catalog:product_list' %}" class="btn variant-ghost sz-md mt-4">{% trans "Скинути фільтри" %}</a>
+    </div>
+    {% endif %}
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

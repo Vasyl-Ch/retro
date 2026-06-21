@@ -1,8 +1,9 @@
 from django.urls import path
-from django.views.generic import TemplateView
+from . import views
 
 app_name = "vacancies"
 
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="base.html"), name="list"),
+    path("", views.VacancyListView.as_view(), name="list"),
+    path("<slug:slug>/", views.VacancyDetailView.as_view(), name="detail"),
 ]

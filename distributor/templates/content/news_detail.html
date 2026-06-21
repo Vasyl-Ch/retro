@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}{{ object.title }}{% endblock %}
+{% block meta_description %}{{ object.preview }}{% endblock %}
+{% block og_image %}{% if object.image %}{{ object.image.url }}{% endif %}{% endblock %}
+{% block content %}
+<div class="pt-28 pb-24">
+  <div class="mx-auto px-6 max-w-3xl">
+    <nav class="text-sm text-caption mb-8 flex gap-2">
+      <a href="{% url 'content:home' %}" class="hover:link">{% trans "Головна" %}</a>
+      <span>/</span>
+      <a href="{% url 'content:news_list' %}" class="hover:link">{% trans "Новини" %}</a>
+      <span>/</span>
+      <span class="text-title">{{ object.title }}</span>
+    </nav>
+    {% if object.image %}
+    <img src="{{ object.image.url }}" alt="{{ object.title }}"
+         class="w-full h-64 object-cover rounded-[--card-radius] mb-8">
+    {% endif %}
+    <p class="text-caption text-sm mb-4">
+      {{ object.published_at|date:"d.m.Y" }}
+    </p>
+    <h1 class="text-4xl font-semibold text-title mb-6">{{ object.title }}</h1>
+    <p class="text-lg text-body mb-8 font-medium">{{ object.preview }}</p>
+    <div class="prose max-w-none text-body">
+      {{ object.content|safe }}
+    </div>
+    <a href="{% url 'content:news_list' %}"
+       class="btn variant-outlined sz-md mt-12">
+      <span class="btn-label">← {% trans "Усі новини" %}</span>
+    </a>
+  </div>
+</div>
+{% endblock %}

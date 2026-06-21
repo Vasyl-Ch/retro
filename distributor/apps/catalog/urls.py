@@ -1,8 +1,11 @@
 from django.urls import path
-from django.views.generic import TemplateView
+from . import views
 
 app_name = "catalog"
 
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="base.html"), name="product_list"),
+    path("", views.ProductListView.as_view(), name="product_list"),
+    path("autocomplete/makes/", views.make_autocomplete, name="make_autocomplete"),
+    path("autocomplete/cities/", views.city_autocomplete, name="city_autocomplete"),
+    path("<slug:slug>/", views.ProductDetailView.as_view(), name="product_detail"),
 ]

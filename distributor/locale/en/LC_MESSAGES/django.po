@@ -1,0 +1,1105 @@
+# English translations for the Distributor site.
+# Copyright (C) 2026
+# This file is distributed under the same license as the project.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: distributor 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-31 00:33+0000\n"
+"PO-Revision-Date: 2026-05-18 19:30+0000\n"
+"Last-Translator: \n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Прев’ю"
+msgstr "Preview"
+
+msgid "Характеристики авто"
+msgstr "Vehicle specs"
+
+msgid "Лого"
+msgstr "Logo"
+
+msgid "Ціна та наявність"
+msgstr "Price & availability"
+
+msgid "Публікація"
+msgstr "Publishing"
+
+msgid "Фото"
+msgstr "Photo"
+
+msgid "Каталог"
+msgstr "Catalog"
+
+msgid "За замовчуванням"
+msgstr "Default"
+
+msgid "Ціна: спочатку дорожчі"
+msgstr "Price: high to low"
+
+msgid "Ціна: спочатку дешевші"
+msgstr "Price: low to high"
+
+msgid "Рік: новіші"
+msgstr "Year: newest first"
+
+msgid "Рік: старіші"
+msgstr "Year: oldest first"
+
+msgid "Пробіг: менший"
+msgstr "Mileage: lowest first"
+
+msgid "Спочатку нові оголошення"
+msgstr "Newest listings first"
+
+msgid "грн"
+msgstr "UAH"
+
+msgid "$"
+msgstr "$"
+
+msgid "€"
+msgstr "€"
+
+msgid "В наявності"
+msgstr "In stock"
+
+msgid "Під замовлення"
+msgstr "On order"
+
+msgid "Зарезервовано"
+msgstr "Reserved"
+
+msgid "Продано"
+msgstr "Sold"
+
+msgid "Бензин"
+msgstr "Petrol"
+
+msgid "Дизель"
+msgstr "Diesel"
+
+msgid "Гібрид"
+msgstr "Hybrid"
+
+msgid "Електро"
+msgstr "Electric"
+
+msgid "Газ / бензин"
+msgstr "LPG / petrol"
+
+msgid "Механіка"
+msgstr "Manual"
+
+msgid "Автомат"
+msgstr "Automatic"
+
+msgid "Робот"
+msgstr "Automated (AMT)"
+
+msgid "Варіатор"
+msgstr "CVT"
+
+msgid "Нове"
+msgstr "New"
+
+msgid "Вживане"
+msgstr "Used"
+
+msgid "Назва"
+msgstr "Name"
+
+msgid "Логотип"
+msgstr "Logo"
+
+msgid "Опис"
+msgstr "Description"
+
+msgid "Сайт бренду"
+msgstr "Brand website"
+
+msgid "Активний"
+msgstr "Active"
+
+msgid "Порядок"
+msgstr "Order"
+
+msgid "Бренд"
+msgstr "Brand"
+
+msgid "Бренди"
+msgstr "Brands"
+
+msgid "Батьківська категорія"
+msgstr "Parent category"
+
+msgid "Активна"
+msgstr "Active"
+
+msgid "Категорія"
+msgstr "Category"
+
+msgid "Категорії"
+msgstr "Categories"
+
+msgid "Артикул"
+msgstr "SKU"
+
+msgid "Ціна"
+msgstr "Price"
+
+msgid "Стара ціна"
+msgstr "Old price"
+
+msgid "Заповніть, щоб показати знижку (закреслена стара ціна)."
+msgstr "Fill in to show a discount (the old price is struck through)."
+
+msgid "Валюта"
+msgstr "Currency"
+
+msgid "Наявність"
+msgstr "Availability"
+
+msgid "Місто / локація"
+msgstr "City / location"
+
+msgid "Рекомендований"
+msgstr "Featured"
+
+msgid "Товар"
+msgstr "Product"
+
+msgid "Товари"
+msgstr "Products"
+
+msgid "Зображення"
+msgstr "Image"
+
+msgid "Фото товару"
+msgstr "Product photo"
+
+msgid "Фото товарів"
+msgstr "Product photos"
+
+msgid "Авто"
+msgstr "Vehicle"
+
+msgid "Рік випуску"
+msgstr "Year"
+
+msgid "Пробіг, км"
+msgstr "Mileage, km"
+
+msgid "Тип палива"
+msgstr "Fuel type"
+
+msgid "Коробка передач"
+msgstr "Transmission"
+
+msgid "Об'єм двигуна, л"
+msgstr "Engine, L"
+
+msgid "Потужність, к.с."
+msgstr "Power, hp"
+
+msgid "Колір"
+msgstr "Color"
+
+msgid "Стан"
+msgstr "Condition"
+
+msgid "Назва параметра"
+msgstr "Parameter name"
+
+msgid "Значення"
+msgstr "Value"
+
+msgid "Параметр"
+msgstr "Parameter"
+
+msgid "Параметри"
+msgstr "Parameters"
+
+msgid "Позначити як прочитані"
+msgstr "Mark as read"
+
+msgid "Звернення"
+msgstr "Inquiries"
+
+msgid "Ваше ім’я"
+msgstr "Your name"
+
+msgid "Ваше повідомлення"
+msgstr "Your message"
+
+msgid "Загальне питання"
+msgstr "General inquiry"
+
+msgid "Питання щодо товару"
+msgstr "Product inquiry"
+
+msgid "Партнерство"
+msgstr "Partnership"
+
+msgid "Вакансія"
+msgstr "Vacancy"
+
+msgid "Ім’я"
+msgstr "Name"
+
+msgid "Телефон"
+msgstr "Phone"
+
+msgid "Тема"
+msgstr "Subject"
+
+msgid "Повідомлення"
+msgstr "Message"
+
+msgid "Прочитано"
+msgstr "Read"
+
+msgid "Дата"
+msgstr "Date"
+
+msgid "Ваше повідомлення надіслано. Ми зв’яжемося з вами найближчим часом."
+msgstr "Your message has been sent. We'll get back to you shortly."
+
+msgid "Фон"
+msgstr "Background"
+
+msgid "Статус"
+msgstr "Status"
+
+msgid "Завершена"
+msgstr "Ended"
+
+msgid "Контент"
+msgstr "Content"
+
+msgid "Заголовок"
+msgstr "Title"
+
+msgid "Підзаголовок"
+msgstr "Subtitle"
+
+msgid "Текст кнопки"
+msgstr "Button text"
+
+msgid "Посилання кнопки"
+msgstr "Button URL"
+
+msgid "Банер"
+msgstr "Banner"
+
+msgid "Банери"
+msgstr "Banners"
+
+msgid "Короткий опис"
+msgstr "Short description"
+
+msgid "Повний текст"
+msgstr "Full text"
+
+msgid "Опублікована"
+msgstr "Published"
+
+msgid "Дата публікації"
+msgstr "Published at"
+
+msgid "Новина"
+msgstr "News item"
+
+msgid "Новини"
+msgstr "News"
+
+msgid "Початок акції"
+msgstr "Promotion start"
+
+msgid "Кінець акції"
+msgstr "Promotion end"
+
+msgid "Акція"
+msgstr "Promotion"
+
+msgid "Акції"
+msgstr "Promotions"
+
+msgid "Сторінка"
+msgstr "Page"
+
+msgid "Distributor (дистриб'ютор)"
+msgstr "Distributor"
+
+msgid "Auto (автосалон)"
+msgstr "Auto (dealership)"
+
+msgid "Restaurant / Food (ресторан)"
+msgstr "Restaurant / Food"
+
+msgid "Shop (магазин з кошиком)"
+msgstr "Shop (store with cart)"
+
+msgid "Generic (універсальний лендінг)"
+msgstr "Generic (universal landing)"
+
+#, python-format
+msgid "Невідомий пресет: %s"
+msgstr "Unknown preset: %s"
+
+#, python-format
+msgid "Пресет «%(label)s» застосовано. Оновлено %(n)d полів."
+msgstr "Preset “%(label)s” applied. %(n)d fields updated."
+
+msgid "Загальне"
+msgstr "General"
+
+msgid "Меню — Каталог"
+msgstr "Menu — Catalog"
+
+msgid "Меню — Бренди"
+msgstr "Menu — Brands"
+
+msgid "Меню — Акції"
+msgstr "Menu — Promotions"
+
+msgid "Меню — Новини"
+msgstr "Menu — News"
+
+msgid "Меню — Вакансії"
+msgstr "Menu — Vacancies"
+
+msgid "Меню — Контакти"
+msgstr "Menu — Contacts"
+
+msgid "Терміни сутностей"
+msgstr "Entity terms"
+
+msgid "Лейбли карти вакансії"
+msgstr "Vacancy card labels"
+
+msgid "Головна сторінка (Hero)"
+msgstr "Home page (Hero)"
+
+msgid "Анімації та ефекти"
+msgstr "Animations and effects"
+
+msgid "Налаштування"
+msgstr "Settings"
+
+msgid "Дистриб'ютор"
+msgstr "Distributor"
+
+msgid "Автосалон"
+msgstr "Auto dealership"
+
+msgid "Їжа / ресторан"
+msgstr "Food / restaurant"
+
+msgid "Магазин (кошик)"
+msgstr "Shop (cart)"
+
+msgid "Універсальний лендінг"
+msgstr "Generic landing"
+
+msgid "Classic (світло-синя)"
+msgstr "Classic (light blue)"
+
+msgid "Cyberpunk (неон)"
+msgstr "Cyberpunk (neon)"
+
+msgid "Nude (пастель)"
+msgstr "Nude (pastel)"
+
+msgid "Dark Lux (преміум темна)"
+msgstr "Dark Lux (premium dark)"
+
+msgid "Пресет (вертикаль)"
+msgstr "Preset (vertical)"
+
+msgid ""
+"Тип сайту. Використовується командою apply_preset для заповнення дефолтів."
+msgstr ""
+
+msgid "Назва сайту"
+msgstr "Site name"
+
+msgid "Слоган"
+msgstr "Tagline"
+
+msgid "Favicon"
+msgstr "Favicon"
+
+msgid "SEO-опис (за замовчуванням)"
+msgstr "SEO description (default)"
+
+msgid "Копірайт у футері"
+msgstr "Footer copyright"
+
+msgid "Текст кнопки CTA"
+msgstr "CTA button text"
+
+msgid "Кошик (режим магазину)"
+msgstr "Cart (shop mode)"
+
+msgid ""
+"Показувати ціни, кнопки «У кошик» і сторінку кошика. Вмикається пресетом "
+"«Магазин». Замовлення надходять у розділ «Замовлення»."
+msgstr ""
+
+msgid "Меню: Каталог — назва"
+msgstr "Menu: Catalog — label"
+
+msgid "Меню: Каталог — показувати"
+msgstr "Menu: Catalog — visible"
+
+msgid "Меню: Бренди — назва"
+msgstr "Menu: Brands — label"
+
+msgid "Меню: Бренди — показувати"
+msgstr "Menu: Brands — visible"
+
+msgid "Меню: Акції — назва"
+msgstr "Menu: Promotions — label"
+
+msgid "Меню: Акції — показувати"
+msgstr "Menu: Promotions — show"
+
+msgid "Меню: Новини — назва"
+msgstr "Menu: News — label"
+
+msgid "Меню: Новини — показувати"
+msgstr "Menu: News — visible"
+
+msgid "Меню: Вакансії — назва"
+msgstr "Menu: Vacancies — label"
+
+msgid "Меню: Вакансії — показувати"
+msgstr "Menu: Vacancies — visible"
+
+msgid "Меню: Контакти — назва"
+msgstr "Menu: Contacts — label"
+
+msgid "Меню: Контакти — показувати"
+msgstr "Menu: Contacts — show"
+
+msgid "Термін: товар (однина)"
+msgstr "Term: product (singular)"
+
+msgid "Термін: товари (множина)"
+msgstr "Term: products (plural)"
+
+msgid "Термін: бренд (однина)"
+msgstr "Term: brand (singular)"
+
+msgid "Термін: бренди (множина)"
+msgstr "Term: brands (plural)"
+
+msgid "Термін: категорія (однина)"
+msgstr "Term: category (singular)"
+
+msgid "Термін: категорії (множина)"
+msgstr "Term: categories (plural)"
+
+msgid "Classic (текуща)"
+msgstr "Classic (current)"
+
+msgid "Editorial (журнальний — великий типографічний hero)"
+msgstr "Editorial (magazine — large typographic hero)"
+
+msgid "Cinematic (повноекранний hero з відео/фото)"
+msgstr "Cinematic (full-screen hero with video/photo)"
+
+msgid "Макет головної"
+msgstr "Home layout"
+
+msgid "Стиль hero-секції на головній сторінці."
+msgstr "Hero section style on the home page."
+
+msgid "Вакансія: заголовок секції \"Опис\""
+msgstr "Vacancy: \"Description\" section heading"
+
+msgid "Вакансія: заголовок секції \"Вимоги\""
+msgstr "Vacancy: \"Requirements\" section heading"
+
+msgid "Вакансія: заголовок секції \"Умови\""
+msgstr "Vacancy: \"Conditions\" section heading"
+
+msgid "Вакансія: текст кнопки відгуку"
+msgstr "Vacancy: apply button text"
+
+msgid "Hero: верхня плашка"
+msgstr "Hero: eyebrow"
+
+msgid ""
+"Малий текст над великим заголовком (напр., \"Офіційний дистриб'ютор · "
+"2026\")."
+msgstr ""
+
+msgid "Hero: великий заголовок"
+msgstr "Hero: main heading"
+
+msgid ""
+"Замінює дефолтний. Для kinetic-ефекту можна підкреслити слово через "
+"**слово**."
+msgstr ""
+
+msgid "Hero: підзаголовок"
+msgstr "Hero: subheading"
+
+msgid "Анімація: плавні переходи між сторінками"
+msgstr "Animation: smooth page transitions"
+
+msgid ""
+"View Transitions API. Працює в Chrome/Edge/Safari; у Firefox без анімації."
+msgstr ""
+
+msgid "Анімація: появи блоків при прокручуванні (fade-up + stagger)"
+msgstr "Animation: scroll reveal (fade-up + stagger)"
+
+msgid "Анімація: \"магнітні\" кнопки на hover"
+msgstr "Animation: magnetic buttons on hover"
+
+msgid "Вимикається на тач-пристроях автоматично."
+msgstr "Disabled on touch devices automatically."
+
+msgid "Анімація: кастомний кругляк-курсор"
+msgstr "Animation: custom dot cursor"
+
+msgid ""
+"Сильний ефект; не для всіх брендів. Вимикається на тач-пристроях автоматично."
+msgstr ""
+
+msgid "Анімація: \"кінетичне\" появлення hero-заголовка"
+msgstr "Animation: kinetic hero title reveal"
+
+msgid "Налаштування сайту"
+msgstr "Site settings"
+
+msgid "Увесь сайт (за замовчуванням)"
+msgstr "Whole site (default)"
+
+msgid "Головна"
+msgstr "Home"
+
+msgid "Каталог — список товарів"
+msgstr "Catalog — product list"
+
+msgid "Каталог — картка товару"
+msgstr "Catalog — product page"
+
+msgid "Бренди — список"
+msgstr "Brands — list"
+
+msgid "Бренди — сторінка бренду"
+msgstr "Brands — brand page"
+
+msgid "Акції — список"
+msgstr "Promotions — list"
+
+msgid "Акції — сторінка акції"
+msgstr "Promotions — promotion page"
+
+msgid "Новини — список"
+msgstr "News — list"
+
+msgid "Новини — сторінка новини"
+msgstr "News — article page"
+
+msgid "Вакансії — список"
+msgstr "Vacancies — list"
+
+msgid "Вакансії — сторінка вакансії"
+msgstr "Vacancies — vacancy page"
+
+msgid "Контакти"
+msgstr "Contacts"
+
+msgid "Затемнення, %"
+msgstr "Overlay, %"
+
+msgid ""
+"Прозорість підкладки поверх фону (0–90), щоб текст залишався читабельним."
+msgstr ""
+"Opacity of the overlay above the background (0–90) to keep text readable."
+
+msgid "Оновлено"
+msgstr "Updated"
+
+msgid "Фон сторінки"
+msgstr "Page background"
+
+msgid "Фони сторінок"
+msgstr "Page backgrounds"
+
+msgid "Вкажіть хоча б один спосіб зв’язку: телефон або email."
+msgstr "Please provide at least one contact method: phone or email."
+
+msgid "Сума"
+msgstr "Amount"
+
+msgid "Разом"
+msgstr "Total"
+
+msgid "Замовлення"
+msgstr "Orders"
+
+msgid "Коментар до замовлення"
+msgstr "Order comment"
+
+msgid "В обробці"
+msgstr "Processing"
+
+msgid "Виконано"
+msgstr "Done"
+
+msgid "Скасовано"
+msgstr "Cancelled"
+
+msgid "Ім'я покупця"
+msgstr "Customer name"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Коментар"
+msgstr "Comment"
+
+msgid "Створено"
+msgstr "Created"
+
+msgid "Назва (знімок)"
+msgstr "Name (snapshot)"
+
+msgid "Ціна за од."
+msgstr "Unit price"
+
+msgid "Кількість"
+msgstr "Quantity"
+
+msgid "Позиція замовлення"
+msgstr "Order item"
+
+msgid "Позиції замовлення"
+msgstr "Order items"
+
+msgid "Кошик порожній."
+msgstr "The cart is empty."
+
+#, python-format
+msgid "Дякуємо! Замовлення №%(id)s прийнято — ми зв’яжемося з вами."
+msgstr "Thank you! Order #%(id)s received — we’ll get in touch."
+
+msgid "Основне"
+msgstr "General"
+
+msgid "Вимоги"
+msgstr "Requirements"
+
+msgid "Умови"
+msgstr "Conditions"
+
+msgid "Вакансії"
+msgstr "Vacancies"
+
+msgid "Локація"
+msgstr "Location"
+
+msgid "Короткий підпис"
+msgstr "Short caption"
+
+msgid "Один рядок під заголовком."
+msgstr "A single line under the heading."
+
+msgid "Головне фото"
+msgstr "Main photo"
+
+msgid "Велике зображення зверху картки і сторінки. Опціонально."
+msgstr "Large image at the top of the card and page. Optional."
+
+msgid "Виділити"
+msgstr "Highlight"
+
+msgid "Вакансія / Товар"
+msgstr "Vacancy / Product"
+
+msgid "Підпис"
+msgstr "Caption"
+
+msgid "Фото вакансії"
+msgstr "Vacancy photo"
+
+msgid "Фото вакансій"
+msgstr "Vacancy photos"
+
+msgid "Сторінку не знайдено"
+msgstr "Page not found"
+
+msgid "Запитана сторінка не існує або була переміщена."
+msgstr "The requested page does not exist or has been moved."
+
+msgid "На головну"
+msgstr "Back to home"
+
+msgid "Помилка сервера"
+msgstr "Server error"
+
+msgid "Щось пішло не так. Ми вже працюємо над виправленням."
+msgstr "Something went wrong. We're already working on a fix."
+
+msgid "Швидкі пресети"
+msgstr "Quick presets"
+
+msgid ""
+"Один клік — і весь сайт перейменовується під обрану вертикаль (тема, лейбли "
+"меню, терміни, hero, секції вакансій)."
+msgstr ""
+
+msgid "Перезаписати поточні налаштування цим пресетом?"
+msgstr "Overwrite current settings with this preset?"
+
+msgid ""
+"Пресет переписує лейбли меню, терміни, hero і тему. Назва сайту, лого та "
+"контент (товари/новини) залишаться."
+msgstr ""
+
+msgid "Дистриб’ютор"
+msgstr "Distributor"
+
+msgid "Кошик"
+msgstr "Cart"
+
+msgid "Видалити"
+msgstr "Remove"
+
+msgid "Оформити замовлення"
+msgstr "Place order"
+
+msgid "Без онлайн-оплати — менеджер зв’яжеться для підтвердження."
+msgstr "No online payment — a manager will contact you to confirm."
+
+msgid "Ваш кошик порожній."
+msgstr "Your cart is empty."
+
+msgid "товарів"
+msgstr "products"
+
+#, python-format
+msgid "Перейти до %(plural)s"
+msgstr "Go to %(plural)s"
+
+msgid "Офіційний сайт"
+msgstr "Official website"
+
+msgid "Категорії:"
+msgstr "Categories:"
+
+msgid "Товари цього бренду поки не додано"
+msgstr "No products for this brand yet"
+
+msgid "Наші бренди"
+msgstr "Our brands"
+
+msgid "Попереднє"
+msgstr "Previous"
+
+msgid "Наступне"
+msgstr "Next"
+
+#| msgid "Фото товару"
+msgid "Фото відсутнє"
+msgstr "No photo"
+
+msgid "Пробіг"
+msgstr "Mileage"
+
+msgid "км"
+msgstr "km"
+
+msgid "Об'єм двигуна"
+msgstr "Engine"
+
+msgid "л"
+msgstr "L"
+
+msgid "Потужність"
+msgstr "Power"
+
+msgid "к.с."
+msgstr "hp"
+
+msgid "У кошик"
+msgstr "Add to cart"
+
+msgid "Запитати ціну"
+msgstr "Request price"
+
+#, python-format
+msgid "Усі %(plural)s бренду"
+msgstr "All brand %(plural)s"
+
+msgid "товари"
+msgstr "products"
+
+#, python-format
+msgid "Інші %(plural)s — %(brand)s"
+msgstr "More %(plural)s — %(brand)s"
+
+#, python-format
+msgid "%(label)s %(plural)s"
+msgstr "%(label)s %(plural)s"
+
+msgid "Фільтри"
+msgstr "Filters"
+
+msgid "Скинути всі"
+msgstr "Reset all"
+
+msgid "Пошук"
+msgstr "Search"
+
+msgid "Назва, VIN…"
+msgstr "Name, VIN…"
+
+msgid "Марка"
+msgstr "Make"
+
+msgid "Почніть вводити марку…"
+msgstr "Start typing a make…"
+
+msgid "Тип кузова"
+msgstr "Body style"
+
+msgid "Місто"
+msgstr "City"
+
+msgid "Будь-яке місто"
+msgstr "Any city"
+
+msgid "Застосувати"
+msgstr "Apply"
+
+#, python-format
+msgid "%(counter)s оголошення"
+msgid_plural "%(counter)s оголошень"
+msgstr[0] "%(counter)s listing"
+msgstr[1] "%(counter)s listings"
+
+msgid "Сортувати"
+msgstr "Sort"
+
+#, python-format
+msgid "%(plural)s не знайдено"
+msgstr "No %(plural)s found"
+
+msgid "Скинути фільтри"
+msgstr "Reset filters"
+
+msgid "Пошук за назвою або артикулом…"
+msgstr "Search by name or SKU…"
+
+#, python-format
+msgid "Усі %(plural)s"
+msgstr "All %(plural)s"
+
+msgid "Знайти"
+msgstr "Search"
+
+msgid "Скинути"
+msgstr "Reset"
+
+msgid "Зв’яжіться з нами"
+msgstr "Contact us"
+
+msgid "Заповніть форму, і ми відповімо найближчим часом"
+msgstr "Fill in the form and we'll get back to you shortly"
+
+msgid "Надіслати повідомлення"
+msgstr "Send message"
+
+msgid "Широкий каталог товарів, актуальні акції та новини"
+msgstr "Wide product catalog, current promotions and news"
+
+msgid "Офіційний представник · 2026"
+msgstr "Official representative · 2026"
+
+msgid "Інша **відстань** до якісних брендів."
+msgstr "A shorter **distance** to quality brands."
+
+msgid ""
+"Каталог, який доносить продукт без зайвого шуму. Запит на зв'язок — у два "
+"кліки."
+msgstr ""
+
+#, python-format
+msgid "Переглянути %(label)s"
+msgstr "Browse %(label)s"
+
+msgid "Зв'язатись"
+msgstr "Contact us"
+
+msgid "бренди"
+msgstr "brands"
+
+#, python-format
+msgid "Наші %(plural)s"
+msgstr "Our %(plural)s"
+
+msgid "акції"
+msgstr "promotions"
+
+#, python-format
+msgid "Усі %(label)s"
+msgstr "All %(label)s"
+
+#, python-format
+msgid "Популярні %(plural)s"
+msgstr "Popular %(plural)s"
+
+msgid "каталог"
+msgstr "catalog"
+
+#, python-format
+msgid "Весь %(label)s"
+msgstr "All %(label)s"
+
+msgid "новини"
+msgstr "news"
+
+msgid "Усі новини"
+msgstr "All news"
+
+msgid "Новин поки немає"
+msgstr "No news yet"
+
+msgid "Акція:"
+msgstr "Promotion:"
+
+msgid "Дізнатися деталі"
+msgstr "Learn more"
+
+msgid "Усі акції"
+msgstr "All promotions"
+
+msgid "Активних акцій поки немає"
+msgstr "No active promotions yet"
+
+msgid "Зв’язатися з нами"
+msgstr "Contact us"
+
+msgid "Закрити"
+msgstr "Close"
+
+msgid "Ваше ім’я *"
+msgstr "Your name *"
+
+msgid "Ваше повідомлення *"
+msgstr "Your message *"
+
+msgid "Надіслати"
+msgstr "Send"
+
+msgid "Надсилається…"
+msgstr "Sending…"
+
+msgid "Хочу відгукнутися на вакансію:"
+msgstr "I'd like to apply for the position:"
+
+msgid "від"
+msgstr "from"
+
+msgid "до"
+msgstr "to"
+
+msgid "Офіційний представник провідних світових брендів"
+msgstr "Official representative of the world's leading brands"
+
+msgid "Компанія"
+msgstr "Company"
+
+msgid "Написати нам"
+msgstr "Write to us"
+
+msgid "ТОВ «Дистриб’ютор». Усі права захищено."
+msgstr "Distributor LLC. All rights reserved."
+
+msgid "Політика конфіденційності"
+msgstr "Privacy policy"
+
+msgid "Меню"
+msgstr "Menu"
+
+msgid "Зв’язатись"
+msgstr "Contact"
+
+msgid "Читати"
+msgstr "Read"
+
+msgid "Пагінація"
+msgstr "Pagination"
+
+msgid "Перша"
+msgstr "First"
+
+msgid "Назад"
+msgstr "Back"
+
+msgid "Вперед"
+msgstr "Next"
+
+msgid "Остання"
+msgstr "Last"
+
+msgid "Рекомендоване"
+msgstr "Featured"
+
+msgid "Арт."
+msgstr "SKU"
+
+msgid "Детальніше"
+msgstr "Details"
+
+msgid "Запитати"
+msgstr "Inquire"
+
+msgid "До"
+msgstr "Until"
+
+msgid "Виділено"
+msgstr "Featured"
+
+msgid "Відгукнутися"
+msgstr "Apply"
+
+msgid "Відкритих вакансій поки немає"
+msgstr "No open vacancies yet"
+
+#~ msgid "Посада"
+#~ msgstr "Position"
+
+#~ msgid "Каталог товарів"
+#~ msgstr "Product catalog"
+
+#~ msgid "Дистриб’ютор — офіційний представник брендів"
+#~ msgstr "Distributor — official representative of brands"
+
+#~ msgid "Офіційний дистриб’ютор"
+#~ msgstr "Official distributor"
+
+#~ msgid "Широкий асортимент товарів від провідних світових брендів"
+#~ msgstr "A wide range of products from the world's leading brands"
+
+#~ msgid "Актуальні акції"
+#~ msgstr "Current promotions"
+
+#~ msgid "Усі товари"
+#~ msgstr "All products"
+
+#~ msgid "Терміново"
+#~ msgstr "Urgent"
