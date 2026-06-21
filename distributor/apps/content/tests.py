@@ -11,7 +11,10 @@ class NewsSanitizationTests(TestCase):
             content="<p>ok</p><script>alert(1)</script>",
             published_at=timezone.now(),
         )
-        news.refresh_from_db()
+        # No refresh_from_db: SummernoteTextField masks disallowed tags on
+        # read (from_db_value), which would hide whether OUR save()-time
+        # sanitizer actually ran. save() reassigns self.content to the bleach
+        # output before super().save(), so the returned instance reflects it.
         self.assertNotIn("<script", news.content)
         self.assertIn("<p>ok</p>", news.content)
 
@@ -21,6 +24,5 @@ class PromoSanitizationTests(TestCase):
         promo = Promo.objects.create(
             title="T", description="<p>ok</p><script>alert(1)</script>",
         )
-        promo.refresh_from_db()
         self.assertNotIn("<script", promo.description)
         self.assertIn("<p>ok</p>", promo.description)
