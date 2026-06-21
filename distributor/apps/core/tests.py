@@ -1,4 +1,5 @@
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import ImproperlyConfigured, ValidationError
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import SimpleTestCase
 
 from apps.core.conf_checks import (
@@ -7,6 +8,12 @@ from apps.core.conf_checks import (
     assert_production_secret,
 )
 from apps.core.sanitizer import sanitize_html
+from apps.core.validators import (
+    MAX_IMAGE_BYTES,
+    branding_image_validators,
+    raster_image_validators,
+    validate_image_size,
+)
 
 
 class ProductionSecretGuardTests(SimpleTestCase):
@@ -57,3 +64,35 @@ class SanitizeHtmlTests(SimpleTestCase):
     def test_empty_input(self):
         self.assertEqual(sanitize_html(""), "")
         self.assertEqual(sanitize_html(None), "")
+
+
+def _run(validators, f):
+    for v in validators:
+        v(f)
+
+
+class ImageValidatorTests(SimpleTestCase):
+    def test_raster_rejects_svg(self):
+        f = SimpleUploadedFile("a.svg", b"<svg></svg>", content_type="image/svg+xml")
+        with self.assertRaises(ValidationError):
+            _run(raster_image_validators, f)
+
+    def test_branding_allows_svg(self):
+        f = SimpleUploadedFile("a.svg", b"<svg></svg>", content_type="image/svg+xml")
+        _run(branding_image_validators, f)  # must not raise
+
+    def test_rejects_non_image_extension(self):
+        f = SimpleUploadedFile("a.exe", b"MZ", content_type="application/octet-stream")
+        with self.assertRaises(ValidationError):
+            _run(raster_image_validators, f)
+
+    def test_allows_png(self):
+        f = SimpleUploadedFile("a.png", b"\x89PNG", content_type="image/png")
+        _run(raster_image_validators, f)  # must not raise
+
+    def test_rejects_oversize(self):
+        big = SimpleUploadedFile(
+            "a.png", b"x" * (MAX_IMAGE_BYTES + 1), content_type="image/png"
+        )
+        with self.assertRaises(ValidationError):
+            validate_image_size(big)
