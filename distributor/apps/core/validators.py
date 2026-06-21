@@ -29,8 +29,8 @@ def validate_image_size(file) -> None:
     size = getattr(file, "size", None)
     if size and size > MAX_IMAGE_BYTES:
         raise ValidationError(
-            _("Файл завеликий (%(size)s). Максимум — %(max)s.")
-            % {"size": filesizeformat(size), "max": filesizeformat(MAX_IMAGE_BYTES)}
+            _("Файл завеликий (%(size)s). Максимум — %(max)s."),
+            params={"size": filesizeformat(size), "max": filesizeformat(MAX_IMAGE_BYTES)},
         )
 
 
