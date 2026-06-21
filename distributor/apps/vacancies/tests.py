@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.urls import reverse
 
 from .models import Vacancy
 
@@ -18,3 +19,13 @@ class VacancySanitizationTests(TestCase):
         self.assertNotIn("onerror", v.requirements)
         self.assertIn("<li>x</li>", v.requirements)
         self.assertIn("<p>nice</p>", v.conditions)
+
+
+class VacancyListPaginationTests(TestCase):
+    def test_list_paginates_at_12(self):
+        for i in range(15):
+            Vacancy.objects.create(title=f"V{i}", description="<p>d</p>")
+        resp = self.client.get(reverse("vacancies:list"))
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue(resp.context["is_paginated"])
+        self.assertEqual(len(resp.context["vacancies"]), 12)
