@@ -4,6 +4,8 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
+from apps.core.validators import raster_image_validators
+
 
 class Currency(models.TextChoices):
     UAH = "UAH", _("грн")
@@ -41,7 +43,8 @@ class Condition(models.TextChoices):
 class Brand(models.Model):
     name = models.CharField(_("Назва"), max_length=200)
     slug = models.SlugField("Slug", max_length=200, unique=True, blank=True)
-    logo = models.ImageField(_("Логотип"), upload_to="brands/logos/", blank=True, null=True)
+    logo = models.ImageField(_("Логотип"), upload_to="brands/logos/", blank=True, null=True,
+                             validators=raster_image_validators)
     description = models.TextField(_("Опис"), blank=True)
     website = models.URLField(_("Сайт бренду"), blank=True)
     is_active = models.BooleanField(_("Активний"), default=True)
@@ -109,7 +112,8 @@ class Product(models.Model):
     slug = models.SlugField("Slug", max_length=300, unique=True, blank=True)
     article = models.CharField(_("Артикул"), max_length=100, blank=True)
     description = models.TextField(_("Опис"), blank=True)
-    image = models.ImageField(_("Фото"), upload_to="products/")
+    image = models.ImageField(_("Фото"), upload_to="products/",
+                              validators=raster_image_validators)
 
     # Універсальні комерційні поля (auto / shop / food).
     price = models.DecimalField(
@@ -169,7 +173,8 @@ class ProductImage(models.Model):
         related_name="images",
         verbose_name=_("Товар"),
     )
-    image = models.ImageField(_("Зображення"), upload_to="products/gallery/")
+    image = models.ImageField(_("Зображення"), upload_to="products/gallery/",
+                              validators=raster_image_validators)
     order = models.PositiveIntegerField(_("Порядок"), default=0)
 
     class Meta:

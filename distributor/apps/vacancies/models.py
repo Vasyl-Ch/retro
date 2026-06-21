@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from django_summernote.fields import SummernoteTextField
 
 from apps.core.sanitizer import sanitize_html
+from apps.core.validators import raster_image_validators
 
 
 class Vacancy(models.Model):
@@ -17,6 +18,7 @@ class Vacancy(models.Model):
     )
     cover_image = models.ImageField(
         _("Головне фото"), upload_to="vacancies/", blank=True, null=True,
+        validators=raster_image_validators,
         help_text=_("Велике зображення зверху картки і сторінки. Опціонально."),
     )
     description = SummernoteTextField(_("Опис"))
@@ -54,7 +56,8 @@ class VacancyImage(models.Model):
         Vacancy, on_delete=models.CASCADE, related_name="images",
         verbose_name=_("Вакансія / Товар"),
     )
-    image = models.ImageField(_("Зображення"), upload_to="vacancies/gallery/")
+    image = models.ImageField(_("Зображення"), upload_to="vacancies/gallery/",
+                              validators=raster_image_validators)
     caption = models.CharField(_("Підпис"), max_length=200, blank=True)
     order = models.PositiveIntegerField(_("Порядок"), default=0)
 

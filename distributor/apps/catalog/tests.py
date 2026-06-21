@@ -1,5 +1,7 @@
 from decimal import Decimal
 
+from django.core.exceptions import ValidationError
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.urls import reverse
 
@@ -117,3 +119,23 @@ class AutocompleteTests(TestCase):
         Product.objects.create(brand=self.bmw, name="z", slug="z", location="Київ")
         data = self.client.get(reverse("catalog:city_autocomplete"), {"q": "ки"}).json()
         self.assertEqual(data["results"], [{"name": "Київ", "value": "Київ"}])
+
+
+class ProductImageValidationTests(TestCase):
+    def test_svg_rejected_for_product_image(self):
+        brand = Brand.objects.create(name="B", slug="b")
+        product = Product(
+            brand=brand, name="P", slug="p",
+            image=SimpleUploadedFile("x.svg", b"<svg></svg>", content_type="image/svg+xml"),
+        )
+        with self.assertRaises(ValidationError):
+            product.full_clean()
+
+    def test_png_accepted_for_product_image(self):
+        brand = Brand.objects.create(name="B2", slug="b2")
+        product = Product(
+            brand=brand, name="P2", slug="p2",
+            image=SimpleUploadedFile("x.png", b"\x89PNG", content_type="image/png"),
+        )
+        # full_clean must not raise on the image field (extension allowed).
+        product.full_clean()

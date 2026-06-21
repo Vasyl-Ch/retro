@@ -6,12 +6,14 @@ from django.utils.translation import gettext_lazy as _
 from django_summernote.fields import SummernoteTextField
 
 from apps.core.sanitizer import sanitize_html
+from apps.core.validators import raster_image_validators
 
 
 class Banner(models.Model):
     title = models.CharField(_("Заголовок"), max_length=300)
     subtitle = models.CharField(_("Підзаголовок"), max_length=500, blank=True)
-    background = models.ImageField(_("Фон"), upload_to="banners/")
+    background = models.ImageField(_("Фон"), upload_to="banners/",
+                                   validators=raster_image_validators)
     button_text = models.CharField(_("Текст кнопки"), max_length=100, blank=True)
     button_url = models.CharField(_("Посилання кнопки"), max_length=500, blank=True)
     is_active = models.BooleanField(_("Активний"), default=True)
@@ -31,7 +33,8 @@ class News(models.Model):
     slug = models.SlugField("Slug", max_length=400, unique=True, blank=True)
     preview = models.TextField(_("Короткий опис"), max_length=500)
     content = SummernoteTextField(_("Повний текст"))
-    image = models.ImageField(_("Зображення"), upload_to="news/")
+    image = models.ImageField(_("Зображення"), upload_to="news/",
+                              validators=raster_image_validators)
     is_active = models.BooleanField(_("Опублікована"), default=True)
     published_at = models.DateTimeField(_("Дата публікації"))
     created_at = models.DateTimeField(auto_now_add=True)
@@ -58,7 +61,8 @@ class Promo(models.Model):
     title = models.CharField(_("Заголовок"), max_length=400)
     slug = models.SlugField("Slug", max_length=400, unique=True, blank=True)
     description = SummernoteTextField(_("Опис"))
-    image = models.ImageField(_("Зображення"), upload_to="promos/")
+    image = models.ImageField(_("Зображення"), upload_to="promos/",
+                              validators=raster_image_validators)
     brand = models.ForeignKey(
         "catalog.Brand",
         null=True,
