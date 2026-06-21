@@ -4,6 +4,8 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django_summernote.fields import SummernoteTextField
 
+from apps.core.sanitizer import sanitize_html
+
 
 class Vacancy(models.Model):
     title = models.CharField(_("Заголовок"), max_length=300)
@@ -36,6 +38,9 @@ class Vacancy(models.Model):
     def save(self, *args, **kwargs) -> None:
         if not self.slug:
             self.slug = slugify(self.title)
+        self.description = sanitize_html(self.description)
+        self.requirements = sanitize_html(self.requirements)
+        self.conditions = sanitize_html(self.conditions)
         super().save(*args, **kwargs)
 
     def get_absolute_url(self) -> str:
