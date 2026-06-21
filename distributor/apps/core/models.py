@@ -232,7 +232,7 @@ class PageBackground(models.Model):
     )
     image = models.ImageField(_("Зображення"), upload_to="backgrounds/",
                               validators=raster_image_validators)
-    is_active = models.BooleanField(_("Активний"), default=True)
+    is_active = models.BooleanField(_("Активний"), default=True, db_index=True)
     overlay_opacity = models.PositiveSmallIntegerField(
         _("Затемнення, %"),
         default=40,

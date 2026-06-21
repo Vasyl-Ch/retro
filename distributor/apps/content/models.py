@@ -16,7 +16,7 @@ class Banner(models.Model):
                                    validators=raster_image_validators)
     button_text = models.CharField(_("Текст кнопки"), max_length=100, blank=True)
     button_url = models.CharField(_("Посилання кнопки"), max_length=500, blank=True)
-    is_active = models.BooleanField(_("Активний"), default=True)
+    is_active = models.BooleanField(_("Активний"), default=True, db_index=True)
     order = models.PositiveIntegerField(_("Порядок"), default=0)
 
     class Meta:
@@ -35,7 +35,7 @@ class News(models.Model):
     content = SummernoteTextField(_("Повний текст"))
     image = models.ImageField(_("Зображення"), upload_to="news/",
                               validators=raster_image_validators)
-    is_active = models.BooleanField(_("Опублікована"), default=True)
+    is_active = models.BooleanField(_("Опублікована"), default=True, db_index=True)
     published_at = models.DateTimeField(_("Дата публікації"))
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -72,7 +72,7 @@ class Promo(models.Model):
     )
     date_start = models.DateField(_("Початок акції"), null=True, blank=True)
     date_end = models.DateField(_("Кінець акції"), null=True, blank=True)
-    is_active = models.BooleanField(_("Активна"), default=True)
+    is_active = models.BooleanField(_("Активна"), default=True, db_index=True)
 
     class Meta:
         verbose_name = _("Акція")

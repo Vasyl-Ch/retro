@@ -47,7 +47,7 @@ class Brand(models.Model):
                              validators=raster_image_validators)
     description = models.TextField(_("Опис"), blank=True)
     website = models.URLField(_("Сайт бренду"), blank=True)
-    is_active = models.BooleanField(_("Активний"), default=True)
+    is_active = models.BooleanField(_("Активний"), default=True, db_index=True)
     order = models.PositiveIntegerField(_("Порядок"), default=0)
 
     class Meta:
@@ -78,7 +78,7 @@ class Category(models.Model):
         related_name="children",
         verbose_name=_("Батьківська категорія"),
     )
-    is_active = models.BooleanField(_("Активна"), default=True)
+    is_active = models.BooleanField(_("Активна"), default=True, db_index=True)
 
     class Meta:
         verbose_name = _("Категорія")
@@ -132,7 +132,7 @@ class Product(models.Model):
     )
     location = models.CharField(_("Місто / локація"), max_length=120, blank=True)
 
-    is_active = models.BooleanField(_("Активний"), default=True)
+    is_active = models.BooleanField(_("Активний"), default=True, db_index=True)
     is_featured = models.BooleanField(_("Рекомендований"), default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     order = models.PositiveIntegerField(_("Порядок"), default=0)

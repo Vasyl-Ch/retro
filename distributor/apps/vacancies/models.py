@@ -24,7 +24,7 @@ class Vacancy(models.Model):
     description = SummernoteTextField(_("Опис"))
     requirements = SummernoteTextField(_("Вимоги"), blank=True)
     conditions = SummernoteTextField(_("Умови"), blank=True)
-    is_active = models.BooleanField(_("Активна"), default=True)
+    is_active = models.BooleanField(_("Активна"), default=True, db_index=True)
     is_urgent = models.BooleanField(_("Виділити"), default=False)
     order = models.PositiveIntegerField(_("Порядок"), default=0)
     created_at = models.DateTimeField(auto_now_add=True)
