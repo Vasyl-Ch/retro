@@ -5,6 +5,8 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django_summernote.fields import SummernoteTextField
 
+from apps.core.sanitizer import sanitize_html
+
 
 class Banner(models.Model):
     title = models.CharField(_("Заголовок"), max_length=300)
@@ -45,6 +47,7 @@ class News(models.Model):
     def save(self, *args, **kwargs) -> None:
         if not self.slug:
             self.slug = slugify(self.title)
+        self.content = sanitize_html(self.content)
         super().save(*args, **kwargs)
 
     def get_absolute_url(self) -> str:
@@ -78,6 +81,7 @@ class Promo(models.Model):
     def save(self, *args, **kwargs) -> None:
         if not self.slug:
             self.slug = slugify(self.title)
+        self.description = sanitize_html(self.description)
         super().save(*args, **kwargs)
 
     def get_absolute_url(self) -> str:
