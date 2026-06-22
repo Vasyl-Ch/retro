@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
-{% block title %}{{ site_settings.brand_name|default:_("Дистриб’ютор") }}{% endblock %}
-{% block meta_description %}{{ site_settings.meta_description|default:_("Широкий каталог товарів, актуальні акції та новини") }}{% endblock %}
+{% block title %}{{ site_settings.brand_name|default:_("Distributor") }}{% endblock %}
+{% block meta_description %}{{ site_settings.meta_description|default:_("Wide product catalog, current promotions and news") }}{% endblock %}
 
 {% block content %}
 
@@ -48,23 +48,23 @@
     <div class="grid lg:grid-cols-12 gap-y-12 lg:gap-x-12 items-end">
       <div class="lg:col-span-8">
         <span class="hero-editorial-eyebrow">
-          {{ site_settings.hero_eyebrow|default:_("Офіційний представник · 2026") }}
+          {{ site_settings.hero_eyebrow|default:_("Official representative · 2026") }}
         </span>
         <h1 class="hero-editorial-title text-title mt-6"
-            data-kinetic-text="{{ site_settings.hero_title|default:_('Інша **відстань** до якісних брендів.') }}"></h1>
+            data-kinetic-text="{{ site_settings.hero_title|default:_('A shorter **distance** to quality brands.') }}"></h1>
       </div>
       <div class="lg:col-span-4 lg:pb-4" data-reveal>
         <p class="text-body text-lg leading-relaxed max-w-md">
-          {{ site_settings.hero_subtitle|default:_("Каталог, який доносить продукт без зайвого шуму. Запит на зв'язок — у два кліки.") }}
+          {{ site_settings.hero_subtitle|default:_("A catalog that delivers the product without noise. A contact request in two clicks.") }}
         </p>
         <div class="mt-8 flex flex-wrap gap-3">
           <a href="{% url 'catalog:product_list' %}" data-magnetic
              class="btn variant-primary sz-lg">
-            <span class="btn-label">{% blocktrans with label=site_settings.nav_catalog_label|default:_("Каталог") %}Переглянути {{ label }}{% endblocktrans %}</span>
+            <span class="btn-label">{% blocktrans with label=site_settings.nav_catalog_label|default:_("Catalog") %}Browse {{ label }}{% endblocktrans %}</span>
           </a>
           <button type="button" onclick="openContactModal('general')" data-magnetic
                   class="btn variant-ghost sz-lg">
-            <span class="btn-label">{{ site_settings.cta_label|default:_("Зв'язатись") }}</span>
+            <span class="btn-label">{{ site_settings.cta_label|default:_("Contact us") }}</span>
           </button>
         </div>
       </div>
@@ -98,12 +98,12 @@
 </section>
 {% endif %}
 
-{# ---- БРЕНДИ ---- #}
+{# ---- BRANDS ---- #}
 {% if brands and site_settings.nav_brands_visible %}
 <section class="pt-24">
   <div class="mx-auto px-6 max-w-6xl">
     <h2 class="text-3xl text-title font-semibold text-center" data-reveal>
-      {% blocktrans with plural=site_settings.term_brand_plural|default:_("бренди") %}Наші {{ plural }}{% endblocktrans %}
+      {% blocktrans with plural=site_settings.term_brand_plural|default:_("brands") %}Our {{ plural }}{% endblocktrans %}
     </h2>
     <div class="mt-12 swiper brandsSlider">
       <div class="swiper-wrapper items-stretch">
@@ -126,16 +126,16 @@
 </section>
 {% endif %}
 
-{# ---- АКЦІЇ ---- #}
+{# ---- PROMOTIONS ---- #}
 {% if active_promos and site_settings.nav_promos_visible %}
 <section class="pt-24">
   <div class="mx-auto px-6 max-w-6xl">
     <div class="flex items-center justify-between" data-reveal>
       <h2 class="text-3xl text-title font-semibold">
-        {{ site_settings.nav_promos_label|default:_("Акції") }}
+        {{ site_settings.nav_promos_label|default:_("Promotions") }}
       </h2>
       <a href="{% url 'content:promo_list' %}"
-         class="btn variant-ghost sz-sm">{% blocktrans with label=site_settings.nav_promos_label|default:_("акції") %}Усі {{ label }}{% endblocktrans %} →</a>
+         class="btn variant-ghost sz-sm">{% blocktrans with label=site_settings.nav_promos_label|default:_("promotions") %}All {{ label }}{% endblocktrans %} →</a>
     </div>
     <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-3" data-reveal-stagger>
       {% for promo in active_promos %}
@@ -146,16 +146,16 @@
 </section>
 {% endif %}
 
-{# ---- РЕКОМЕНДОВАНІ ---- #}
+{# ---- FEATURED ---- #}
 {% if featured and site_settings.nav_catalog_visible %}
 <section class="pt-24">
   <div class="mx-auto px-6 max-w-6xl">
     <div class="flex items-center justify-between" data-reveal>
       <h2 class="text-3xl text-title font-semibold">
-        {% blocktrans with plural=site_settings.term_product_plural|default:_("товари") %}Популярні {{ plural }}{% endblocktrans %}
+        {% blocktrans with plural=site_settings.term_product_plural|default:_("products") %}Popular {{ plural }}{% endblocktrans %}
       </h2>
       <a href="{% url 'catalog:product_list' %}"
-         class="btn variant-ghost sz-sm">{% blocktrans with label=site_settings.nav_catalog_label|default:_("каталог") %}Весь {{ label }}{% endblocktrans %} →</a>
+         class="btn variant-ghost sz-sm">{% blocktrans with label=site_settings.nav_catalog_label|default:_("catalog") %}All {{ label }}{% endblocktrans %} →</a>
     </div>
     <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-3" data-reveal-stagger>
       {% for product in featured %}
@@ -166,14 +166,14 @@
 </section>
 {% endif %}
 
-{# ---- НОВИНИ ---- #}
+{# ---- NEWS ---- #}
 {% if latest_news and site_settings.nav_news_visible %}
 <section class="py-24">
   <div class="mx-auto px-6 max-w-6xl">
     <div class="flex items-center justify-between" data-reveal>
-      <h2 class="text-3xl text-title font-semibold">{{ site_settings.nav_news_label|default:_("Новини") }}</h2>
+      <h2 class="text-3xl text-title font-semibold">{{ site_settings.nav_news_label|default:_("News") }}</h2>
       <a href="{% url 'content:news_list' %}"
-         class="btn variant-ghost sz-sm">{% blocktrans with label=site_settings.nav_news_label|default:_("новини") %}Усі {{ label }}{% endblocktrans %} →</a>
+         class="btn variant-ghost sz-sm">{% blocktrans with label=site_settings.nav_news_label|default:_("news") %}All {{ label }}{% endblocktrans %} →</a>
     </div>
     <div class="mt-8 grid sm:grid-cols-3 gap-3" data-reveal-stagger>
       {% for news in latest_news %}

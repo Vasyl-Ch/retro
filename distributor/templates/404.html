@@ -1,19 +1,19 @@
 {% extends 'base.html' %}
 {% load i18n %}
-{% block title %}{% trans "Сторінку не знайдено" %}{% endblock %}
+{% block title %}{% trans "Page not found" %}{% endblock %}
 {% block content %}
 <div class="pt-28 pb-24 text-center">
   <div class="mx-auto px-6 max-w-xl">
     <p class="text-8xl font-semibold text-caption">404</p>
     <h1 class="mt-4 text-3xl font-semibold text-title">
-      {% trans "Сторінку не знайдено" %}
+      {% trans "Page not found" %}
     </h1>
     <p class="mt-4 text-body">
-      {% trans "Запитана сторінка не існує або була переміщена." %}
+      {% trans "The requested page does not exist or has been moved." %}
     </p>
     <a href="{% url 'content:home' %}"
        class="btn variant-primary sz-lg mt-8 inline-flex">
-      <span class="btn-label">{% trans "На головну" %}</span>
+      <span class="btn-label">{% trans "Back to home" %}</span>
     </a>
   </div>
 </div>

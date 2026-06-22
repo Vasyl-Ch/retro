@@ -12,9 +12,9 @@
       <span class="badge variant-neutral sz-xs">{{ promo.brand.name }}</span>
       {% endif %}
       {% if promo.is_current %}
-      <span class="badge variant-success sz-xs">{% trans "Активна" %}</span>
+      <span class="badge variant-success sz-xs">{% trans "Active" %}</span>
       {% else %}
-      <span class="badge variant-neutral sz-xs">{% trans "Завершена" %}</span>
+      <span class="badge variant-neutral sz-xs">{% trans "Ended" %}</span>
       {% endif %}
     </div>
     <h3 class="text-lg font-medium text-title">
@@ -24,7 +24,7 @@
     </h3>
     {% if promo.date_end %}
     <p class="text-caption text-sm mt-1">
-      {% trans "До" %} {{ promo.date_end|date:"d.m.Y" }}
+      {% trans "Until" %} {{ promo.date_end|date:"d.m.Y" }}
     </p>
     {% endif %}
   </div>

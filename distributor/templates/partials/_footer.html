@@ -4,38 +4,38 @@
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
       <div>
         <a href="{% url 'content:home' %}"
-           class="brand-style-{{ site_settings.brand_style|default:'plain' }} text-title font-semibold text-lg">{{ site_settings.brand_name|default:_("Дистриб’ютор") }}</a>
+           class="brand-style-{{ site_settings.brand_style|default:’plain’ }} text-title font-semibold text-lg">{{ site_settings.brand_name|default:_("Distributor") }}</a>
         <p class="mt-3 text-body text-sm">
-          {{ site_settings.tagline|default:_("Офіційний представник провідних світових брендів") }}
+          {{ site_settings.tagline|default:_("Official representative of the world's leading brands") }}
         </p>
       </div>
       <div>
-        <h3 class="font-medium text-title mb-3">{{ site_settings.nav_catalog_label|default:_("Каталог") }}</h3>
+        <h3 class="font-medium text-title mb-3">{{ site_settings.nav_catalog_label|default:_("Catalog") }}</h3>
         <ul class="space-y-2 text-sm text-body">
           {% if site_settings.nav_catalog_visible %}
-          <li><a href="{% url 'catalog:product_list' %}" class="hover:link">{{ site_settings.term_product_plural|default:_("Товари") }}</a></li>
+          <li><a href="{% url 'catalog:product_list' %}" class="hover:link">{{ site_settings.term_product_plural|default:_("Products") }}</a></li>
           {% endif %}
           {% if site_settings.nav_brands_visible %}
-          <li><a href="{% url 'brands:brand_list' %}" class="hover:link">{{ site_settings.nav_brands_label|default:_("Бренди") }}</a></li>
+          <li><a href="{% url 'brands:brand_list' %}" class="hover:link">{{ site_settings.nav_brands_label|default:_("Brands") }}</a></li>
           {% endif %}
         </ul>
       </div>
       <div>
-        <h3 class="font-medium text-title mb-3">{% trans "Компанія" %}</h3>
+        <h3 class="font-medium text-title mb-3">{% trans "Company" %}</h3>
         <ul class="space-y-2 text-sm text-body">
           {% if site_settings.nav_news_visible %}
-          <li><a href="{% url 'content:news_list' %}" class="hover:link">{{ site_settings.nav_news_label|default:_("Новини") }}</a></li>
+          <li><a href="{% url 'content:news_list' %}" class="hover:link">{{ site_settings.nav_news_label|default:_("News") }}</a></li>
           {% endif %}
           {% if site_settings.nav_promos_visible %}
-          <li><a href="{% url 'content:promo_list' %}" class="hover:link">{{ site_settings.nav_promos_label|default:_("Акції") }}</a></li>
+          <li><a href="{% url 'content:promo_list' %}" class="hover:link">{{ site_settings.nav_promos_label|default:_("Promotions") }}</a></li>
           {% endif %}
           {% if site_settings.nav_vacancies_visible %}
-          <li><a href="{% url 'vacancies:list' %}" class="hover:link">{{ site_settings.nav_vacancies_label|default:_("Вакансії") }}</a></li>
+          <li><a href="{% url 'vacancies:list' %}" class="hover:link">{{ site_settings.nav_vacancies_label|default:_("Vacancies") }}</a></li>
           {% endif %}
         </ul>
       </div>
       <div>
-        <h3 class="font-medium text-title mb-3">{% trans "Контакти" %}</h3>
+        <h3 class="font-medium text-title mb-3">{% trans "Contacts" %}</h3>
         <ul class="space-y-2 text-sm text-body">
           {% if site_settings.contact_phone %}
           <li><a href="tel:{{ site_settings.contact_phone }}" class="hover:link">{{ site_settings.contact_phone }}</a></li>
@@ -49,7 +49,7 @@
           <li>
             <button onclick="openContactModal('general')"
                     class="hover:link text-left">
-              {{ site_settings.cta_label|default:_("Написати нам") }}
+              {{ site_settings.cta_label|default:_("Write to us") }}
             </button>
           </li>
         </ul>
@@ -58,10 +58,10 @@
     <div class="mt-12 pt-8 border-t flex flex-col sm:flex-row
                 justify-between items-center gap-4">
       <p class="text-caption text-sm">
-        © {% now "Y" %} {{ site_settings.footer_copyright|default:_("ТОВ «Дистриб’ютор». Усі права захищено.") }}
+        © {% now "Y" %} {{ site_settings.footer_copyright|default:_("Distributor LLC. All rights reserved.") }}
       </p>
       <a href="{% url 'contacts:contact' %}" class="text-caption text-sm hover:link">
-        {% trans "Політика конфіденційності" %}
+        {% trans "Privacy policy" %}
       </a>
     </div>
   </div>

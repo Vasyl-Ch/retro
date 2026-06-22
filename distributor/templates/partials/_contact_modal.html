@@ -4,10 +4,10 @@
             items-center justify-center p-4">
   <div class="card variant-outlined p-8 w-full max-w-md">
     <div class="flex justify-between items-center mb-6">
-      <h2 class="text-title font-semibold text-xl">{% trans "Зв’язатися з нами" %}</h2>
+      <h2 class="text-title font-semibold text-xl">{% trans "Contact us" %}</h2>
       <button onclick="closeContactModal()"
               class="btn variant-ghost sz-sm icon-only"
-              aria-label="{% trans 'Закрити' %}">
+              aria-label="{% trans 'Close' %}">
         <svg xmlns="http://www.w3.org/2000/svg" class="size-5" fill="none"
              viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round"
@@ -19,7 +19,7 @@
       {% csrf_token %}
       <input type="hidden" name="subject" id="modal-subject" value="general">
       <div class="space-y-4">
-        <input type="text" name="name" placeholder="{% trans 'Ваше ім’я *' %}" required
+        <input type="text" name="name" placeholder="{% trans ‘Your name *’ %}" required
                class="input variant-outlined w-full">
         <div class="grid grid-cols-2 gap-3">
           <input type="tel" name="phone" placeholder="Your Phone Number"
@@ -27,14 +27,14 @@
           <input type="email" name="email" placeholder="Email"
                  class="input variant-outlined w-full">
         </div>
-        <textarea name="message" placeholder="{% trans 'Ваше повідомлення *' %}"
+        <textarea name="message" placeholder="{% trans 'Your message *' %}"
                   rows="3" required
                   class="input variant-outlined w-full resize-none"></textarea>
       </div>
       <button type="submit" id="modalSubmitBtn"
               class="btn variant-primary w-full mt-5">
-        <span id="modalBtnText" class="btn-label">{% trans "Надіслати" %}</span>
-        <span id="modalBtnLoader" class="hidden btn-label">{% trans "Надсилається…" %}</span>
+        <span id="modalBtnText" class="btn-label">{% trans "Send" %}</span>
+        <span id="modalBtnLoader" class="hidden btn-label">{% trans "Sending…" %}</span>
       </button>
     </form>
   </div>
@@ -52,7 +52,7 @@
         const title = this.getAttribute('data-vacancy');
         const modal = document.getElementById('contactModal');
         const msgField = modal?.querySelector('textarea[name="message"]');
-        if (msgField) msgField.value = '{% filter escapejs %}{% trans "Хочу відгукнутися на вакансію:" %}{% endfilter %} ' + title;
+        if (msgField) msgField.value = '{% filter escapejs %}{% trans "I'd like to apply for the position:" %}{% endfilter %} ' + title;
       });
     }
   });

@@ -1,50 +1,50 @@
 {% extends 'base.html' %}
 {% load i18n %}
-{% block title %}{{ site_settings.nav_catalog_label|default:_("Каталог") }} — {{ site_settings.brand_name|default:_("Дистриб’ютор") }}{% endblock %}
+{% block title %}{{ site_settings.nav_catalog_label|default:_("Catalog") }} — {{ site_settings.brand_name|default:_("Distributor") }}{% endblock %}
 {% block content %}
 <div class="pt-28 pb-24">
   <div class="mx-auto px-6 max-w-6xl">
     <h1 class="text-4xl font-semibold text-title mb-8">
-      {% blocktrans with label=site_settings.nav_catalog_label|default:_("Каталог") plural=site_settings.term_product_plural|default:_("товарів") %}{{ label }} {{ plural }}{% endblocktrans %}
+      {% blocktrans with label=site_settings.nav_catalog_label|default:_("Catalog") plural=site_settings.term_product_plural|default:_("products") %}{{ label }} {{ plural }}{% endblocktrans %}
     </h1>
 
     {% if site_settings.preset == 'auto' %}
-    {# ============ Розширена панель фільтрів (Автосалон) ============ #}
+    {# ============ Extended filter panel (Auto dealership) ============ #}
     <form method="get" class="grid lg:grid-cols-[280px_1fr] gap-8 items-start">
       <aside class="lg:sticky lg:top-24">
         <div class="rounded-[--card-radius] border border-[color:var(--ui-border-color)] bg-[--ui-bg] shadow-sm overflow-hidden">
 
-          {# Заголовок панелі #}
+          {# Panel header #}
           <div class="flex items-center justify-between gap-3 px-5 py-4 border-b border-[color:var(--ui-border-color)]">
             <h2 class="font-semibold text-title flex items-center gap-2">
               <svg class="size-4 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none"
                    viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M6.75 12h10.5m-7.5 5.25h4.5"/>
               </svg>
-              {% trans "Фільтри" %}
+              {% trans "Filters" %}
             </h2>
             {% if has_active_filters %}
             <a href="{% url 'catalog:product_list' %}"
                class="text-xs font-medium text-caption hover:text-primary-600 transition-colors">
-              {% trans "Скинути всі" %}
+              {% trans "Reset all" %}
             </a>
             {% endif %}
           </div>
 
           <div class="p-5 space-y-5">
-            {# Пошук #}
+            {# Search #}
             <div>
-              <label class="mb-2 block text-xs font-semibold uppercase tracking-wide text-caption">{% trans "Пошук" %}</label>
+              <label class="mb-2 block text-xs font-semibold uppercase tracking-wide text-caption">{% trans "Search" %}</label>
               <input type="text" name="q" value="{{ filters.q }}"
-                     placeholder="{% trans 'Назва, VIN…' %}" class="input variant-outlined sz-md w-full">
+                     placeholder="{% trans 'Name, VIN…' %}" class="input variant-outlined sz-md w-full">
             </div>
 
-            {# Марка (автокомпліт) #}
+            {# Make (autocomplete) #}
             <div class="relative">
-              <label class="mb-2 block text-xs font-semibold uppercase tracking-wide text-caption">{{ site_settings.term_brand_singular|default:_("Марка") }}</label>
+              <label class="mb-2 block text-xs font-semibold uppercase tracking-wide text-caption">{{ site_settings.term_brand_singular|default:_("Make") }}</label>
               <input type="text" autocomplete="off"
                      value="{% if current_make %}{{ current_make.name }}{% endif %}"
-                     placeholder="{% trans 'Почніть вводити марку…' %}"
+                     placeholder="{% trans 'Start typing a make…' %}"
                      class="input variant-outlined sz-md w-full"
                      data-autocomplete="{% url 'catalog:make_autocomplete' %}"
                      data-autocomplete-hidden="#make-slug">
@@ -52,54 +52,54 @@
             </div>
           </div>
 
-          {# Діапазони #}
+          {# Ranges #}
           <div class="p-5 pt-0 space-y-4 border-t border-[color:var(--ui-border-color)] mt-1">
             <div class="pt-5">
-              {% include 'partials/_filter_range.html' with legend=_("Ціна") name="price" vmin=filters.price_min vmax=filters.price_max %}
+              {% include 'partials/_filter_range.html' with legend=_("Price") name="price" vmin=filters.price_min vmax=filters.price_max %}
             </div>
-            {% include 'partials/_filter_range.html' with legend=_("Рік випуску") name="year" vmin=filters.year_min vmax=filters.year_max min_value=1950 %}
-            {% include 'partials/_filter_range.html' with legend=_("Пробіг, км") name="mileage" vmin=filters.mileage_min vmax=filters.mileage_max %}
+            {% include 'partials/_filter_range.html' with legend=_("Year") name="year" vmin=filters.year_min vmax=filters.year_max min_value=1950 %}
+            {% include 'partials/_filter_range.html' with legend=_("Mileage, km") name="mileage" vmin=filters.mileage_min vmax=filters.mileage_max %}
           </div>
 
-          {# Чіпи-перемикачі #}
+          {# Chip toggles #}
           <div class="p-5 pt-0 space-y-5 border-t border-[color:var(--ui-border-color)]">
             <div class="pt-5 space-y-5">
               {% if categories %}
-              {% include 'partials/_filter_chips.html' with legend=site_settings.term_category_singular|default:_("Тип кузова") name="category" choices=category_chips selected=filters.category %}
+              {% include 'partials/_filter_chips.html' with legend=site_settings.term_category_singular|default:_("Body style") name="category" choices=category_chips selected=filters.category %}
               {% endif %}
-              {% include 'partials/_filter_chips.html' with legend=_("Тип палива") name="fuel" choices=fuel_choices selected=filters.fuel %}
-              {% include 'partials/_filter_chips.html' with legend=_("Коробка передач") name="transmission" choices=transmission_choices selected=filters.transmission %}
-              {% include 'partials/_filter_chips.html' with legend=_("Стан") name="condition" choices=condition_choices selected=filters.condition %}
+              {% include 'partials/_filter_chips.html' with legend=_("Fuel type") name="fuel" choices=fuel_choices selected=filters.fuel %}
+              {% include 'partials/_filter_chips.html' with legend=_("Transmission") name="transmission" choices=transmission_choices selected=filters.transmission %}
+              {% include 'partials/_filter_chips.html' with legend=_("Condition") name="condition" choices=condition_choices selected=filters.condition %}
             </div>
           </div>
 
-          {# Місто #}
+          {# City #}
           <div class="p-5 pt-0 border-t border-[color:var(--ui-border-color)]">
             <div class="relative pt-5">
-              <label class="mb-2 block text-xs font-semibold uppercase tracking-wide text-caption">{% trans "Місто" %}</label>
+              <label class="mb-2 block text-xs font-semibold uppercase tracking-wide text-caption">{% trans "City" %}</label>
               <input type="text" name="location" value="{{ filters.location }}" autocomplete="off"
-                     placeholder="{% trans 'Будь-яке місто' %}" class="input variant-outlined sz-md w-full"
+                     placeholder="{% trans 'Any city' %}" class="input variant-outlined sz-md w-full"
                      data-autocomplete="{% url 'catalog:city_autocomplete' %}">
             </div>
           </div>
 
-          {# Кнопка #}
+          {# Button #}
           <div class="p-5 pt-0">
             <button type="submit" class="btn variant-primary sz-md w-full">
-              <span class="btn-label">{% trans "Застосувати" %}</span>
+              <span class="btn-label">{% trans "Apply" %}</span>
             </button>
           </div>
         </div>
       </aside>
 
-      {# Праворуч: сортування + сітка #}
+      {# Right: sorting + grid #}
       <div>
         <div class="flex items-center justify-between gap-3 mb-5">
           <p class="text-caption text-sm">
-            {% blocktrans count counter=paginator.count %}{{ counter }} оголошення{% plural %}{{ counter }} оголошень{% endblocktrans %}
+            {% blocktrans count counter=paginator.count %}{{ counter }} listing{% plural %}{{ counter }} listings{% endblocktrans %}
           </p>
           <label class="flex items-center gap-2 text-sm">
-            <span class="text-caption">{% trans "Сортувати" %}:</span>
+            <span class="text-caption">{% trans "Sort" %}:</span>
             <select name="sort" onchange="this.form.submit()" class="input variant-outlined sz-md">
               {% for value, label in sort_choices %}
               <option value="{{ value }}" {% if value == filters.sort %}selected{% endif %}>{{ label }}</option>
@@ -117,37 +117,37 @@
         {% include 'partials/_pagination.html' %}
         {% else %}
         <div class="text-center py-24">
-          <p class="text-body text-lg">{% blocktrans with plural=site_settings.term_product_plural|default:_("Авто") %}{{ plural }} не знайдено{% endblocktrans %}</p>
-          <a href="{% url 'catalog:product_list' %}" class="btn variant-ghost sz-md mt-4">{% trans "Скинути фільтри" %}</a>
+          <p class="text-body text-lg">{% blocktrans with plural=site_settings.term_product_plural|default:_("Vehicle") %}No {{ plural }} found{% endblocktrans %}</p>
+          <a href="{% url 'catalog:product_list' %}" class="btn variant-ghost sz-md mt-4">{% trans "Reset filters" %}</a>
         </div>
         {% endif %}
       </div>
     </form>
 
     {% else %}
-    {# ============ Базова панель фільтрів (інші вертикалі) ============ #}
+    {# ============ Basic filter panel (other verticals) ============ #}
     <div class="bg-[--ui-bg] border border-[color:var(--ui-border-color)] rounded-2xl shadow-sm p-6 mb-8">
       <form method="get" class="flex flex-wrap gap-3 w-full">
         <input type="text" name="q" value="{{ filters.q }}"
-               placeholder="{% trans 'Пошук за назвою або артикулом…' %}"
+               placeholder="{% trans 'Search by name or SKU…' %}"
                class="input variant-outlined sz-md flex-1 min-w-48">
         <select name="brand" class="input variant-outlined sz-md">
-          <option value="">{% blocktrans with plural=site_settings.term_brand_plural|default:_("Бренди") %}Усі {{ plural }}{% endblocktrans %}</option>
+          <option value="">{% blocktrans with plural=site_settings.term_brand_plural|default:_("Brands") %}All {{ plural }}{% endblocktrans %}</option>
           {% for brand in brands %}
           <option value="{{ brand.slug }}" {% if brand.slug in filters.brand %}selected{% endif %}>{{ brand.name }}</option>
           {% endfor %}
         </select>
         <select name="category" class="input variant-outlined sz-md">
-          <option value="">{% blocktrans with plural=site_settings.term_category_plural|default:_("Категорії") %}Усі {{ plural }}{% endblocktrans %}</option>
+          <option value="">{% blocktrans with plural=site_settings.term_category_plural|default:_("Categories") %}All {{ plural }}{% endblocktrans %}</option>
           {% for cat in categories %}
           <option value="{{ cat.slug }}" {% if cat.slug in filters.category %}selected{% endif %}>{{ cat.name }}</option>
           {% endfor %}
         </select>
         <button type="submit" class="btn variant-neutral sz-md">
-          <span>{% trans "Знайти" %}</span>
+          <span>{% trans "Search" %}</span>
         </button>
         {% if has_active_filters %}
-        <a href="{% url 'catalog:product_list' %}" class="btn variant-ghost sz-md">{% trans "Скинути" %}</a>
+        <a href="{% url 'catalog:product_list' %}" class="btn variant-ghost sz-md">{% trans "Reset" %}</a>
         {% endif %}
       </form>
     </div>
@@ -161,8 +161,8 @@
     {% include 'partials/_pagination.html' %}
     {% else %}
     <div class="text-center py-24">
-      <p class="text-body text-lg">{% blocktrans with plural=site_settings.term_product_plural|default:_("Товари") %}{{ plural }} не знайдено{% endblocktrans %}</p>
-      <a href="{% url 'catalog:product_list' %}" class="btn variant-ghost sz-md mt-4">{% trans "Скинути фільтри" %}</a>
+      <p class="text-body text-lg">{% blocktrans with plural=site_settings.term_product_plural|default:_("Products") %}No {{ plural }} found{% endblocktrans %}</p>
+      <a href="{% url 'catalog:product_list' %}" class="btn variant-ghost sz-md mt-4">{% trans "Reset filters" %}</a>
     </div>
     {% endif %}
     {% endif %}

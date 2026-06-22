@@ -6,9 +6,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{{ site_settings.brand_name|default:_("Дистриб’ютор") }}{% endblock %}</title>
+    <title>{% block title %}{{ site_settings.brand_name|default:_("Distributor") }}{% endblock %}</title>
     <meta name="description" content="{% block meta_description %}{{ site_settings.meta_description|default:'' }}{% endblock %}">
-    <meta property="og:title" content="{% block og_title %}{{ site_settings.brand_name|default:_("Дистриб’ютор") }}{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}{{ site_settings.brand_name|default:_("Distributor") }}{% endblock %}">
     <meta property="og:description" content="{% block og_description %}{{ site_settings.meta_description|default:'' }}{% endblock %}">
     <meta property="og:image" content="{% block og_image %}{% endblock %}">
     <meta property="og:type" content="website">
@@ -39,8 +39,8 @@
         background-attachment: fixed;
         background-repeat: no-repeat;
       }
-      /* Тёмні теми: затемнюємо фон (а не освітлюємо), щоб світлий текст лишався читабельним —
-         прив'язка до data-theme, бо тема не залежить від prefers-color-scheme. */
+      /* Dark themes: darken the background (not lighten it) so light text stays readable —
+         bound to data-theme because the theme does not depend on prefers-color-scheme. */
       html[data-theme="darklux"] body.has-page-bg,
       html[data-theme="cyberpunk"] body.has-page-bg {
         background-image:
