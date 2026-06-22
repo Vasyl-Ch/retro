@@ -54,6 +54,7 @@
       </article>
       {% endfor %}
     </div>
+    {% include 'partials/_pagination.html' %}
     {% else %}
     <p class="text-body text-center py-12">{% trans "Відкритих вакансій поки немає" %}</p>
     {% endif %}

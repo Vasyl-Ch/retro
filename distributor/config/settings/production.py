@@ -29,3 +29,11 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = "DENY"
+
+from apps.core.conf_checks import (  # noqa: E402
+    assert_allowed_hosts,
+    assert_production_secret,
+)
+
+assert_production_secret(SECRET_KEY)  # noqa: F405
+assert_allowed_hosts(ALLOWED_HOSTS)  # noqa: F405

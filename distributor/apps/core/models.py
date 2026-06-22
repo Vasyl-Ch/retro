@@ -2,6 +2,8 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from solo.models import SingletonModel
 
+from apps.core.validators import branding_image_validators, raster_image_validators
+
 
 class SiteSettings(SingletonModel):
     """Глобальні налаштування сайту (singleton) — лейбли, тема, видимість блоків."""
@@ -64,8 +66,10 @@ class SiteSettings(SingletonModel):
         help_text=_("Оформлення тексту назви в шапці/футері."),
     )
     tagline = models.CharField(_("Слоган"), max_length=300, blank=True)
-    brand_logo = models.ImageField(_("Логотип"), upload_to="branding/", blank=True, null=True)
-    favicon = models.ImageField(_("Favicon"), upload_to="branding/", blank=True, null=True)
+    brand_logo = models.ImageField(_("Логотип"), upload_to="branding/", blank=True, null=True,
+                                   validators=branding_image_validators)
+    favicon = models.ImageField(_("Favicon"), upload_to="branding/", blank=True, null=True,
+                                validators=branding_image_validators)
     meta_description = models.CharField(_("SEO-опис (за замовчуванням)"), max_length=300, blank=True)
     footer_copyright = models.CharField(_("Копірайт у футері"), max_length=200, blank=True)
     cta_label = models.CharField(_("Текст кнопки CTA"), max_length=80, default="Зв’язатись")
@@ -85,6 +89,7 @@ class SiteSettings(SingletonModel):
 
     side_logo_left = models.ImageField(
         _("Бокове лого (ліворуч)"), upload_to="branding/", blank=True, null=True,
+        validators=branding_image_validators,
         help_text=_(
             "На широких екранах — закріплене ліворуч (тримається при прокручуванні). "
             "На смартфоні — внизу перед футером."
@@ -92,6 +97,7 @@ class SiteSettings(SingletonModel):
     )
     side_logo_right = models.ImageField(
         _("Бокове лого (праворуч)"), upload_to="branding/", blank=True, null=True,
+        validators=branding_image_validators,
         help_text=_("Те саме, але праворуч / друге лого внизу на смартфоні."),
     )
     SIDE_LOGO_SM = "sm"
@@ -224,8 +230,9 @@ class PageBackground(models.Model):
         choices=PAGE_CHOICES,
         default=SITE_KEY,
     )
-    image = models.ImageField(_("Зображення"), upload_to="backgrounds/")
-    is_active = models.BooleanField(_("Активний"), default=True)
+    image = models.ImageField(_("Зображення"), upload_to="backgrounds/",
+                              validators=raster_image_validators)
+    is_active = models.BooleanField(_("Активний"), default=True, db_index=True)
     overlay_opacity = models.PositiveSmallIntegerField(
         _("Затемнення, %"),
         default=40,

@@ -4,6 +4,8 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
+from apps.core.validators import raster_image_validators
+
 
 class Currency(models.TextChoices):
     UAH = "UAH", _("грн")
@@ -41,10 +43,11 @@ class Condition(models.TextChoices):
 class Brand(models.Model):
     name = models.CharField(_("Назва"), max_length=200)
     slug = models.SlugField("Slug", max_length=200, unique=True, blank=True)
-    logo = models.ImageField(_("Логотип"), upload_to="brands/logos/", blank=True, null=True)
+    logo = models.ImageField(_("Логотип"), upload_to="brands/logos/", blank=True, null=True,
+                             validators=raster_image_validators)
     description = models.TextField(_("Опис"), blank=True)
     website = models.URLField(_("Сайт бренду"), blank=True)
-    is_active = models.BooleanField(_("Активний"), default=True)
+    is_active = models.BooleanField(_("Активний"), default=True, db_index=True)
     order = models.PositiveIntegerField(_("Порядок"), default=0)
 
     class Meta:
@@ -75,7 +78,7 @@ class Category(models.Model):
         related_name="children",
         verbose_name=_("Батьківська категорія"),
     )
-    is_active = models.BooleanField(_("Активна"), default=True)
+    is_active = models.BooleanField(_("Активна"), default=True, db_index=True)
 
     class Meta:
         verbose_name = _("Категорія")
@@ -109,7 +112,8 @@ class Product(models.Model):
     slug = models.SlugField("Slug", max_length=300, unique=True, blank=True)
     article = models.CharField(_("Артикул"), max_length=100, blank=True)
     description = models.TextField(_("Опис"), blank=True)
-    image = models.ImageField(_("Фото"), upload_to="products/")
+    image = models.ImageField(_("Фото"), upload_to="products/",
+                              validators=raster_image_validators)
 
     # Універсальні комерційні поля (auto / shop / food).
     price = models.DecimalField(
@@ -128,7 +132,7 @@ class Product(models.Model):
     )
     location = models.CharField(_("Місто / локація"), max_length=120, blank=True)
 
-    is_active = models.BooleanField(_("Активний"), default=True)
+    is_active = models.BooleanField(_("Активний"), default=True, db_index=True)
     is_featured = models.BooleanField(_("Рекомендований"), default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     order = models.PositiveIntegerField(_("Порядок"), default=0)
@@ -169,7 +173,8 @@ class ProductImage(models.Model):
         related_name="images",
         verbose_name=_("Товар"),
     )
-    image = models.ImageField(_("Зображення"), upload_to="products/gallery/")
+    image = models.ImageField(_("Зображення"), upload_to="products/gallery/",
+                              validators=raster_image_validators)
     order = models.PositiveIntegerField(_("Порядок"), default=0)
 
     class Meta:

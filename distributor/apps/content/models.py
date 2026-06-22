@@ -5,14 +5,18 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django_summernote.fields import SummernoteTextField
 
+from apps.core.sanitizer import sanitize_html
+from apps.core.validators import raster_image_validators
+
 
 class Banner(models.Model):
     title = models.CharField(_("Заголовок"), max_length=300)
     subtitle = models.CharField(_("Підзаголовок"), max_length=500, blank=True)
-    background = models.ImageField(_("Фон"), upload_to="banners/")
+    background = models.ImageField(_("Фон"), upload_to="banners/",
+                                   validators=raster_image_validators)
     button_text = models.CharField(_("Текст кнопки"), max_length=100, blank=True)
     button_url = models.CharField(_("Посилання кнопки"), max_length=500, blank=True)
-    is_active = models.BooleanField(_("Активний"), default=True)
+    is_active = models.BooleanField(_("Активний"), default=True, db_index=True)
     order = models.PositiveIntegerField(_("Порядок"), default=0)
 
     class Meta:
@@ -29,8 +33,9 @@ class News(models.Model):
     slug = models.SlugField("Slug", max_length=400, unique=True, blank=True)
     preview = models.TextField(_("Короткий опис"), max_length=500)
     content = SummernoteTextField(_("Повний текст"))
-    image = models.ImageField(_("Зображення"), upload_to="news/")
-    is_active = models.BooleanField(_("Опублікована"), default=True)
+    image = models.ImageField(_("Зображення"), upload_to="news/",
+                              validators=raster_image_validators)
+    is_active = models.BooleanField(_("Опублікована"), default=True, db_index=True)
     published_at = models.DateTimeField(_("Дата публікації"))
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -45,6 +50,7 @@ class News(models.Model):
     def save(self, *args, **kwargs) -> None:
         if not self.slug:
             self.slug = slugify(self.title)
+        self.content = sanitize_html(self.content)
         super().save(*args, **kwargs)
 
     def get_absolute_url(self) -> str:
@@ -55,7 +61,8 @@ class Promo(models.Model):
     title = models.CharField(_("Заголовок"), max_length=400)
     slug = models.SlugField("Slug", max_length=400, unique=True, blank=True)
     description = SummernoteTextField(_("Опис"))
-    image = models.ImageField(_("Зображення"), upload_to="promos/")
+    image = models.ImageField(_("Зображення"), upload_to="promos/",
+                              validators=raster_image_validators)
     brand = models.ForeignKey(
         "catalog.Brand",
         null=True,
@@ -65,7 +72,7 @@ class Promo(models.Model):
     )
     date_start = models.DateField(_("Початок акції"), null=True, blank=True)
     date_end = models.DateField(_("Кінець акції"), null=True, blank=True)
-    is_active = models.BooleanField(_("Активна"), default=True)
+    is_active = models.BooleanField(_("Активна"), default=True, db_index=True)
 
     class Meta:
         verbose_name = _("Акція")
@@ -78,6 +85,7 @@ class Promo(models.Model):
     def save(self, *args, **kwargs) -> None:
         if not self.slug:
             self.slug = slugify(self.title)
+        self.description = sanitize_html(self.description)
         super().save(*args, **kwargs)
 
     def get_absolute_url(self) -> str:

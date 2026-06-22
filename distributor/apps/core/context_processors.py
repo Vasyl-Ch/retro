@@ -23,8 +23,12 @@ def page_background(request: HttpRequest) -> dict[str, Any]:
     if match is not None and match.url_name:
         current_key = f"{match.namespace}:{match.url_name}" if match.namespace else match.url_name
 
+    keys = [PageBackground.SITE_KEY]
+    if current_key:
+        keys.append(current_key)
+
     try:
-        qs = PageBackground.objects.filter(is_active=True)
+        qs = PageBackground.objects.filter(is_active=True, page_key__in=keys)
         backgrounds = {bg.page_key: bg for bg in qs}
     except (OperationalError, ProgrammingError):
         return {"page_background": None, "page_background_overlay": 0}

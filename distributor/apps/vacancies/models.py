@@ -4,6 +4,9 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django_summernote.fields import SummernoteTextField
 
+from apps.core.sanitizer import sanitize_html
+from apps.core.validators import raster_image_validators
+
 
 class Vacancy(models.Model):
     title = models.CharField(_("Заголовок"), max_length=300)
@@ -15,12 +18,13 @@ class Vacancy(models.Model):
     )
     cover_image = models.ImageField(
         _("Головне фото"), upload_to="vacancies/", blank=True, null=True,
+        validators=raster_image_validators,
         help_text=_("Велике зображення зверху картки і сторінки. Опціонально."),
     )
     description = SummernoteTextField(_("Опис"))
     requirements = SummernoteTextField(_("Вимоги"), blank=True)
     conditions = SummernoteTextField(_("Умови"), blank=True)
-    is_active = models.BooleanField(_("Активна"), default=True)
+    is_active = models.BooleanField(_("Активна"), default=True, db_index=True)
     is_urgent = models.BooleanField(_("Виділити"), default=False)
     order = models.PositiveIntegerField(_("Порядок"), default=0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -36,6 +40,9 @@ class Vacancy(models.Model):
     def save(self, *args, **kwargs) -> None:
         if not self.slug:
             self.slug = slugify(self.title)
+        self.description = sanitize_html(self.description)
+        self.requirements = sanitize_html(self.requirements)
+        self.conditions = sanitize_html(self.conditions)
         super().save(*args, **kwargs)
 
     def get_absolute_url(self) -> str:
@@ -49,7 +56,8 @@ class VacancyImage(models.Model):
         Vacancy, on_delete=models.CASCADE, related_name="images",
         verbose_name=_("Вакансія / Товар"),
     )
-    image = models.ImageField(_("Зображення"), upload_to="vacancies/gallery/")
+    image = models.ImageField(_("Зображення"), upload_to="vacancies/gallery/",
+                              validators=raster_image_validators)
     caption = models.CharField(_("Підпис"), max_length=200, blank=True)
     order = models.PositiveIntegerField(_("Порядок"), default=0)
 
