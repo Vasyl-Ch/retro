@@ -141,3 +141,30 @@ class I18nDefaultsTests(SimpleTestCase):
     def test_modeltranslation_defaults_english(self):
         self.assertEqual(dj_settings.MODELTRANSLATION_DEFAULT_LANGUAGE, "en")
         self.assertEqual(tuple(dj_settings.MODELTRANSLATION_FALLBACK_LANGUAGES), ("en", "uk"))
+
+
+from django.utils import translation
+from apps.core.models import SiteSettings
+
+
+class SiteSettingsI18nTests(DBTestCase):
+    def test_brand_name_is_single_field(self):
+        # brand_name must no longer have modeltranslation columns.
+        field_names = {f.name for f in SiteSettings._meta.get_fields()}
+        self.assertIn("brand_name", field_names)
+        self.assertNotIn("brand_name_en", field_names)
+        self.assertNotIn("brand_name_uk", field_names)
+
+    def test_english_defaults_present(self):
+        s = SiteSettings()
+        self.assertEqual(s.nav_catalog_label, "Catalog")
+        self.assertEqual(s.term_product_singular, "Product")
+
+    def test_fallback_uk_empty_shows_en(self):
+        s = SiteSettings.objects.create()
+        s.nav_brands_label_en = "Brands"
+        s.nav_brands_label_uk = ""
+        s.save()
+        with translation.override("uk"):
+            s.refresh_from_db()
+            self.assertEqual(s.nav_brands_label, "Brands")  # fell back to en

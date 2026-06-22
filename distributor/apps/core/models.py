@@ -57,7 +57,7 @@ class SiteSettings(SingletonModel):
         (BRAND_STYLE_SCRIPT, _("Розписний (курсив)")),
     ]
 
-    brand_name = models.CharField(_("Назва сайту"), max_length=120, default="Дистриб'ютор")
+    brand_name = models.CharField(_("Назва сайту"), max_length=120, default="Distributor")
     brand_style = models.CharField(
         _("Стиль назви сайту"),
         max_length=20,
@@ -72,7 +72,7 @@ class SiteSettings(SingletonModel):
                                 validators=branding_image_validators)
     meta_description = models.CharField(_("SEO-опис (за замовчуванням)"), max_length=300, blank=True)
     footer_copyright = models.CharField(_("Копірайт у футері"), max_length=200, blank=True)
-    cta_label = models.CharField(_("Текст кнопки CTA"), max_length=80, default="Зв’язатись")
+    cta_label = models.CharField(_("Текст кнопки CTA"), max_length=80, default="Contact us")
 
     cart_enabled = models.BooleanField(
         _("Кошик (режим магазину)"),
@@ -120,25 +120,25 @@ class SiteSettings(SingletonModel):
         ),
     )
 
-    nav_catalog_label = models.CharField(_("Меню: Каталог — назва"), max_length=80, default="Каталог")
+    nav_catalog_label = models.CharField(_("Меню: Каталог — назва"), max_length=80, default="Catalog")
     nav_catalog_visible = models.BooleanField(_("Меню: Каталог — показувати"), default=True)
-    nav_brands_label = models.CharField(_("Меню: Бренди — назва"), max_length=80, default="Бренди")
+    nav_brands_label = models.CharField(_("Меню: Бренди — назва"), max_length=80, default="Brands")
     nav_brands_visible = models.BooleanField(_("Меню: Бренди — показувати"), default=True)
-    nav_promos_label = models.CharField(_("Меню: Акції — назва"), max_length=80, default="Акції")
+    nav_promos_label = models.CharField(_("Меню: Акції — назва"), max_length=80, default="Promotions")
     nav_promos_visible = models.BooleanField(_("Меню: Акції — показувати"), default=True)
-    nav_news_label = models.CharField(_("Меню: Новини — назва"), max_length=80, default="Новини")
+    nav_news_label = models.CharField(_("Меню: Новини — назва"), max_length=80, default="News")
     nav_news_visible = models.BooleanField(_("Меню: Новини — показувати"), default=True)
-    nav_vacancies_label = models.CharField(_("Меню: Вакансії — назва"), max_length=80, default="Вакансії")
+    nav_vacancies_label = models.CharField(_("Меню: Вакансії — назва"), max_length=80, default="Vacancies")
     nav_vacancies_visible = models.BooleanField(_("Меню: Вакансії — показувати"), default=True)
-    nav_contacts_label = models.CharField(_("Меню: Контакти — назва"), max_length=80, default="Контакти")
+    nav_contacts_label = models.CharField(_("Меню: Контакти — назва"), max_length=80, default="Contacts")
     nav_contacts_visible = models.BooleanField(_("Меню: Контакти — показувати"), default=False)
 
-    term_product_singular = models.CharField(_("Термін: товар (однина)"), max_length=80, default="Товар")
-    term_product_plural = models.CharField(_("Термін: товари (множина)"), max_length=80, default="Товари")
-    term_brand_singular = models.CharField(_("Термін: бренд (однина)"), max_length=80, default="Бренд")
-    term_brand_plural = models.CharField(_("Термін: бренди (множина)"), max_length=80, default="Бренди")
-    term_category_singular = models.CharField(_("Термін: категорія (однина)"), max_length=80, default="Категорія")
-    term_category_plural = models.CharField(_("Термін: категорії (множина)"), max_length=80, default="Категорії")
+    term_product_singular = models.CharField(_("Термін: товар (однина)"), max_length=80, default="Product")
+    term_product_plural = models.CharField(_("Термін: товари (множина)"), max_length=80, default="Products")
+    term_brand_singular = models.CharField(_("Термін: бренд (однина)"), max_length=80, default="Brand")
+    term_brand_plural = models.CharField(_("Термін: бренди (множина)"), max_length=80, default="Brands")
+    term_category_singular = models.CharField(_("Термін: категорія (однина)"), max_length=80, default="Category")
+    term_category_plural = models.CharField(_("Термін: категорії (множина)"), max_length=80, default="Categories")
 
     LAYOUT_CLASSIC = "classic"
     LAYOUT_EDITORIAL = "editorial"
@@ -157,13 +157,13 @@ class SiteSettings(SingletonModel):
     )
 
     vacancy_description_label = models.CharField(
-        _("Вакансія: заголовок секції \"Опис\""), max_length=80, default="Опис")
+        _("Вакансія: заголовок секції \"Опис\""), max_length=80, default="Description")
     vacancy_requirements_label = models.CharField(
-        _("Вакансія: заголовок секції \"Вимоги\""), max_length=80, default="Вимоги")
+        _("Вакансія: заголовок секції \"Вимоги\""), max_length=80, default="Requirements")
     vacancy_conditions_label = models.CharField(
-        _("Вакансія: заголовок секції \"Умови\""), max_length=80, default="Умови")
+        _("Вакансія: заголовок секції \"Умови\""), max_length=80, default="Conditions")
     vacancy_apply_label = models.CharField(
-        _("Вакансія: текст кнопки відгуку"), max_length=80, default="Відгукнутися")
+        _("Вакансія: текст кнопки відгуку"), max_length=80, default="Apply")
 
     hero_eyebrow = models.CharField(_("Hero: верхня плашка"), max_length=80, blank=True,
                                     help_text=_("Малий текст над великим заголовком (напр., \"Офіційний дистриб'ютор · 2026\")."))

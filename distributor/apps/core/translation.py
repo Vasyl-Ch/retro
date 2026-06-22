@@ -8,7 +8,6 @@ from .models import SiteSettings
 @register(SiteSettings)
 class SiteSettingsTranslationOptions(TranslationOptions):
     fields = (
-        "brand_name",
         "tagline",
         "meta_description",
         "footer_copyright",
