@@ -34,6 +34,10 @@ class ProductionSecretGuardTests(SimpleTestCase):
         with self.assertRaises(ImproperlyConfigured):
             assert_production_secret(None)
 
+    def test_django_insecure_prefix_rejected(self):
+        with self.assertRaises(ImproperlyConfigured):
+            assert_production_secret("django-insecure-abc123randomkeygeneratedbystartproject")
+
     def test_valid_key_accepted(self):
         assert_production_secret("a-real-secret-key-value-xxxxxxxxxxxxxxxxxxxxxxxxxx")
 

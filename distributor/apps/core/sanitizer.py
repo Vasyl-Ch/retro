@@ -24,8 +24,11 @@ ALLOWED_ATTRIBUTES = {
     "th": ["colspan", "rowspan"],
 }
 
-# ``data:`` is allowed for <img> (Summernote inlines pasted images as base64);
-# <img> cannot execute script even with an SVG data URI. ``javascript:`` is excluded.
+# ``data:`` is allowed so Summernote's pasted/inline base64 images (<img src="data:...">)
+# survive sanitization. bleach 4.x applies protocols globally (not per-tag), so a
+# ``data:`` URI is also permitted on <a href>. Under this CMS's staff-only authoring
+# model that residual phishing-style vector is accepted; ``javascript:`` is NOT in the
+# list, so no script execution is possible via any attribute.
 ALLOWED_PROTOCOLS = ["http", "https", "mailto", "data"]
 
 

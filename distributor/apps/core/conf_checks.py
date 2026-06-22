@@ -7,7 +7,11 @@ INSECURE_SECRET_KEY = "django-insecure-change-me"
 
 def assert_production_secret(secret_key: str | None) -> None:
     """Raise if SECRET_KEY is missing or still the insecure development default."""
-    if not secret_key or secret_key == INSECURE_SECRET_KEY:
+    if (
+        not secret_key
+        or secret_key == INSECURE_SECRET_KEY
+        or secret_key.startswith("django-insecure-")
+    ):
         raise ImproperlyConfigured(
             "SECRET_KEY must be set to a unique secret value in production "
             "(the insecure development default is not allowed)."
