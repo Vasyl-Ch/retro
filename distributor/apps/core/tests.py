@@ -1,7 +1,12 @@
 from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import SimpleTestCase
+from django.test import TestCase as DBTestCase
+from django.test import RequestFactory
+from django.urls import ResolverMatch
 
+from apps.core.context_processors import page_background
+from apps.core.models import PageBackground
 from apps.core.conf_checks import (
     INSECURE_SECRET_KEY,
     assert_allowed_hosts,
@@ -96,3 +101,29 @@ class ImageValidatorTests(SimpleTestCase):
         )
         with self.assertRaises(ValidationError):
             validate_image_size(big)
+
+
+class PageBackgroundContextTests(DBTestCase):
+    def test_page_specific_overrides_site(self):
+        PageBackground.objects.create(page_key="site", image="backgrounds/site.jpg")
+        PageBackground.objects.create(page_key="content:home", image="backgrounds/home.jpg")
+        req = RequestFactory().get("/")
+        req.resolver_match = ResolverMatch(
+            func=lambda r: None, args=(), kwargs={},
+            url_name="home", namespaces=["content"],
+        )
+        ctx = page_background(req)
+        self.assertEqual(ctx["page_background"], "/media/backgrounds/home.jpg")
+
+    def test_site_fallback_when_no_match(self):
+        PageBackground.objects.create(page_key="site", image="backgrounds/site.jpg", overlay_opacity=40)
+        req = RequestFactory().get("/")  # no resolver_match
+        ctx = page_background(req)
+        self.assertEqual(ctx["page_background"], "/media/backgrounds/site.jpg")
+        self.assertEqual(ctx["page_background_overlay"], 40)
+
+    def test_query_is_single_and_narrowed(self):
+        PageBackground.objects.create(page_key="site", image="backgrounds/site.jpg")
+        req = RequestFactory().get("/")
+        with self.assertNumQueries(1):
+            page_background(req)
