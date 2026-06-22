@@ -8,16 +8,16 @@
   <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
     <div>
       <h3 style="margin:0 0 4px; font-size:16px; font-weight:600; color:#111827;">
-        ⚡ {% trans "Швидкі пресети" %}
+        ⚡ {% trans "Quick presets" %}
       </h3>
       <p style="margin:0; font-size:13px; color:#6b7280;">
-        {% trans "Один клік — і весь сайт перейменовується під обрану вертикаль (тема, лейбли меню, терміни, hero, секції вакансій)." %}
+        {% trans "One click renames the whole site to the chosen vertical (theme, menu labels, terms, hero, vacancy sections)." %}
       </p>
     </div>
     <div style="display:flex; gap:8px; flex-wrap:wrap;">
       {% for key, label in preset_choices %}
       <a href="{% url 'admin:core_sitesettings_apply_preset' key %}"
-         onclick="return confirm('{% trans 'Перезаписати поточні налаштування цим пресетом?' %}');"
+         onclick="return confirm('{% trans 'Overwrite current settings with this preset?' %}');"
          style="display:inline-flex; align-items:center; gap:6px;
                 padding:8px 14px; border-radius:8px;
                 background:#111827; color:#fff; font-size:13px; font-weight:500;
@@ -28,7 +28,7 @@
     </div>
   </div>
   <p style="margin:12px 0 0; font-size:12px; color:#9ca3af;">
-    ⚠️ {% trans "Пресет переписує лейбли меню, терміни, hero і тему. Назва сайту, лого та контент (товари/новини) залишаться." %}
+    ⚠️ {% trans "The preset rewrites menu labels, terms, hero and theme. Site name, logo and content (products/news) remain." %}
   </p>
 </div>
 

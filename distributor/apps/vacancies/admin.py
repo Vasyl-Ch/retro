@@ -27,13 +27,13 @@ class VacancyAdmin(SummernoteModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
 
     fieldsets = (
-        (_("Основне"), {
+        (_("General"), {
             "fields": ("title", "slug", "city", "short_tagline", "cover_image",
                        "is_urgent", "is_active", "order"),
         }),
-        (_("Опис"), {"fields": ("description",)}),
-        (_("Вимоги"), {"fields": ("requirements",)}),
-        (_("Умови"), {"fields": ("conditions",)}),
+        (_("Description"), {"fields": ("description",)}),
+        (_("Requirements"), {"fields": ("requirements",)}),
+        (_("Conditions"), {"fields": ("conditions",)}),
     )
 
-    cover_preview = image_preview_method("cover_image", description=_("Фото"), height=46, width=80)
+    cover_preview = image_preview_method("cover_image", description=_("Photo"), height=46, width=80)

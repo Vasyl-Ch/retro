@@ -15,6 +15,6 @@ class ContactRequestAdmin(admin.ModelAdmin):
     def has_add_permission(self, request) -> bool:
         return False
 
-    @admin.action(description=_("Позначити як прочитані"))
+    @admin.action(description=_("Mark as read"))
     def mark_as_read(self, request, queryset) -> None:
         queryset.update(is_read=True)

@@ -15,7 +15,7 @@ class BannerAdmin(admin.ModelAdmin):
     list_display_links = ["title"]
 
     bg_preview = image_preview_method(
-        "background", description=_("Фон"), height=50, width=90
+        "background", description=_("Background"), height=50, width=90
     )
 
 
@@ -29,7 +29,7 @@ class NewsAdmin(SummernoteModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
     date_hierarchy = "published_at"
 
-    image_preview = image_preview_method("image", description=_("Фото"), height=50)
+    image_preview = image_preview_method("image", description=_("Photo"), height=50)
 
 
 @admin.register(Promo)
@@ -48,15 +48,15 @@ class PromoAdmin(SummernoteModelAdmin):
     search_fields = ["title"]
     prepopulated_fields = {"slug": ("title",)}
 
-    image_preview = image_preview_method("image", description=_("Фото"), height=50)
+    image_preview = image_preview_method("image", description=_("Photo"), height=50)
 
-    @admin.display(description=_("Статус"))
+    @admin.display(description=_("Status"))
     def status_badge(self, obj: Promo) -> str:
         if obj.is_current:
             return format_html(
                 '<span style="color:green;font-weight:600">● {}</span>',
-                _("Активна"),
+                _("Active"),
             )
         return format_html(
-            '<span style="color:gray">● {}</span>', _("Завершена")
+            '<span style="color:gray">● {}</span>', _("Ended")
         )

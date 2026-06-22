@@ -58,7 +58,7 @@ def image_preview_method(
 
     Usage in an admin class::
 
-        logo_preview = image_preview_method('logo', description='Лого', height=40)
+        logo_preview = image_preview_method('logo', description='Logo', height=40)
     """
 
     def _preview(self: Any, obj: Any) -> SafeString | str:
@@ -77,19 +77,19 @@ class PageBackgroundAdmin(admin.ModelAdmin):
     readonly_fields = ["updated_at"]
     fields = ["page_key", "image", "is_active", "overlay_opacity", "updated_at"]
 
-    image_preview = image_preview_method("image", description=_("Фон"), height=50, width=90)
+    image_preview = image_preview_method("image", description=_("Background"), height=50, width=90)
 
-    @admin.display(description=_("Сторінка"), ordering="page_key")
+    @admin.display(description=_("Page"), ordering="page_key")
     def page_label(self, obj: PageBackground) -> str:
         return obj.get_page_key_display()
 
 
 PRESET_LABELS = {
-    "distributor": _("Distributor (дистриб'ютор)"),
-    "auto": _("Auto (автосалон)"),
-    "food": _("Restaurant / Food (ресторан)"),
-    "shop": _("Shop (магазин з кошиком)"),
-    "generic": _("Generic (універсальний лендінг)"),
+    "distributor": _("Distributor"),
+    "auto": _("Auto (dealership)"),
+    "food": _("Restaurant / Food"),
+    "shop": _("Shop (store with cart)"),
+    "generic": _("Generic (universal landing)"),
 }
 
 
@@ -119,13 +119,13 @@ class SiteSettingsAdmin(SingletonModelAdmin, TranslationAdmin):
 
     def apply_preset_view(self, request, name):
         if name not in PRESETS:
-            messages.error(request, _("Невідомий пресет: %s") % name)
+            messages.error(request, _("Unknown preset: %s") % name)
             return HttpResponseRedirect(reverse("admin:core_sitesettings_changelist"))
         settings_obj = SiteSettings.get_solo()
         touched = apply_preset(settings_obj, name)
         messages.success(
             request,
-            _("Пресет «%(label)s» застосовано. Оновлено %(n)d полів.")
+            _("Preset “%(label)s” applied. %(n)d fields updated.")
             % {"label": PRESET_LABELS.get(name, name), "n": len(touched)},
         )
         return HttpResponseRedirect(reverse("admin:core_sitesettings_changelist"))
@@ -138,39 +138,39 @@ class SiteSettingsAdmin(SingletonModelAdmin, TranslationAdmin):
         return super().changeform_view(request, object_id, form_url, extra_context)
 
     fieldsets = (
-        (_("Загальне"), {
+        (_("General"), {
             "fields": ("preset", "theme", "brand_name", "brand_style", "tagline", "brand_logo", "favicon",
                        "meta_description", "footer_copyright", "cta_label", "cart_enabled"),
         }),
-        (_("Контакти"), {
+        (_("Contacts"), {
             "fields": ("contact_phone", "contact_email", "contact_address"),
         }),
-        (_("Бокові лого"), {
+        (_("Side logos"), {
             "fields": ("side_logo_left", "side_logo_right", "side_logo_size"),
             "description": _(
-                "Великі лого по краях на широких екранах (фіксовані при прокручуванні); "
-                "на смартфоні показуються в ряд унизу перед футером."
+                "Large logos on the sides on wide screens (fixed while scrolling); "
+                "on mobile they appear in a row above the footer."
             ),
         }),
-        (_("Меню — Каталог"), {"fields": ("nav_catalog_visible", "nav_catalog_label")}),
-        (_("Меню — Бренди"), {"fields": ("nav_brands_visible", "nav_brands_label")}),
-        (_("Меню — Акції"), {"fields": ("nav_promos_visible", "nav_promos_label")}),
-        (_("Меню — Новини"), {"fields": ("nav_news_visible", "nav_news_label")}),
-        (_("Меню — Вакансії"), {"fields": ("nav_vacancies_visible", "nav_vacancies_label")}),
-        (_("Меню — Контакти"), {"fields": ("nav_contacts_visible", "nav_contacts_label")}),
-        (_("Терміни сутностей"), {
+        (_("Menu — Catalog"), {"fields": ("nav_catalog_visible", "nav_catalog_label")}),
+        (_("Menu — Brands"), {"fields": ("nav_brands_visible", "nav_brands_label")}),
+        (_("Menu — Promotions"), {"fields": ("nav_promos_visible", "nav_promos_label")}),
+        (_("Menu — News"), {"fields": ("nav_news_visible", "nav_news_label")}),
+        (_("Menu — Vacancies"), {"fields": ("nav_vacancies_visible", "nav_vacancies_label")}),
+        (_("Menu — Contacts"), {"fields": ("nav_contacts_visible", "nav_contacts_label")}),
+        (_("Entity terms"), {
             "fields": ("term_product_singular", "term_product_plural",
                        "term_brand_singular", "term_brand_plural",
                        "term_category_singular", "term_category_plural"),
         }),
-        (_("Лейбли карти вакансії"), {
+        (_("Vacancy card labels"), {
             "fields": ("vacancy_description_label", "vacancy_requirements_label",
                        "vacancy_conditions_label", "vacancy_apply_label"),
         }),
-        (_("Головна сторінка (Hero)"), {
+        (_("Home page (Hero)"), {
             "fields": ("home_layout", "hero_eyebrow", "hero_title", "hero_subtitle"),
         }),
-        (_("Анімації та ефекти"), {
+        (_("Animations and effects"), {
             "fields": ("anim_page_transitions", "anim_scroll_reveal",
                        "anim_kinetic_hero", "anim_magnetic_buttons", "anim_cursor_follower"),
         }),

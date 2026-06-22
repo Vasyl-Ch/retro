@@ -10,7 +10,7 @@ class OrderItemInline(admin.TabularInline):
     fields = ["product", "product_name", "price", "currency", "quantity", "subtotal"]
     readonly_fields = ["subtotal"]
 
-    @admin.display(description=_("Сума"))
+    @admin.display(description=_("Amount"))
     def subtotal(self, obj: OrderItem):
         return obj.subtotal
 
@@ -26,6 +26,6 @@ class OrderAdmin(admin.ModelAdmin):
     inlines = [OrderItemInline]
     save_on_top = True
 
-    @admin.display(description=_("Разом"))
+    @admin.display(description=_("Total"))
     def total_display(self, obj: Order):
         return obj.total
