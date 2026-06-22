@@ -75,7 +75,7 @@ def cart_checkout(request: HttpRequest) -> HttpResponse:
     cart = Cart(request)
     rows = list(cart)
     if not rows:
-        messages.error(request, _("Кошик порожній."))
+        messages.error(request, _("The cart is empty."))
         return redirect("cart:detail")
 
     form = CheckoutForm(request.POST)
@@ -99,7 +99,7 @@ def cart_checkout(request: HttpRequest) -> HttpResponse:
     cart.clear()
     messages.success(
         request,
-        _("Дякуємо! Замовлення №%(id)s прийнято — ми зв’яжемося з вами.")
+        _("Thank you! Order #%(id)s received — we’ll get in touch.")
         % {"id": order.pk},
     )
     return redirect("cart:detail")

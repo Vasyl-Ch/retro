@@ -132,13 +132,13 @@ SORT_OPTIONS: dict[str, list] = {
 
 # (ключ, мітка) для <select> сортування. Ключі мають збігатися з SORT_OPTIONS.
 SORT_CHOICES: list[tuple[str, Any]] = [
-    ("", _("За замовчуванням")),
-    ("-price", _("Ціна: спочатку дорожчі")),
-    ("price", _("Ціна: спочатку дешевші")),
-    ("-year", _("Рік: новіші")),
-    ("year", _("Рік: старіші")),
-    ("mileage", _("Пробіг: менший")),
-    ("new", _("Спочатку нові оголошення")),
+    ("", _("Default")),
+    ("-price", _("Price: high to low")),
+    ("price", _("Price: low to high")),
+    ("-year", _("Year: newest first")),
+    ("year", _("Year: oldest first")),
+    ("mileage", _("Mileage: lowest first")),
+    ("new", _("Newest listings first")),
 ]
 
 

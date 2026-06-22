@@ -19,7 +19,7 @@ class ContactView(View):
             form.save()
             messages.success(
                 request,
-                _("Ваше повідомлення надіслано. Ми зв’яжемося з вами найближчим часом."),
+                _("Your message has been sent. We’ll get back to you shortly."),
             )
             return redirect("contacts:contact")
         return render(request, self.template_name, {"form": form})
