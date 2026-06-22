@@ -14,7 +14,7 @@ class ContactForm(forms.ModelForm):
             "name": forms.TextInput(
                 attrs={
                     "class": "input variant-outlined w-full",
-                    "placeholder": _("Ваше ім’я"),
+                    "placeholder": _("Your name"),
                 }
             ),
             "phone": forms.TextInput(
@@ -38,7 +38,7 @@ class ContactForm(forms.ModelForm):
             "message": forms.Textarea(
                 attrs={
                     "class": "input variant-outlined w-full",
-                    "placeholder": _("Ваше повідомлення"),
+                    "placeholder": _("Your message"),
                     "rows": 4,
                 }
             ),

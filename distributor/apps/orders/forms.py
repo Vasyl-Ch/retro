@@ -15,7 +15,7 @@ class CheckoutForm(forms.ModelForm):
         fields = ["name", "phone", "email", "comment"]
         widgets = {
             "name": forms.TextInput(
-                attrs={"class": _INPUT, "placeholder": _("Ваше ім’я")}
+                attrs={"class": _INPUT, "placeholder": _("Your name")}
             ),
             "phone": forms.TextInput(
                 attrs={
@@ -28,7 +28,7 @@ class CheckoutForm(forms.ModelForm):
                 attrs={"class": _INPUT, "placeholder": "email@example.com"}
             ),
             "comment": forms.Textarea(
-                attrs={"class": _TEXTAREA, "placeholder": _("Коментар до замовлення"), "rows": 3}
+                attrs={"class": _TEXTAREA, "placeholder": _("Order comment"), "rows": 3}
             ),
         }
 
