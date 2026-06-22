@@ -9,29 +9,29 @@ from apps.core.validators import raster_image_validators
 
 
 class Vacancy(models.Model):
-    title = models.CharField(_("Заголовок"), max_length=300)
+    title = models.CharField(_("Title"), max_length=300)
     slug = models.SlugField("Slug", max_length=300, unique=True, blank=True)
-    city = models.CharField(_("Локація"), max_length=100, blank=True)
+    city = models.CharField(_("Location"), max_length=100, blank=True)
     short_tagline = models.CharField(
-        _("Короткий підпис"), max_length=200, blank=True,
-        help_text=_("Один рядок під заголовком."),
+        _("Short caption"), max_length=200, blank=True,
+        help_text=_("A single line under the heading."),
     )
     cover_image = models.ImageField(
-        _("Головне фото"), upload_to="vacancies/", blank=True, null=True,
+        _("Main photo"), upload_to="vacancies/", blank=True, null=True,
         validators=raster_image_validators,
-        help_text=_("Велике зображення зверху картки і сторінки. Опціонально."),
+        help_text=_("Large image at the top of the card and page. Optional."),
     )
-    description = SummernoteTextField(_("Опис"))
-    requirements = SummernoteTextField(_("Вимоги"), blank=True)
-    conditions = SummernoteTextField(_("Умови"), blank=True)
-    is_active = models.BooleanField(_("Активна"), default=True, db_index=True)
-    is_urgent = models.BooleanField(_("Виділити"), default=False)
-    order = models.PositiveIntegerField(_("Порядок"), default=0)
+    description = SummernoteTextField(_("Description"))
+    requirements = SummernoteTextField(_("Requirements"), blank=True)
+    conditions = SummernoteTextField(_("Conditions"), blank=True)
+    is_active = models.BooleanField(_("Active"), default=True, db_index=True)
+    is_urgent = models.BooleanField(_("Highlight"), default=False)
+    order = models.PositiveIntegerField(_("Order"), default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = _("Вакансія")
-        verbose_name_plural = _("Вакансії")
+        verbose_name = _("Vacancy")
+        verbose_name_plural = _("Vacancies")
         ordering = ["order", "-is_urgent", "-created_at"]
 
     def __str__(self) -> str:
@@ -54,16 +54,16 @@ class VacancyImage(models.Model):
 
     vacancy = models.ForeignKey(
         Vacancy, on_delete=models.CASCADE, related_name="images",
-        verbose_name=_("Вакансія / Товар"),
+        verbose_name=_("Vacancy / Product"),
     )
-    image = models.ImageField(_("Зображення"), upload_to="vacancies/gallery/",
+    image = models.ImageField(_("Image"), upload_to="vacancies/gallery/",
                               validators=raster_image_validators)
-    caption = models.CharField(_("Підпис"), max_length=200, blank=True)
-    order = models.PositiveIntegerField(_("Порядок"), default=0)
+    caption = models.CharField(_("Caption"), max_length=200, blank=True)
+    order = models.PositiveIntegerField(_("Order"), default=0)
 
     class Meta:
-        verbose_name = _("Фото вакансії")
-        verbose_name_plural = _("Фото вакансій")
+        verbose_name = _("Vacancy photo")
+        verbose_name_plural = _("Vacancy photos")
         ordering = ["order"]
 
     def __str__(self) -> str:

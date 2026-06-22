@@ -8,51 +8,51 @@ from apps.core.validators import raster_image_validators
 
 
 class Currency(models.TextChoices):
-    UAH = "UAH", _("грн")
+    UAH = "UAH", _("UAH")
     USD = "USD", _("$")
     EUR = "EUR", _("€")
 
 
 class Availability(models.TextChoices):
-    IN_STOCK = "in_stock", _("В наявності")
-    ON_ORDER = "on_order", _("Під замовлення")
-    RESERVED = "reserved", _("Зарезервовано")
-    SOLD = "sold", _("Продано")
+    IN_STOCK = "in_stock", _("In stock")
+    ON_ORDER = "on_order", _("On order")
+    RESERVED = "reserved", _("Reserved")
+    SOLD = "sold", _("Sold")
 
 
 class FuelType(models.TextChoices):
-    PETROL = "petrol", _("Бензин")
-    DIESEL = "diesel", _("Дизель")
-    HYBRID = "hybrid", _("Гібрид")
-    ELECTRIC = "electric", _("Електро")
-    GAS = "gas", _("Газ / бензин")
+    PETROL = "petrol", _("Petrol")
+    DIESEL = "diesel", _("Diesel")
+    HYBRID = "hybrid", _("Hybrid")
+    ELECTRIC = "electric", _("Electric")
+    GAS = "gas", _("LPG / petrol")
 
 
 class Transmission(models.TextChoices):
-    MANUAL = "manual", _("Механіка")
-    AUTOMATIC = "automatic", _("Автомат")
-    ROBOT = "robot", _("Робот")
-    CVT = "cvt", _("Варіатор")
+    MANUAL = "manual", _("Manual")
+    AUTOMATIC = "automatic", _("Automatic")
+    ROBOT = "robot", _("Automated (AMT)")
+    CVT = "cvt", _("CVT")
 
 
 class Condition(models.TextChoices):
-    NEW = "new", _("Нове")
-    USED = "used", _("Вживане")
+    NEW = "new", _("New")
+    USED = "used", _("Used")
 
 
 class Brand(models.Model):
-    name = models.CharField(_("Назва"), max_length=200)
+    name = models.CharField(_("Name"), max_length=200)
     slug = models.SlugField("Slug", max_length=200, unique=True, blank=True)
-    logo = models.ImageField(_("Логотип"), upload_to="brands/logos/", blank=True, null=True,
+    logo = models.ImageField(_("Logo"), upload_to="brands/logos/", blank=True, null=True,
                              validators=raster_image_validators)
-    description = models.TextField(_("Опис"), blank=True)
-    website = models.URLField(_("Сайт бренду"), blank=True)
-    is_active = models.BooleanField(_("Активний"), default=True, db_index=True)
-    order = models.PositiveIntegerField(_("Порядок"), default=0)
+    description = models.TextField(_("Description"), blank=True)
+    website = models.URLField(_("Brand website"), blank=True)
+    is_active = models.BooleanField(_("Active"), default=True, db_index=True)
+    order = models.PositiveIntegerField(_("Order"), default=0)
 
     class Meta:
-        verbose_name = _("Бренд")
-        verbose_name_plural = _("Бренди")
+        verbose_name = _("Brand")
+        verbose_name_plural = _("Brands")
         ordering = ["order", "name"]
 
     def __str__(self) -> str:
@@ -68,7 +68,7 @@ class Brand(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(_("Назва"), max_length=200)
+    name = models.CharField(_("Name"), max_length=200)
     slug = models.SlugField("Slug", max_length=200, unique=True, blank=True)
     parent = models.ForeignKey(
         "self",
@@ -76,13 +76,13 @@ class Category(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
         related_name="children",
-        verbose_name=_("Батьківська категорія"),
+        verbose_name=_("Parent category"),
     )
-    is_active = models.BooleanField(_("Активна"), default=True, db_index=True)
+    is_active = models.BooleanField(_("Active"), default=True, db_index=True)
 
     class Meta:
-        verbose_name = _("Категорія")
-        verbose_name_plural = _("Категорії")
+        verbose_name = _("Category")
+        verbose_name_plural = _("Categories")
 
     def __str__(self) -> str:
         return f"{self.parent} → {self.name}" if self.parent else self.name
@@ -98,7 +98,7 @@ class Product(models.Model):
         Brand,
         on_delete=models.CASCADE,
         related_name="products",
-        verbose_name=_("Бренд"),
+        verbose_name=_("Brand"),
     )
     category = models.ForeignKey(
         Category,
@@ -106,40 +106,40 @@ class Product(models.Model):
         null=True,
         blank=True,
         related_name="products",
-        verbose_name=_("Категорія"),
+        verbose_name=_("Category"),
     )
-    name = models.CharField(_("Назва"), max_length=300)
+    name = models.CharField(_("Name"), max_length=300)
     slug = models.SlugField("Slug", max_length=300, unique=True, blank=True)
-    article = models.CharField(_("Артикул"), max_length=100, blank=True)
-    description = models.TextField(_("Опис"), blank=True)
-    image = models.ImageField(_("Фото"), upload_to="products/",
+    article = models.CharField(_("SKU"), max_length=100, blank=True)
+    description = models.TextField(_("Description"), blank=True)
+    image = models.ImageField(_("Photo"), upload_to="products/",
                               validators=raster_image_validators)
 
     # Універсальні комерційні поля (auto / shop / food).
     price = models.DecimalField(
-        _("Ціна"), max_digits=12, decimal_places=2, null=True, blank=True
+        _("Price"), max_digits=12, decimal_places=2, null=True, blank=True
     )
     old_price = models.DecimalField(
-        _("Стара ціна"), max_digits=12, decimal_places=2, null=True, blank=True,
-        help_text=_("Заповніть, щоб показати знижку (закреслена стара ціна)."),
+        _("Old price"), max_digits=12, decimal_places=2, null=True, blank=True,
+        help_text=_("Fill in to show a discount (the old price is struck through)."),
     )
     currency = models.CharField(
-        _("Валюта"), max_length=3, choices=Currency.choices, default=Currency.UAH
+        _("Currency"), max_length=3, choices=Currency.choices, default=Currency.UAH
     )
     availability = models.CharField(
-        _("Наявність"), max_length=20, choices=Availability.choices,
+        _("Availability"), max_length=20, choices=Availability.choices,
         default=Availability.IN_STOCK,
     )
-    location = models.CharField(_("Місто / локація"), max_length=120, blank=True)
+    location = models.CharField(_("City / location"), max_length=120, blank=True)
 
-    is_active = models.BooleanField(_("Активний"), default=True, db_index=True)
-    is_featured = models.BooleanField(_("Рекомендований"), default=False)
+    is_active = models.BooleanField(_("Active"), default=True, db_index=True)
+    is_featured = models.BooleanField(_("Featured"), default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    order = models.PositiveIntegerField(_("Порядок"), default=0)
+    order = models.PositiveIntegerField(_("Order"), default=0)
 
     class Meta:
-        verbose_name = _("Товар")
-        verbose_name_plural = _("Товари")
+        verbose_name = _("Product")
+        verbose_name_plural = _("Products")
         ordering = ["order", "name"]
 
     def __str__(self) -> str:
@@ -171,15 +171,15 @@ class ProductImage(models.Model):
         Product,
         on_delete=models.CASCADE,
         related_name="images",
-        verbose_name=_("Товар"),
+        verbose_name=_("Product"),
     )
-    image = models.ImageField(_("Зображення"), upload_to="products/gallery/",
+    image = models.ImageField(_("Image"), upload_to="products/gallery/",
                               validators=raster_image_validators)
-    order = models.PositiveIntegerField(_("Порядок"), default=0)
+    order = models.PositiveIntegerField(_("Order"), default=0)
 
     class Meta:
-        verbose_name = _("Фото товару")
-        verbose_name_plural = _("Фото товарів")
+        verbose_name = _("Product photo")
+        verbose_name_plural = _("Product photos")
         ordering = ["order"]
 
     def __str__(self) -> str:
@@ -197,29 +197,29 @@ class VehicleSpec(models.Model):
         Product,
         on_delete=models.CASCADE,
         related_name="vehicle",
-        verbose_name=_("Авто"),
+        verbose_name=_("Vehicle"),
     )
-    year = models.PositiveIntegerField(_("Рік випуску"), null=True, blank=True)
-    mileage = models.PositiveIntegerField(_("Пробіг, км"), null=True, blank=True)
+    year = models.PositiveIntegerField(_("Year"), null=True, blank=True)
+    mileage = models.PositiveIntegerField(_("Mileage, km"), null=True, blank=True)
     fuel_type = models.CharField(
-        _("Тип палива"), max_length=20, choices=FuelType.choices, blank=True
+        _("Fuel type"), max_length=20, choices=FuelType.choices, blank=True
     )
     transmission = models.CharField(
-        _("Коробка передач"), max_length=20, choices=Transmission.choices, blank=True
+        _("Transmission"), max_length=20, choices=Transmission.choices, blank=True
     )
     engine_volume = models.DecimalField(
-        _("Об'єм двигуна, л"), max_digits=4, decimal_places=1, null=True, blank=True
+        _("Engine, L"), max_digits=4, decimal_places=1, null=True, blank=True
     )
-    power = models.PositiveIntegerField(_("Потужність, к.с."), null=True, blank=True)
-    color = models.CharField(_("Колір"), max_length=60, blank=True)
+    power = models.PositiveIntegerField(_("Power, hp"), null=True, blank=True)
+    color = models.CharField(_("Color"), max_length=60, blank=True)
     condition = models.CharField(
-        _("Стан"), max_length=10, choices=Condition.choices, default=Condition.USED
+        _("Condition"), max_length=10, choices=Condition.choices, default=Condition.USED
     )
     vin = models.CharField("VIN", max_length=17, blank=True)
 
     class Meta:
-        verbose_name = _("Характеристики авто")
-        verbose_name_plural = _("Характеристики авто")
+        verbose_name = _("Vehicle specs")
+        verbose_name_plural = _("Vehicle specs")
 
     def __str__(self) -> str:
         return f"{self.product.name} — {self.get_condition_display()}"
@@ -232,15 +232,15 @@ class ProductSpec(models.Model):
         Product,
         on_delete=models.CASCADE,
         related_name="specs",
-        verbose_name=_("Товар"),
+        verbose_name=_("Product"),
     )
-    label = models.CharField(_("Назва параметра"), max_length=120)
-    value = models.CharField(_("Значення"), max_length=255)
-    order = models.PositiveIntegerField(_("Порядок"), default=0)
+    label = models.CharField(_("Parameter name"), max_length=120)
+    value = models.CharField(_("Value"), max_length=255)
+    order = models.PositiveIntegerField(_("Order"), default=0)
 
     class Meta:
-        verbose_name = _("Параметр")
-        verbose_name_plural = _("Параметри")
+        verbose_name = _("Parameter")
+        verbose_name_plural = _("Parameters")
         ordering = ["order", "id"]
 
     def __str__(self) -> str:
