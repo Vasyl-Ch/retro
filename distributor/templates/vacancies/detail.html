@@ -1,4 +1,4 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load i18n %}
 {% block title %}{{ object.title }} — {{ site_settings.nav_vacancies_label|default:_("Vacancies") }}{% endblock %}
 {% block og_image %}{% if object.cover_image %}{{ object.cover_image.url }}{% endif %}{% endblock %}
