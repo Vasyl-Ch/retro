@@ -3,6 +3,8 @@
 import os
 from pathlib import Path
 
+from django.utils.translation import gettext_lazy as _
+
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -92,16 +94,16 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-LANGUAGE_CODE = "uk"
+LANGUAGE_CODE = "en"
 LANGUAGES = [
-    ("uk", "Українська"),
     ("en", "English"),
+    ("uk", "Українська"),
 ]
 LOCALE_PATHS = [BASE_DIR / "locale"]
 
-MODELTRANSLATION_DEFAULT_LANGUAGE = "uk"
-MODELTRANSLATION_LANGUAGES = ("uk", "en")
-MODELTRANSLATION_FALLBACK_LANGUAGES = ("uk", "en")
+MODELTRANSLATION_DEFAULT_LANGUAGE = "en"
+MODELTRANSLATION_LANGUAGES = ("en", "uk")
+MODELTRANSLATION_FALLBACK_LANGUAGES = ("en", "uk")
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
@@ -116,11 +118,11 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 JAZZMIN_SETTINGS = {
-    "site_title": "Керування сайтом",
-    "site_header": "Дистриб’ютор",
-    "site_brand": "Дистриб’ютор",
-    "welcome_sign": "Ласкаво просимо до панелі керування",
-    "copyright": "ТОВ «Дистриб’ютор»",
+    "site_title": _("Site management"),
+    "site_header": _("Distributor"),
+    "site_brand": _("Distributor"),
+    "welcome_sign": _("Welcome to the control panel"),
+    "copyright": _("Distributor LLC"),
     "show_sidebar": True,
     "navigation_expanded": True,
     "icons": {

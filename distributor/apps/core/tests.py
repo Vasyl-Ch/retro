@@ -1,3 +1,4 @@
+from django.conf import settings as dj_settings
 from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import SimpleTestCase
@@ -131,3 +132,12 @@ class PageBackgroundContextTests(DBTestCase):
         req = RequestFactory().get("/")
         with self.assertNumQueries(1):
             page_background(req)
+
+
+class I18nDefaultsTests(SimpleTestCase):
+    def test_default_language_is_english(self):
+        self.assertEqual(dj_settings.LANGUAGE_CODE, "en")
+
+    def test_modeltranslation_defaults_english(self):
+        self.assertEqual(dj_settings.MODELTRANSLATION_DEFAULT_LANGUAGE, "en")
+        self.assertEqual(tuple(dj_settings.MODELTRANSLATION_FALLBACK_LANGUAGES), ("en", "uk"))
