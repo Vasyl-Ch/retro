@@ -35,7 +35,7 @@ services:
       - /ada-frontend/node_modules   # anonymous volume to preserve Linux node_modules
       - media_dev:/app/media
     ports:
-      - "${WEB_PORT:-8000}:8000"
+      - "${WEB_PORT:-8000}:${WEB_PORT:-8000}"
     command: >
       sh -c "cd /ada-frontend && npm run build:django &&
              mkdir -p /app/static/ada &&
@@ -43,7 +43,7 @@ services:
              cd /app &&
              python manage.py migrate --settings=config.settings.development &&
              python manage.py compilemessages --settings=config.settings.development &&
-             python manage.py runserver 0.0.0.0:8000 --settings=config.settings.development"
+             python manage.py runserver 0.0.0.0:${WEB_PORT:-8000} --settings=config.settings.development"
 
 volumes:
   postgres_dev_data:
