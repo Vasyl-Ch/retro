@@ -187,3 +187,23 @@ class BilingualRenderTests(SimpleTestCase):
         with translation.override("uk"):
             for en, uk in self.SAMPLES.items():
                 self.assertEqual(translation.gettext(en), uk)
+
+
+class ApplyPresetI18nTests(DBTestCase):
+    def test_preset_preserves_brand_name(self):
+        from apps.core.presets import apply_preset
+        s = SiteSettings.objects.create(brand_name="My Custom Brand")
+        apply_preset(s, "auto")
+        s.refresh_from_db()
+        self.assertEqual(s.brand_name, "My Custom Brand")  # site name preserved
+
+    def test_preset_sets_english_base_for_translated_fields(self):
+        from apps.core.presets import apply_preset
+        s = SiteSettings.objects.create()
+        apply_preset(s, "auto")
+        s.refresh_from_db()
+        # base mirrors the English (default-language) value, not Ukrainian
+        self.assertEqual(s.nav_catalog_label, s.nav_catalog_label_en)
+        self.assertEqual(s.term_product_singular, s.term_product_singular_en)
+        # uk variant still populated from the preset
+        self.assertTrue(s.nav_catalog_label_uk)

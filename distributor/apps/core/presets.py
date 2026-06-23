@@ -272,11 +272,14 @@ def apply_preset(settings_obj, preset_name: str) -> list[str]:
 
     touched: list[str] = []
     for field, value in data.items():
+        if field == "brand_name":
+            # Site name is the bilingual exception: preserved across presets.
+            continue
         if isinstance(value, dict):
-            # Translated field — write base + each language variant.
+            # Translated field — base mirrors the default language (English).
             uk = value.get("uk", "")
             en = value.get("en", uk)
-            setattr(settings_obj, field, uk)
+            setattr(settings_obj, field, en)
             setattr(settings_obj, f"{field}_uk", uk)
             setattr(settings_obj, f"{field}_en", en)
             touched.append(field)
