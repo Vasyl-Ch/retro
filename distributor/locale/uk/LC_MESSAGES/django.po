@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-22 15:17+0000\n"
+"POT-Creation-Date: 2026-06-23 08:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1466,6 +1466,10 @@ msgstr "Активних акцій поки немає"
 #: templates/partials/_contact_modal.html:10
 msgid "Close"
 msgstr "Закрити"
+
+#: templates/partials/_contact_modal.html:22
+msgid "Your name *"
+msgstr "Ваше ім’я *"
 
 #: templates/partials/_contact_modal.html:30
 msgid "Your message *"
