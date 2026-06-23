@@ -168,3 +168,22 @@ class SiteSettingsI18nTests(DBTestCase):
         with translation.override("uk"):
             s.refresh_from_db()
             self.assertEqual(s.nav_brands_label, "Brands")  # fell back to en
+
+
+class BilingualRenderTests(SimpleTestCase):
+    SAMPLES = {
+        "Catalog": "Каталог",
+        "Products": "Товари",
+        "Contacts": "Контакти",
+        "Apply": "Відгукнутися",
+    }
+
+    def test_english_is_source(self):
+        with translation.override("en"):
+            for en in self.SAMPLES:
+                self.assertEqual(translation.gettext(en), en)
+
+    def test_ukrainian_from_catalog(self):
+        with translation.override("uk"):
+            for en, uk in self.SAMPLES.items():
+                self.assertEqual(translation.gettext(en), uk)
