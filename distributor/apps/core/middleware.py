@@ -1,11 +1,11 @@
-"""Preset-aware адмін-брендинг.
+"""Preset-aware admin branding.
 
-На запитах до /admin підлаштовує заголовки Jazzmin і назви розділів/моделей під поточний
-пресет (читаючи SiteSettings). Значення беруться з полів, які вже залежать від пресета
-(brand_name, nav_*_label, term_*), тож адмінка «перевдягається» разом із сайтом.
+On requests to /admin, adjusts Jazzmin headings and section/model names to match the current
+preset (reading SiteSettings). Values come from fields that already depend on the preset
+(brand_name, nav_*_label, term_*), so the admin panel "re-dresses" along with the site.
 
-Зауваження: _meta.verbose_name та app_config.verbose_name мутуються в рантаймі. Значення
-залежить лише від singleton-пресета, тож усі потоки виставляють однакове — гонок немає.
+Note: _meta.verbose_name and app_config.verbose_name are mutated at runtime. The value
+depends only on the singleton preset, so all threads set the same value — no race conditions.
 """
 
 from __future__ import annotations
@@ -46,18 +46,18 @@ class PresetAdminBrandingMiddleware:
         # 1. Django core admin site
         admin.site.site_header = brand
         admin.site.site_title = brand
-        admin.site.index_title = _("Керування сайтом")
+        admin.site.index_title = _("Site management")
 
-        # 2. Jazzmin branding (мутуємо той самий dict, який читає jazzmin)
+        # 2. Jazzmin branding (mutate the same dict that jazzmin reads)
         jazz = getattr(settings, "JAZZMIN_SETTINGS", None)
         if isinstance(jazz, dict):
             jazz["site_title"] = brand
             jazz["site_header"] = brand
             jazz["site_brand"] = brand
-            jazz["welcome_sign"] = _("Ласкаво просимо — %(brand)s") % {"brand": brand}
+            jazz["welcome_sign"] = _("Welcome — %(brand)s") % {"brand": brand}
             jazz["copyright"] = s.footer_copyright or brand
 
-        # 3. Назви розділів/моделей під вертикаль
+        # 3. Section/model names per vertical
         self._rename_app("catalog", s.nav_catalog_label)
         self._rename_app("vacancies", s.nav_vacancies_label)
         try:

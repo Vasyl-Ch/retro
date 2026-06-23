@@ -9,10 +9,10 @@ from .models import Brand, Category, Product, ProductImage, ProductSpec, Vehicle
 
 
 def _current_preset() -> str:
-    """Поточний пресет сайту (для preset-aware конфігуратора). Безпечно за відсутності БД."""
+    """Current site preset (for the preset-aware configurator). Safe when DB is not ready."""
     try:
         return SiteSettings.get_solo().preset
-    except (OperationalError, ProgrammingError):  # БД ще не готова (міграції)
+    except (OperationalError, ProgrammingError):  # DB not ready yet (migrations)
         return ""
 
 
@@ -23,23 +23,23 @@ class ProductImageInline(admin.TabularInline):
     readonly_fields = ["image_preview"]
 
     image_preview = image_preview_method(
-        "image", description=_("Прев’ю"), height=60, object_fit="contain"
+        "image", description=_("Preview"), height=60, object_fit="contain"
     )
 
 
 class VehicleSpecInline(admin.StackedInline):
-    """Характеристики авто — лише для пресета «Автосалон»."""
+    """Vehicle specs inline — only for the "Auto dealership" preset."""
 
     model = VehicleSpec
     can_delete = True
     max_num = 1
     extra = 1
-    verbose_name = _("Характеристики авто")
-    verbose_name_plural = _("Характеристики авто")
+    verbose_name = _("Vehicle specs")
+    verbose_name_plural = _("Vehicle specs")
 
 
 class ProductSpecInline(admin.TabularInline):
-    """Довільні параметри (key-value) — конфігуратор для будь-якої вертикалі."""
+    """Arbitrary parameters (key-value) — configurator for any vertical."""
 
     model = ProductSpec
     extra = 1
@@ -55,7 +55,7 @@ class BrandAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
 
     logo_preview = image_preview_method(
-        "logo", description=_("Лого"), height=40, object_fit="contain"
+        "logo", description=_("Logo"), height=40, object_fit="contain"
     )
 
 
@@ -87,21 +87,21 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     save_on_top = True
 
-    # Секції форми (спільні для всіх пресетів). Авто-специфіка — в inline VehicleSpec.
+    # Form sections (common to all presets). Auto-specific data lives in VehicleSpec inline.
     fieldsets = (
         (None, {"fields": ("brand", "category", "name", "slug", "article", "description", "image")}),
-        (_("Ціна та наявність"), {
+        (_("Price & availability"), {
             "fields": ("price", "old_price", "currency", "availability", "location"),
         }),
-        (_("Публікація"), {"fields": ("is_active", "is_featured", "order")}),
+        (_("Publishing"), {"fields": ("is_active", "is_featured", "order")}),
     )
 
-    image_preview = image_preview_method("image", description=_("Фото"), height=50)
+    image_preview = image_preview_method("image", description=_("Photo"), height=50)
 
     def get_inlines(self, request, obj=None):
-        """Конфігуратор preset-aware: блок характеристик авто — лише для пресета auto.
+        """Preset-aware configurator: vehicle specs block only for the auto preset.
 
-        Довільні параметри (ProductSpec) доступні завжди.
+        Arbitrary parameters (ProductSpec) are always available.
         """
         inlines = [ProductImageInline]
         if _current_preset() == SiteSettings.PRESET_AUTO:

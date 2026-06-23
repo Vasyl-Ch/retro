@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load i18n %}
-{% block title %}{{ site_settings.nav_vacancies_label|default:_("Вакансії") }} — {{ site_settings.brand_name|default:_("Дистриб’ютор") }}{% endblock %}
+{% block title %}{{ site_settings.nav_vacancies_label|default:_("Vacancies") }} — {{ site_settings.brand_name|default:_("Distributor") }}{% endblock %}
 {% block content %}
 <div class="pt-28 pb-24">
   <div class="mx-auto px-6 max-w-6xl">
     <h1 class="text-4xl font-semibold text-title mb-12 text-center">
-      {{ site_settings.nav_vacancies_label|default:_("Вакансії") }}
+      {{ site_settings.nav_vacancies_label|default:_("Vacancies") }}
     </h1>
 
     {% if vacancies %}
@@ -13,7 +13,7 @@
       {% for vacancy in vacancies %}
       <article class="card variant-outlined overflow-hidden group flex flex-col
                       transition-shadow duration-300 hover:shadow-xl hover:shadow-primary-500/10">
-        {# Фото (опціонально) #}
+        {# Photo (optional) #}
         {% if vacancy.cover_image %}
         <a href="{{ vacancy.get_absolute_url }}" class="block aspect-[16/10] overflow-hidden
                                                        bg-ui-soft">
@@ -26,7 +26,7 @@
         <div class="p-6 flex-1 flex flex-col">
           <div class="flex items-center gap-2 mb-3 flex-wrap">
             {% if vacancy.is_urgent %}
-            <span class="badge variant-danger sz-xs">{% trans "Виділено" %}</span>
+            <span class="badge variant-danger sz-xs">{% trans "Featured" %}</span>
             {% endif %}
             {% if vacancy.city %}
             <span class="text-caption text-xs">📍 {{ vacancy.city }}</span>
@@ -43,11 +43,11 @@
 
           <div class="mt-auto pt-5 flex gap-2">
             <a href="{{ vacancy.get_absolute_url }}" class="btn variant-soft sz-sm">
-              <span class="btn-label">{% trans "Детальніше" %}</span>
+              <span class="btn-label">{% trans "Details" %}</span>
             </a>
             <button onclick="openContactModal('vacancy: {{ vacancy.title|escapejs }}')"
                     class="btn variant-outlined sz-sm">
-              <span>{{ site_settings.cta_label|default:_("Зв'язатись") }}</span>
+              <span>{{ site_settings.cta_label|default:_("Contact") }}</span>
             </button>
           </div>
         </div>
@@ -56,7 +56,7 @@
     </div>
     {% include 'partials/_pagination.html' %}
     {% else %}
-    <p class="text-body text-center py-12">{% trans "Відкритих вакансій поки немає" %}</p>
+    <p class="text-body text-center py-12">{% trans "No open vacancies yet" %}</p>
     {% endif %}
   </div>
 </div>

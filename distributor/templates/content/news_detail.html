@@ -7,9 +7,9 @@
 <div class="pt-28 pb-24">
   <div class="mx-auto px-6 max-w-3xl">
     <nav class="text-sm text-caption mb-8 flex gap-2">
-      <a href="{% url 'content:home' %}" class="hover:link">{% trans "Головна" %}</a>
+      <a href="{% url 'content:home' %}" class="hover:link">{% trans "Home" %}</a>
       <span>/</span>
-      <a href="{% url 'content:news_list' %}" class="hover:link">{% trans "Новини" %}</a>
+      <a href="{% url 'content:news_list' %}" class="hover:link">{% trans "News" %}</a>
       <span>/</span>
       <span class="text-title">{{ object.title }}</span>
     </nav>
@@ -27,7 +27,7 @@
     </div>
     <a href="{% url 'content:news_list' %}"
        class="btn variant-outlined sz-md mt-12">
-      <span class="btn-label">← {% trans "Усі новини" %}</span>
+      <span class="btn-label">← {% trans "All news" %}</span>
     </a>
   </div>
 </div>

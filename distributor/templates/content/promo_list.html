@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% load i18n %}
-{% block title %}{% trans "Акції" %} — {% trans "Дистриб’ютор" %}{% endblock %}
+{% block title %}{% trans "Promotions" %} — {% trans "Distributor" %}{% endblock %}
 {% block content %}
 <div class="pt-28 pb-24">
   <div class="mx-auto px-6 max-w-6xl">
-    <h1 class="text-4xl font-semibold text-title mb-12 text-center">{% trans "Акції" %}</h1>
+    <h1 class="text-4xl font-semibold text-title mb-12 text-center">{% trans "Promotions" %}</h1>
     {% if promos %}
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {% for promo in promos %}
@@ -12,7 +12,7 @@
       {% endfor %}
     </div>
     {% else %}
-    <p class="text-body text-center py-12">{% trans "Активних акцій поки немає" %}</p>
+    <p class="text-body text-center py-12">{% trans "No active promotions yet" %}</p>
     {% endif %}
   </div>
 </div>

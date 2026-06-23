@@ -1,4 +1,4 @@
-"""Спільні валідатори форм."""
+"""Shared form validators."""
 
 from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
@@ -7,13 +7,13 @@ from django.utils.translation import gettext_lazy as _
 
 
 def validate_contactable(phone: str | None, email: str | None) -> None:
-    """Вимагає хоча б один спосіб зв’язку — телефон або email.
+    """Require at least one contact method — phone or email.
 
-    Використовується у формах контактів і оформлення замовлення (DRY).
+    Used in the contact and checkout forms (DRY).
     """
     if not (phone or "").strip() and not (email or "").strip():
         raise ValidationError(
-            _("Вкажіть хоча б один спосіб зв’язку: телефон або email.")
+            _("Please provide at least one contact method: phone or email.")
         )
 
 
@@ -29,7 +29,7 @@ def validate_image_size(file) -> None:
     size = getattr(file, "size", None)
     if size and size > MAX_IMAGE_BYTES:
         raise ValidationError(
-            _("Файл завеликий (%(size)s). Максимум — %(max)s."),
+            _("File is too large (%(size)s). Maximum is %(max)s."),
             params={"size": filesizeformat(size), "max": filesizeformat(MAX_IMAGE_BYTES)},
         )
 

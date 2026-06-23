@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 {% load i18n %}
-{% block title %}{% trans "Кошик" %} — {{ site_settings.brand_name }}{% endblock %}
+{% block title %}{% trans "Cart" %} — {{ site_settings.brand_name }}{% endblock %}
 {% block content %}
 <div class="pt-28 pb-24">
   <div class="mx-auto px-6 max-w-5xl">
-    <h1 class="text-4xl font-semibold text-title mb-8">{% trans "Кошик" %}</h1>
+    <h1 class="text-4xl font-semibold text-title mb-8">{% trans "Cart" %}</h1>
 
     {% if cart|length %}
     <div class="grid lg:grid-cols-[1fr_360px] gap-8 items-start">
 
-      {# ---- Позиції ---- #}
+      {# ---- Items ---- #}
       <div class="bg-[--ui-bg] rounded-2xl shadow-sm border border-[color:var(--ui-border-color)] divide-y divide-[color:var(--ui-border-color)]"
            id="cart-items">
         {% for row in cart %}
@@ -33,7 +33,7 @@
                      class="input variant-outlined w-20 py-1">
               <button type="button" data-cart-remove data-product-id="{{ row.product.id }}"
                       class="text-sm text-caption hover:text-danger-600 transition-colors">
-                {% trans "Видалити" %}
+                {% trans "Remove" %}
               </button>
             </div>
           </div>
@@ -44,10 +44,10 @@
         {% endfor %}
       </div>
 
-      {# ---- Підсумок + оформлення ---- #}
+      {# ---- Summary + order ---- #}
       <div class="bg-[--ui-bg] rounded-2xl shadow-sm border border-[color:var(--ui-border-color)] p-6 lg:sticky lg:top-24">
         <div class="flex items-baseline justify-between mb-5">
-          <span class="text-caption">{% trans "Разом" %}</span>
+          <span class="text-caption">{% trans "Total" %}</span>
           <span class="text-2xl font-semibold text-title">
             <span data-cart-total>{{ cart.total|floatformat:'0' }}</span> {{ cart.currency_display }}
           </span>
@@ -63,21 +63,21 @@
           <div>{{ form.email }}</div>
           <div>{{ form.comment }}</div>
           <button type="submit" class="btn variant-primary sz-lg w-full">
-            <span class="btn-label">{% trans "Оформити замовлення" %}</span>
+            <span class="btn-label">{% trans "Place order" %}</span>
           </button>
           <p class="text-xs text-caption text-center">
-            {% trans "Без онлайн-оплати — менеджер зв’яжеться для підтвердження." %}
+            {% trans "No online payment — a manager will contact you to confirm." %}
           </p>
         </form>
       </div>
     </div>
 
     {% else %}
-    {# ---- Порожній кошик ---- #}
+    {# ---- Empty cart ---- #}
     <div class="text-center py-24">
-      <p class="text-body text-lg">{% trans "Ваш кошик порожній." %}</p>
+      <p class="text-body text-lg">{% trans "Your cart is empty." %}</p>
       <a href="{% url 'catalog:product_list' %}" class="btn variant-primary sz-md mt-4">
-        <span class="btn-label">{% blocktrans with plural=site_settings.term_product_plural|default:_("товарів") %}Перейти до {{ plural }}{% endblocktrans %}</span>
+        <span class="btn-label">{% blocktrans with plural=site_settings.term_product_plural|default:_("products") %}Go to {{ plural }}{% endblocktrans %}</span>
       </a>
     </div>
     {% endif %}

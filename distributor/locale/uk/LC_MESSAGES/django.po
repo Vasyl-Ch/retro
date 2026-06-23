@@ -1,0 +1,1556 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-23 08:06+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != "
+"11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
+"100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
+"(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+
+#: apps/catalog/admin.py:26
+msgid "Preview"
+msgstr "Прев’ю"
+
+#: apps/catalog/admin.py:37 apps/catalog/admin.py:38 apps/catalog/models.py:221
+#: apps/catalog/models.py:222
+msgid "Vehicle specs"
+msgstr "Характеристики авто"
+
+#: apps/catalog/admin.py:58 apps/catalog/models.py:46 apps/core/models.py:69
+msgid "Logo"
+msgstr "Логотип"
+
+#: apps/catalog/admin.py:93
+msgid "Price & availability"
+msgstr "Ціна та наявність"
+
+#: apps/catalog/admin.py:96
+msgid "Publishing"
+msgstr "Публікація"
+
+#: apps/catalog/admin.py:99 apps/catalog/models.py:115 apps/content/admin.py:32
+#: apps/content/admin.py:51 apps/vacancies/admin.py:39
+msgid "Photo"
+msgstr "Фото"
+
+#: apps/catalog/apps.py:8 templates/catalog/product_detail.html:13
+#: templates/catalog/products.html:3 templates/catalog/products.html:8
+#: templates/content/home.html:63 templates/partials/_footer.html:13
+#: templates/partials/_navbar.html:58
+msgid "Catalog"
+msgstr "Каталог"
+
+#: apps/catalog/filters.py:135
+msgid "Default"
+msgstr "За замовчуванням"
+
+#: apps/catalog/filters.py:136
+msgid "Price: high to low"
+msgstr "Ціна: спочатку дорожчі"
+
+#: apps/catalog/filters.py:137
+msgid "Price: low to high"
+msgstr "Ціна: спочатку дешевші"
+
+#: apps/catalog/filters.py:138
+msgid "Year: newest first"
+msgstr "Рік: новіші"
+
+#: apps/catalog/filters.py:139
+msgid "Year: oldest first"
+msgstr "Рік: старіші"
+
+#: apps/catalog/filters.py:140
+msgid "Mileage: lowest first"
+msgstr "Пробіг: менший"
+
+#: apps/catalog/filters.py:141
+msgid "Newest listings first"
+msgstr "Спочатку нові оголошення"
+
+#: apps/catalog/models.py:11
+msgid "UAH"
+msgstr "грн"
+
+#: apps/catalog/models.py:12
+msgid "$"
+msgstr "$"
+
+#: apps/catalog/models.py:13
+msgid "€"
+msgstr "€"
+
+#: apps/catalog/models.py:17
+msgid "In stock"
+msgstr "В наявності"
+
+#: apps/catalog/models.py:18
+msgid "On order"
+msgstr "Під замовлення"
+
+#: apps/catalog/models.py:19
+msgid "Reserved"
+msgstr "Зарезервовано"
+
+#: apps/catalog/models.py:20
+msgid "Sold"
+msgstr "Продано"
+
+#: apps/catalog/models.py:24
+msgid "Petrol"
+msgstr "Бензин"
+
+#: apps/catalog/models.py:25
+msgid "Diesel"
+msgstr "Дизель"
+
+#: apps/catalog/models.py:26
+msgid "Hybrid"
+msgstr "Гібрид"
+
+#: apps/catalog/models.py:27
+msgid "Electric"
+msgstr "Електро"
+
+#: apps/catalog/models.py:28
+msgid "LPG / petrol"
+msgstr "Газ / бензин"
+
+#: apps/catalog/models.py:32
+msgid "Manual"
+msgstr "Механіка"
+
+#: apps/catalog/models.py:33
+msgid "Automatic"
+msgstr "Автомат"
+
+#: apps/catalog/models.py:34
+msgid "Automated (AMT)"
+msgstr "Робот"
+
+#: apps/catalog/models.py:35
+msgid "CVT"
+msgstr "Варіатор"
+
+#: apps/catalog/models.py:39 apps/orders/models.py:13
+msgid "New"
+msgstr "Нове"
+
+#: apps/catalog/models.py:40
+msgid "Used"
+msgstr "Вживане"
+
+#: apps/catalog/models.py:44 apps/catalog/models.py:71
+#: apps/catalog/models.py:111 apps/contacts/models.py:12
+#: templates/contacts/contact.html:24
+msgid "Name"
+msgstr "Ім’я"
+
+#: apps/catalog/models.py:48 apps/catalog/models.py:114
+#: apps/content/models.py:63 apps/vacancies/admin.py:34
+#: apps/vacancies/models.py:24 templates/vacancies/detail.html:126
+msgid "Description"
+msgstr "Опис"
+
+#: apps/catalog/models.py:49
+msgid "Brand website"
+msgstr "Сайт бренду"
+
+#: apps/catalog/models.py:50 apps/catalog/models.py:81
+#: apps/catalog/models.py:135 apps/content/admin.py:58
+#: apps/content/models.py:19 apps/content/models.py:75 apps/core/models.py:235
+#: apps/vacancies/models.py:27 templates/content/promo_detail.html:25
+#: templates/partials/_promo_card.html:15
+msgid "Active"
+msgstr "Активна"
+
+#: apps/catalog/models.py:51 apps/catalog/models.py:138
+#: apps/catalog/models.py:178 apps/catalog/models.py:239
+#: apps/content/models.py:20 apps/vacancies/models.py:29
+#: apps/vacancies/models.py:62
+msgid "Order"
+msgstr "Порядок"
+
+#: apps/catalog/models.py:54 apps/catalog/models.py:101
+#: apps/content/models.py:71
+msgid "Brand"
+msgstr "Бренд"
+
+#: apps/catalog/models.py:55 templates/catalog/brands.html:3
+#: templates/catalog/products.html:135 templates/partials/_footer.html:19
+#: templates/partials/_navbar.html:68
+msgid "Brands"
+msgstr "Бренди"
+
+#: apps/catalog/models.py:79
+msgid "Parent category"
+msgstr "Батьківська категорія"
+
+#: apps/catalog/models.py:84 apps/catalog/models.py:109
+msgid "Category"
+msgstr "Категорія"
+
+#: apps/catalog/models.py:85 templates/catalog/products.html:141
+msgid "Categories"
+msgstr "Категорії"
+
+#: apps/catalog/models.py:113 templates/catalog/product_detail.html:118
+#: templates/partials/_product_card.html:41
+msgid "SKU"
+msgstr "Арт."
+
+#: apps/catalog/models.py:120 templates/catalog/products.html:58
+msgid "Price"
+msgstr "Ціна"
+
+#: apps/catalog/models.py:123
+msgid "Old price"
+msgstr "Стара ціна"
+
+#: apps/catalog/models.py:124
+msgid "Fill in to show a discount (the old price is struck through)."
+msgstr "Заповніть, щоб показати знижку (закреслена стара ціна)."
+
+#: apps/catalog/models.py:127 apps/orders/models.py:63
+msgid "Currency"
+msgstr "Валюта"
+
+#: apps/catalog/models.py:130
+msgid "Availability"
+msgstr "Наявність"
+
+#: apps/catalog/models.py:133
+msgid "City / location"
+msgstr "Місто / локація"
+
+#: apps/catalog/models.py:136 templates/partials/_product_card.html:19
+#: templates/vacancies/detail.html:99 templates/vacancies/list.html:29
+msgid "Featured"
+msgstr "Виділено"
+
+#: apps/catalog/models.py:141 apps/catalog/models.py:174
+#: apps/catalog/models.py:235 apps/orders/models.py:56
+msgid "Product"
+msgstr "Товар"
+
+#: apps/catalog/models.py:142 templates/catalog/products.html:164
+#: templates/partials/_footer.html:16
+msgid "Products"
+msgstr "Товари"
+
+#: apps/catalog/models.py:176 apps/content/models.py:36
+#: apps/content/models.py:64 apps/core/models.py:233
+#: apps/vacancies/models.py:59
+msgid "Image"
+msgstr "Зображення"
+
+#: apps/catalog/models.py:181
+msgid "Product photo"
+msgstr "Фото товару"
+
+#: apps/catalog/models.py:182
+msgid "Product photos"
+msgstr "Фото товарів"
+
+#: apps/catalog/models.py:200 templates/catalog/products.html:120
+msgid "Vehicle"
+msgstr "Авто"
+
+#: apps/catalog/models.py:202 templates/catalog/product_detail.html:147
+#: templates/catalog/products.html:60
+msgid "Year"
+msgstr "Рік випуску"
+
+#: apps/catalog/models.py:203 templates/catalog/products.html:61
+msgid "Mileage, km"
+msgstr "Пробіг, км"
+
+#: apps/catalog/models.py:205 templates/catalog/product_detail.html:149
+#: templates/catalog/products.html:70
+msgid "Fuel type"
+msgstr "Тип палива"
+
+#: apps/catalog/models.py:208 templates/catalog/product_detail.html:150
+#: templates/catalog/products.html:71
+msgid "Transmission"
+msgstr "Коробка передач"
+
+#: apps/catalog/models.py:211
+msgid "Engine, L"
+msgstr "Об'єм двигуна, л"
+
+#: apps/catalog/models.py:213
+msgid "Power, hp"
+msgstr "Потужність, к.с."
+
+#: apps/catalog/models.py:214 templates/catalog/product_detail.html:153
+msgid "Color"
+msgstr "Колір"
+
+#: apps/catalog/models.py:216 templates/catalog/product_detail.html:154
+#: templates/catalog/products.html:72
+msgid "Condition"
+msgstr "Стан"
+
+#: apps/catalog/models.py:237
+msgid "Parameter name"
+msgstr "Назва параметра"
+
+#: apps/catalog/models.py:238
+msgid "Value"
+msgstr "Значення"
+
+#: apps/catalog/models.py:242
+msgid "Parameter"
+msgstr "Параметр"
+
+#: apps/catalog/models.py:243
+msgid "Parameters"
+msgstr "Параметри"
+
+#: apps/contacts/admin.py:18
+msgid "Mark as read"
+msgstr "Позначити як прочитані"
+
+#: apps/contacts/apps.py:8 apps/contacts/models.py:26
+#: apps/contacts/models.py:27
+msgid "Inquiries"
+msgstr "Звернення"
+
+#: apps/contacts/forms.py:17 apps/orders/forms.py:18
+msgid "Your name"
+msgstr "Ваше ім’я"
+
+#: apps/contacts/forms.py:41
+msgid "Your message"
+msgstr "Ваше повідомлення"
+
+#: apps/contacts/models.py:7
+msgid "General inquiry"
+msgstr "Загальне питання"
+
+#: apps/contacts/models.py:8
+msgid "Product inquiry"
+msgstr "Питання щодо товару"
+
+#: apps/contacts/models.py:9
+msgid "Partnership"
+msgstr "Партнерство"
+
+#: apps/contacts/models.py:10 apps/vacancies/models.py:33
+msgid "Vacancy"
+msgstr "Вакансія"
+
+#: apps/contacts/models.py:13 apps/orders/models.py:19
+#: templates/contacts/contact.html:34
+msgid "Phone"
+msgstr "Телефон"
+
+#: apps/contacts/models.py:16 templates/contacts/contact.html:47
+msgid "Subject"
+msgstr "Тема"
+
+#: apps/contacts/models.py:21 templates/contacts/contact.html:53
+msgid "Message"
+msgstr "Повідомлення"
+
+#: apps/contacts/models.py:22 templates/partials/_news_card.html:21
+msgid "Read"
+msgstr "Читати"
+
+#: apps/contacts/models.py:23
+msgid "Date"
+msgstr "Дата"
+
+#: apps/contacts/views.py:22
+msgid "Your message has been sent. We’ll get back to you shortly."
+msgstr "Ваше повідомлення надіслано. Ми зв’яжемося з вами найближчим часом."
+
+#: apps/content/admin.py:18 apps/content/models.py:15 apps/core/admin.py:80
+msgid "Background"
+msgstr "Фон"
+
+#: apps/content/admin.py:53 apps/orders/models.py:23
+msgid "Status"
+msgstr "Статус"
+
+#: apps/content/admin.py:61 templates/partials/_promo_card.html:17
+msgid "Ended"
+msgstr "Завершена"
+
+#: apps/content/apps.py:8
+msgid "Content"
+msgstr "Контент"
+
+#: apps/content/models.py:13 apps/content/models.py:32
+#: apps/content/models.py:61 apps/vacancies/models.py:12
+msgid "Title"
+msgstr "Заголовок"
+
+#: apps/content/models.py:14
+msgid "Subtitle"
+msgstr "Підзаголовок"
+
+#: apps/content/models.py:17
+msgid "Button text"
+msgstr "Текст кнопки"
+
+#: apps/content/models.py:18
+msgid "Button URL"
+msgstr "Посилання кнопки"
+
+#: apps/content/models.py:23
+msgid "Banner"
+msgstr "Банер"
+
+#: apps/content/models.py:24
+msgid "Banners"
+msgstr "Банери"
+
+#: apps/content/models.py:34
+msgid "Short description"
+msgstr "Короткий опис"
+
+#: apps/content/models.py:35
+msgid "Full text"
+msgstr "Повний текст"
+
+#: apps/content/models.py:38
+msgid "Published"
+msgstr "Опублікована"
+
+#: apps/content/models.py:39
+msgid "Published at"
+msgstr "Дата публікації"
+
+#: apps/content/models.py:43
+msgid "News item"
+msgstr "Новина"
+
+#: apps/content/models.py:44 templates/content/home.html:174
+#: templates/content/news_detail.html:12 templates/content/news_list.html:3
+#: templates/content/news_list.html:7 templates/partials/_footer.html:27
+#: templates/partials/_navbar.html:88
+msgid "News"
+msgstr "Новини"
+
+#: apps/content/models.py:73
+msgid "Promotion start"
+msgstr "Початок акції"
+
+#: apps/content/models.py:74
+msgid "Promotion end"
+msgstr "Кінець акції"
+
+#: apps/content/models.py:78
+msgid "Promotion"
+msgstr "Акція"
+
+#: apps/content/models.py:79 templates/content/home.html:135
+#: templates/content/promo_detail.html:12 templates/content/promo_list.html:3
+#: templates/content/promo_list.html:7 templates/partials/_footer.html:30
+#: templates/partials/_navbar.html:78
+msgid "Promotions"
+msgstr "Акції"
+
+#: apps/core/admin.py:82 apps/core/models.py:227
+msgid "Page"
+msgstr "Сторінка"
+
+#: apps/core/admin.py:88 apps/core/models.py:17 config/settings/base.py:122
+#: config/settings/base.py:123 templates/base.html:9 templates/base.html:11
+#: templates/catalog/brand_detail.html:3 templates/catalog/brands.html:3
+#: templates/catalog/products.html:3 templates/contacts/contact.html:3
+#: templates/content/home.html:3 templates/content/news_list.html:3
+#: templates/content/promo_detail.html:3 templates/content/promo_list.html:3
+#: templates/partials/_footer.html:7 templates/partials/_navbar.html:19
+#: templates/vacancies/list.html:3
+msgid "Distributor"
+msgstr "Дистриб’ютор"
+
+#: apps/core/admin.py:89
+msgid "Auto (dealership)"
+msgstr "Auto (автосалон)"
+
+#: apps/core/admin.py:90
+msgid "Restaurant / Food"
+msgstr "Restaurant / Food (ресторан)"
+
+#: apps/core/admin.py:91
+msgid "Shop (store with cart)"
+msgstr "Shop (магазин з кошиком)"
+
+#: apps/core/admin.py:92
+msgid "Generic (universal landing)"
+msgstr "Generic (універсальний лендінг)"
+
+#: apps/core/admin.py:122
+#, python-format
+msgid "Unknown preset: %s"
+msgstr "Невідомий пресет: %s"
+
+#: apps/core/admin.py:128
+#, python-format
+msgid "Preset “%(label)s” applied. %(n)d fields updated."
+msgstr "Пресет «%(label)s» застосовано. Оновлено %(n)d полів."
+
+#: apps/core/admin.py:141 apps/vacancies/admin.py:30
+msgid "General"
+msgstr "Основне"
+
+#: apps/core/admin.py:145 apps/core/models.py:223
+#: templates/contacts/contact.html:3 templates/partials/_footer.html:38
+#: templates/partials/_navbar.html:108
+msgid "Contacts"
+msgstr "Контакти"
+
+#: apps/core/admin.py:148
+msgid "Side logos"
+msgstr "Бічні логотипи"
+
+#: apps/core/admin.py:151
+msgid ""
+"Large logos on the sides on wide screens (fixed while scrolling); on mobile "
+"they appear in a row above the footer."
+msgstr ""
+"Великі логотипи по боках на широких екранах (фіксовані при прокручуванні); "
+"на мобільних — в рядок над футером."
+
+#: apps/core/admin.py:155
+msgid "Menu — Catalog"
+msgstr "Меню — Каталог"
+
+#: apps/core/admin.py:156
+msgid "Menu — Brands"
+msgstr "Меню — Бренди"
+
+#: apps/core/admin.py:157
+msgid "Menu — Promotions"
+msgstr "Меню — Акції"
+
+#: apps/core/admin.py:158
+msgid "Menu — News"
+msgstr "Меню — Новини"
+
+#: apps/core/admin.py:159
+msgid "Menu — Vacancies"
+msgstr "Меню — Вакансії"
+
+#: apps/core/admin.py:160
+msgid "Menu — Contacts"
+msgstr "Меню — Контакти"
+
+#: apps/core/admin.py:161
+msgid "Entity terms"
+msgstr "Терміни сутностей"
+
+#: apps/core/admin.py:166
+msgid "Vacancy card labels"
+msgstr "Лейбли карти вакансії"
+
+#: apps/core/admin.py:170
+msgid "Home page (Hero)"
+msgstr "Головна сторінка (Hero)"
+
+#: apps/core/admin.py:173
+msgid "Animations and effects"
+msgstr "Анімації та ефекти"
+
+#: apps/core/apps.py:8
+msgid "Settings"
+msgstr "Налаштування"
+
+#: apps/core/middleware.py:49 config/settings/base.py:121
+msgid "Site management"
+msgstr "Управління сайтом"
+
+#: apps/core/middleware.py:57
+#, python-format
+msgid "Welcome — %(brand)s"
+msgstr "Ласкаво просимо — %(brand)s"
+
+#: apps/core/models.py:18
+msgid "Auto dealership"
+msgstr "Автосалон"
+
+#: apps/core/models.py:19
+msgid "Food / restaurant"
+msgstr "Їжа / ресторан"
+
+#: apps/core/models.py:20
+msgid "Shop (cart)"
+msgstr "Магазин (кошик)"
+
+#: apps/core/models.py:21
+msgid "Generic landing"
+msgstr "Універсальний лендінг"
+
+#: apps/core/models.py:29
+msgid "Classic (light blue)"
+msgstr "Classic (світло-синя)"
+
+#: apps/core/models.py:30
+msgid "Cyberpunk (neon)"
+msgstr "Cyberpunk (неон)"
+
+#: apps/core/models.py:31
+msgid "Nude (pastel)"
+msgstr "Nude (пастель)"
+
+#: apps/core/models.py:32
+msgid "Dark Lux (premium dark)"
+msgstr "Dark Lux (преміум темна)"
+
+#: apps/core/models.py:36
+msgid "Preset (vertical)"
+msgstr "Пресет (вертикаль)"
+
+#: apps/core/models.py:40
+msgid "Site type. Used by the apply_preset command to fill defaults."
+msgstr ""
+"Тип сайту. Використовується командою apply_preset для заповнення дефолтів."
+
+#: apps/core/models.py:43
+msgid "Theme"
+msgstr "Тема"
+
+#: apps/core/models.py:54
+msgid "Plain"
+msgstr "Без стилю"
+
+#: apps/core/models.py:55
+msgid "Gradient"
+msgstr "Градієнт"
+
+#: apps/core/models.py:56
+msgid "Underline"
+msgstr "Підкреслення"
+
+#: apps/core/models.py:57
+msgid "Script (italic)"
+msgstr "Рукописний (курсив)"
+
+#: apps/core/models.py:60
+msgid "Site name"
+msgstr "Назва сайту"
+
+#: apps/core/models.py:62
+msgid "Site name style"
+msgstr "Стиль назви сайту"
+
+#: apps/core/models.py:66
+msgid "Name text styling in the header/footer."
+msgstr "Стиль тексту назви в шапці/футері."
+
+#: apps/core/models.py:68
+msgid "Tagline"
+msgstr "Слоган"
+
+#: apps/core/models.py:71
+msgid "Favicon"
+msgstr "Favicon"
+
+#: apps/core/models.py:73
+msgid "SEO description (default)"
+msgstr "SEO-опис (за замовчуванням)"
+
+#: apps/core/models.py:74
+msgid "Footer copyright"
+msgstr "Копірайт у футері"
+
+#: apps/core/models.py:75
+msgid "CTA button text"
+msgstr "Текст кнопки CTA"
+
+#: apps/core/models.py:78
+msgid "Cart (shop mode)"
+msgstr "Кошик (режим магазину)"
+
+#: apps/core/models.py:81
+msgid ""
+"Show prices, \"Add to cart\" buttons and the cart page. Enabled by the "
+"\"Shop\" preset. Orders arrive in the \"Orders\" section."
+msgstr ""
+"Показувати ціни, кнопки «У кошик» і сторінку кошика. Вмикається пресетом "
+"«Магазин». Замовлення надходять у розділ «Замовлення»."
+
+#: apps/core/models.py:86
+msgid "Contact phone"
+msgstr "Контактний телефон"
+
+#: apps/core/models.py:87
+msgid "Contact email"
+msgstr "Контактний email"
+
+#: apps/core/models.py:88
+msgid "Address"
+msgstr "Адреса"
+
+#: apps/core/models.py:91
+msgid "Side logo (left)"
+msgstr "Бічний логотип (лівий)"
+
+#: apps/core/models.py:94
+msgid ""
+"On wide screens — pinned to the left (stays while scrolling). On mobile — "
+"below the content, before the footer."
+msgstr ""
+"На широких екранах — закріплений ліворуч (залишається при прокручуванні). На "
+"мобільних — під контентом, перед футером."
+
+#: apps/core/models.py:99
+msgid "Side logo (right)"
+msgstr "Бічний логотип (правий)"
+
+#: apps/core/models.py:101
+msgid "Same as left, but on the right / second logo at the bottom on mobile."
+msgstr "Аналогічно лівому, але праворуч / другий логотип внизу на мобільних."
+
+#: apps/core/models.py:107
+msgid "Small"
+msgstr "Малий"
+
+#: apps/core/models.py:108
+msgid "Medium"
+msgstr "Середній"
+
+#: apps/core/models.py:109
+msgid "Large"
+msgstr "Великий"
+
+#: apps/core/models.py:112
+msgid "Side logo size"
+msgstr "Розмір бічного логотипа"
+
+#: apps/core/models.py:117
+msgid ""
+"Side logo size. On wide screens — the width of the pinned logos (constrained "
+"by the side margin so they don't overlap content); on mobile — the height of "
+"the logos in the bottom row."
+msgstr ""
+"Розмір бічного логотипа. На широких екранах — ширина закріплених логотипів "
+"(обмежена бічним відступом, щоб не перекривати контент); на мобільних — "
+"висота логотипів у нижньому рядку."
+
+#: apps/core/models.py:123
+msgid "Menu: Catalog — label"
+msgstr "Меню: Каталог — назва"
+
+#: apps/core/models.py:124
+msgid "Menu: Catalog — visible"
+msgstr "Меню: Каталог — показувати"
+
+#: apps/core/models.py:125
+msgid "Menu: Brands — label"
+msgstr "Меню: Бренди — назва"
+
+#: apps/core/models.py:126
+msgid "Menu: Brands — visible"
+msgstr "Меню: Бренди — показувати"
+
+#: apps/core/models.py:127
+msgid "Menu: Promotions — label"
+msgstr "Меню: Акції — назва"
+
+#: apps/core/models.py:128
+msgid "Menu: Promotions — show"
+msgstr "Меню: Акції — показувати"
+
+#: apps/core/models.py:129
+msgid "Menu: News — label"
+msgstr "Меню: Новини — назва"
+
+#: apps/core/models.py:130
+msgid "Menu: News — visible"
+msgstr "Меню: Новини — показувати"
+
+#: apps/core/models.py:131
+msgid "Menu: Vacancies — label"
+msgstr "Меню: Вакансії — назва"
+
+#: apps/core/models.py:132
+msgid "Menu: Vacancies — visible"
+msgstr "Меню: Вакансії — показувати"
+
+#: apps/core/models.py:133
+msgid "Menu: Contacts — label"
+msgstr "Меню: Контакти — назва"
+
+#: apps/core/models.py:134
+msgid "Menu: Contacts — show"
+msgstr "Меню: Контакти — показувати"
+
+#: apps/core/models.py:136
+msgid "Term: product (singular)"
+msgstr "Термін: товар (однина)"
+
+#: apps/core/models.py:137
+msgid "Term: products (plural)"
+msgstr "Термін: товари (множина)"
+
+#: apps/core/models.py:138
+msgid "Term: brand (singular)"
+msgstr "Термін: бренд (однина)"
+
+#: apps/core/models.py:139
+msgid "Term: brands (plural)"
+msgstr "Термін: бренди (множина)"
+
+#: apps/core/models.py:140
+msgid "Term: category (singular)"
+msgstr "Термін: категорія (однина)"
+
+#: apps/core/models.py:141
+msgid "Term: categories (plural)"
+msgstr "Термін: категорії (множина)"
+
+#: apps/core/models.py:147
+msgid "Classic (current)"
+msgstr "Classic (текуща)"
+
+#: apps/core/models.py:148
+msgid "Editorial (magazine — large typographic hero)"
+msgstr "Editorial (журнальний — великий типографічний hero)"
+
+#: apps/core/models.py:149
+msgid "Cinematic (full-screen hero with video/photo)"
+msgstr "Cinematic (повноекранний hero з відео/фото)"
+
+#: apps/core/models.py:152
+msgid "Home layout"
+msgstr "Макет головної"
+
+#: apps/core/models.py:156
+msgid "Hero section style on the home page."
+msgstr "Стиль hero-секції на головній сторінці."
+
+#: apps/core/models.py:160
+msgid "Vacancy: \"Description\" section heading"
+msgstr "Вакансія: заголовок секції \"Опис\""
+
+#: apps/core/models.py:162
+msgid "Vacancy: \"Requirements\" section heading"
+msgstr "Вакансія: заголовок секції \"Вимоги\""
+
+#: apps/core/models.py:164
+msgid "Vacancy: \"Conditions\" section heading"
+msgstr "Вакансія: заголовок секції \"Умови\""
+
+#: apps/core/models.py:166
+msgid "Vacancy: apply button text"
+msgstr "Вакансія: текст кнопки відгуку"
+
+#: apps/core/models.py:168
+msgid "Hero: eyebrow"
+msgstr "Hero: верхня плашка"
+
+#: apps/core/models.py:169
+msgid ""
+"Small text above the large heading (e.g., \"Official distributor · 2026\")."
+msgstr ""
+"Малий текст над великим заголовком (напр., \"Офіційний дистриб'ютор · "
+"2026\")."
+
+#: apps/core/models.py:170
+msgid "Hero: main heading"
+msgstr "Hero: великий заголовок"
+
+#: apps/core/models.py:171
+msgid ""
+"Replaces the default. For the kinetic effect, emphasize a word with **word**."
+msgstr ""
+"Замінює дефолтний. Для kinetic-ефекту можна підкреслити слово через "
+"**слово**."
+
+#: apps/core/models.py:172
+msgid "Hero: subheading"
+msgstr "Hero: підзаголовок"
+
+#: apps/core/models.py:175
+msgid "Animation: smooth page transitions"
+msgstr "Анімація: плавні переходи між сторінками"
+
+#: apps/core/models.py:176
+msgid ""
+"View Transitions API. Works in Chrome/Edge/Safari; no animation in Firefox."
+msgstr ""
+"View Transitions API. Працює в Chrome/Edge/Safari; у Firefox без анімації."
+
+#: apps/core/models.py:179
+msgid "Animation: scroll reveal (fade-up + stagger)"
+msgstr "Анімація: появи блоків при прокручуванні (fade-up + stagger)"
+
+#: apps/core/models.py:182
+msgid "Animation: magnetic buttons on hover"
+msgstr "Анімація: \"магнітні\" кнопки на hover"
+
+#: apps/core/models.py:183
+msgid "Disabled on touch devices automatically."
+msgstr "Вимикається на тач-пристроях автоматично."
+
+#: apps/core/models.py:186
+msgid "Animation: custom dot cursor"
+msgstr "Анімація: кастомний кругляк-курсор"
+
+#: apps/core/models.py:187
+msgid ""
+"Strong effect; not for every brand. Disabled automatically on touch devices."
+msgstr ""
+"Сильний ефект; не для всіх брендів. Вимикається на тач-пристроях автоматично."
+
+#: apps/core/models.py:190
+msgid "Animation: kinetic hero title reveal"
+msgstr "Анімація: \"кінетичне\" появлення hero-заголовка"
+
+#: apps/core/models.py:194 apps/core/models.py:195
+msgid "Site settings"
+msgstr "Налаштування сайту"
+
+#: apps/core/models.py:211
+msgid "Whole site (default)"
+msgstr "Увесь сайт (за замовчуванням)"
+
+#: apps/core/models.py:212 templates/catalog/product_detail.html:11
+#: templates/content/news_detail.html:10 templates/content/promo_detail.html:10
+#: templates/vacancies/detail.html:10
+msgid "Home"
+msgstr "Головна"
+
+#: apps/core/models.py:213
+msgid "Catalog — product list"
+msgstr "Каталог — список товарів"
+
+#: apps/core/models.py:214
+msgid "Catalog — product page"
+msgstr "Каталог — картка товару"
+
+#: apps/core/models.py:215
+msgid "Brands — list"
+msgstr "Бренди — список"
+
+#: apps/core/models.py:216
+msgid "Brands — brand page"
+msgstr "Бренди — сторінка бренду"
+
+#: apps/core/models.py:217
+msgid "Promotions — list"
+msgstr "Акції — список"
+
+#: apps/core/models.py:218
+msgid "Promotions — promotion page"
+msgstr "Акції — сторінка акції"
+
+#: apps/core/models.py:219
+msgid "News — list"
+msgstr "Новини — список"
+
+#: apps/core/models.py:220
+msgid "News — article page"
+msgstr "Новини — сторінка новини"
+
+#: apps/core/models.py:221
+msgid "Vacancies — list"
+msgstr "Вакансії — список"
+
+#: apps/core/models.py:222
+msgid "Vacancies — vacancy page"
+msgstr "Вакансії — сторінка вакансії"
+
+#: apps/core/models.py:237
+msgid "Overlay, %"
+msgstr "Затемнення, %"
+
+#: apps/core/models.py:239
+msgid ""
+"Opacity of the overlay above the background (0–90) to keep text readable."
+msgstr ""
+"Прозорість підкладки поверх фону (0–90), щоб текст залишався читабельним."
+
+#: apps/core/models.py:241
+msgid "Updated"
+msgstr "Оновлено"
+
+#: apps/core/models.py:244
+msgid "Page background"
+msgstr "Фон сторінки"
+
+#: apps/core/models.py:245
+msgid "Page backgrounds"
+msgstr "Фони сторінок"
+
+#: apps/core/validators.py:16
+msgid "Please provide at least one contact method: phone or email."
+msgstr "Вкажіть хоча б один спосіб зв’язку: телефон або email."
+
+#: apps/core/validators.py:32
+#, python-format
+msgid "File is too large (%(size)s). Maximum is %(max)s."
+msgstr "Файл занадто великий (%(size)s). Максимальний розмір — %(max)s."
+
+#: apps/orders/admin.py:13
+msgid "Amount"
+msgstr "Сума"
+
+#: apps/orders/admin.py:29 templates/cart/detail.html:50
+msgid "Total"
+msgstr "Разом"
+
+#: apps/orders/apps.py:8 apps/orders/models.py:28 apps/orders/models.py:29
+#: apps/orders/models.py:48
+msgid "Orders"
+msgstr "Замовлення"
+
+#: apps/orders/forms.py:31
+msgid "Order comment"
+msgstr "Коментар до замовлення"
+
+#: apps/orders/models.py:14
+msgid "Processing"
+msgstr "В обробці"
+
+#: apps/orders/models.py:15
+msgid "Done"
+msgstr "Виконано"
+
+#: apps/orders/models.py:16
+msgid "Cancelled"
+msgstr "Скасовано"
+
+#: apps/orders/models.py:18
+msgid "Customer name"
+msgstr "Ім'я покупця"
+
+#: apps/orders/models.py:20
+msgid "Email"
+msgstr "Email"
+
+#: apps/orders/models.py:21
+msgid "Comment"
+msgstr "Коментар"
+
+#: apps/orders/models.py:25
+msgid "Created"
+msgstr "Створено"
+
+#: apps/orders/models.py:58
+msgid "Name (snapshot)"
+msgstr "Назва (знімок)"
+
+#: apps/orders/models.py:60
+msgid "Unit price"
+msgstr "Ціна за од."
+
+#: apps/orders/models.py:65
+msgid "Quantity"
+msgstr "Кількість"
+
+#: apps/orders/models.py:68
+msgid "Order item"
+msgstr "Позиція замовлення"
+
+#: apps/orders/models.py:69
+msgid "Order items"
+msgstr "Позиції замовлення"
+
+#: apps/orders/views.py:78
+msgid "The cart is empty."
+msgstr "Кошик порожній."
+
+#: apps/orders/views.py:102
+#, python-format
+msgid "Thank you! Order #%(id)s received — we’ll get in touch."
+msgstr "Дякуємо! Замовлення №%(id)s прийнято — ми зв’яжемося з вами."
+
+#: apps/vacancies/admin.py:35 apps/vacancies/models.py:25
+#: templates/vacancies/detail.html:131
+msgid "Requirements"
+msgstr "Вимоги"
+
+#: apps/vacancies/admin.py:36 apps/vacancies/models.py:26
+#: templates/vacancies/detail.html:136
+msgid "Conditions"
+msgstr "Умови"
+
+#: apps/vacancies/apps.py:8 apps/vacancies/models.py:34
+#: templates/partials/_footer.html:33 templates/partials/_navbar.html:98
+#: templates/vacancies/detail.html:3 templates/vacancies/detail.html:12
+#: templates/vacancies/detail.html:115 templates/vacancies/list.html:3
+#: templates/vacancies/list.html:8
+msgid "Vacancies"
+msgstr "Вакансії"
+
+#: apps/vacancies/models.py:14
+msgid "Location"
+msgstr "Локація"
+
+#: apps/vacancies/models.py:16
+msgid "Short caption"
+msgstr "Короткий підпис"
+
+#: apps/vacancies/models.py:17
+msgid "A single line under the heading."
+msgstr "Один рядок під заголовком."
+
+#: apps/vacancies/models.py:20
+msgid "Main photo"
+msgstr "Головне фото"
+
+#: apps/vacancies/models.py:22
+msgid "Large image at the top of the card and page. Optional."
+msgstr "Велике зображення зверху картки і сторінки. Опціонально."
+
+#: apps/vacancies/models.py:28
+msgid "Highlight"
+msgstr "Виділити"
+
+#: apps/vacancies/models.py:57
+msgid "Vacancy / Product"
+msgstr "Вакансія / Товар"
+
+#: apps/vacancies/models.py:61
+msgid "Caption"
+msgstr "Підпис"
+
+#: apps/vacancies/models.py:65
+msgid "Vacancy photo"
+msgstr "Фото вакансії"
+
+#: apps/vacancies/models.py:66
+msgid "Vacancy photos"
+msgstr "Фото вакансій"
+
+#: config/settings/base.py:124
+msgid "Welcome to the control panel"
+msgstr "Ласкаво просимо до панелі керування"
+
+#: config/settings/base.py:125
+msgid "Distributor LLC"
+msgstr "ТОВ «Дистриб'ютор»"
+
+#: templates/404.html:3 templates/404.html:9
+msgid "Page not found"
+msgstr "Сторінку не знайдено"
+
+#: templates/404.html:12
+msgid "The requested page does not exist or has been moved."
+msgstr "Запитана сторінка не існує або була переміщена."
+
+#: templates/404.html:16 templates/500.html:16
+msgid "Back to home"
+msgstr "На головну"
+
+#: templates/500.html:3 templates/500.html:9
+msgid "Server error"
+msgstr "Помилка сервера"
+
+#: templates/500.html:12
+msgid "Something went wrong. We're already working on a fix."
+msgstr "Щось пішло не так. Ми вже працюємо над виправленням."
+
+#: templates/admin/core/sitesettings/change_form.html:11
+msgid "Quick presets"
+msgstr "Швидкі пресети"
+
+#: templates/admin/core/sitesettings/change_form.html:14
+msgid ""
+"One click renames the whole site to the chosen vertical (theme, menu labels, "
+"terms, hero, vacancy sections)."
+msgstr ""
+"Один клік — і весь сайт перейменовується під обрану вертикаль (тема, лейбли "
+"меню, терміни, hero, секції вакансій)."
+
+#: templates/admin/core/sitesettings/change_form.html:20
+msgid "Overwrite current settings with this preset?"
+msgstr "Перезаписати поточні налаштування цим пресетом?"
+
+#: templates/admin/core/sitesettings/change_form.html:31
+msgid ""
+"The preset rewrites menu labels, terms, hero and theme. Site name, logo and "
+"content (products/news) remain."
+msgstr ""
+"Пресет переписує лейбли меню, терміни, hero і тему. Назва сайту, лого та "
+"контент (товари/новини) залишаться."
+
+#: templates/cart/detail.html:3 templates/cart/detail.html:7
+#: templates/partials/_navbar.html:144
+msgid "Cart"
+msgstr "Кошик"
+
+#: templates/cart/detail.html:36
+msgid "Remove"
+msgstr "Видалити"
+
+#: templates/cart/detail.html:66
+msgid "Place order"
+msgstr "Оформити замовлення"
+
+#: templates/cart/detail.html:69
+msgid "No online payment — a manager will contact you to confirm."
+msgstr "Без онлайн-оплати — менеджер зв’яжеться для підтвердження."
+
+#: templates/cart/detail.html:78
+msgid "Your cart is empty."
+msgstr "Ваш кошик порожній."
+
+#: templates/cart/detail.html:80 templates/catalog/product_detail.html:174
+#: templates/catalog/product_detail.html:184 templates/catalog/products.html:8
+#: templates/content/home.html:155
+msgid "products"
+msgstr "товари"
+
+#: templates/cart/detail.html:80
+#, python-format
+msgid "Go to %(plural)s"
+msgstr "Перейти до %(plural)s"
+
+#: templates/catalog/brand_detail.html:23
+msgid "Official website"
+msgstr "Офіційний сайт"
+
+#: templates/catalog/brand_detail.html:32
+msgid "Categories:"
+msgstr "Категорії:"
+
+#: templates/catalog/brand_detail.html:47
+msgid "No products for this brand yet"
+msgstr "Товари цього бренду поки не додано"
+
+#: templates/catalog/brands.html:7
+msgid "Our brands"
+msgstr "Наші бренди"
+
+#: templates/catalog/product_detail.html:53 templates/vacancies/detail.html:51
+msgid "Previous"
+msgstr "Попереднє"
+
+#: templates/catalog/product_detail.html:62
+#: templates/partials/_pagination.html:60 templates/vacancies/detail.html:60
+msgid "Next"
+msgstr "Вперед"
+
+#: templates/catalog/product_detail.html:102
+msgid "No photo"
+msgstr "Фото відсутнє"
+
+#: templates/catalog/product_detail.html:148
+msgid "Mileage"
+msgstr "Пробіг"
+
+#: templates/catalog/product_detail.html:148
+#: templates/partials/_product_card.html:36
+msgid "km"
+msgstr "км"
+
+#: templates/catalog/product_detail.html:151
+msgid "Engine"
+msgstr "Об'єм двигуна"
+
+#: templates/catalog/product_detail.html:151
+msgid "L"
+msgstr "л"
+
+#: templates/catalog/product_detail.html:152
+msgid "Power"
+msgstr "Потужність"
+
+#: templates/catalog/product_detail.html:152
+msgid "hp"
+msgstr "к.с."
+
+#: templates/catalog/product_detail.html:166
+#: templates/partials/_product_card.html:64
+msgid "Add to cart"
+msgstr "У кошик"
+
+#: templates/catalog/product_detail.html:170
+msgid "Request price"
+msgstr "Запитати ціну"
+
+#: templates/catalog/product_detail.html:174
+#, python-format
+msgid "All brand %(plural)s"
+msgstr "Усі %(plural)s бренду"
+
+#: templates/catalog/product_detail.html:184
+#, python-format
+msgid "More %(plural)s — %(brand)s"
+msgstr "Інші %(plural)s — %(brand)s"
+
+#: templates/catalog/products.html:8
+#, python-format
+msgid "%(label)s %(plural)s"
+msgstr "%(label)s %(plural)s"
+
+#: templates/catalog/products.html:24
+msgid "Filters"
+msgstr "Фільтри"
+
+#: templates/catalog/products.html:29
+msgid "Reset all"
+msgstr "Скинути всі"
+
+#: templates/catalog/products.html:37 templates/catalog/products.html:147
+msgid "Search"
+msgstr "Знайти"
+
+#: templates/catalog/products.html:39
+msgid "Name, VIN…"
+msgstr "Назва, VIN…"
+
+#: templates/catalog/products.html:44
+msgid "Make"
+msgstr "Марка"
+
+#: templates/catalog/products.html:47
+msgid "Start typing a make…"
+msgstr "Почніть вводити марку…"
+
+#: templates/catalog/products.html:68
+msgid "Body style"
+msgstr "Тип кузова"
+
+#: templates/catalog/products.html:79
+msgid "City"
+msgstr "Місто"
+
+#: templates/catalog/products.html:81
+msgid "Any city"
+msgstr "Будь-яке місто"
+
+#: templates/catalog/products.html:89 templates/vacancies/detail.html:112
+msgid "Apply"
+msgstr "Відгукнутися"
+
+#: templates/catalog/products.html:99
+#, python-format
+msgid "%(counter)s listing"
+msgid_plural "%(counter)s listings"
+msgstr[0] "%(counter)s оголошення"
+msgstr[1] "%(counter)s оголошення"
+msgstr[2] "%(counter)s оголошень"
+
+#: templates/catalog/products.html:102
+msgid "Sort"
+msgstr "Сортувати"
+
+#: templates/catalog/products.html:120 templates/catalog/products.html:164
+#, python-format
+msgid "No %(plural)s found"
+msgstr "%(plural)s не знайдено"
+
+#: templates/catalog/products.html:121 templates/catalog/products.html:165
+msgid "Reset filters"
+msgstr "Скинути фільтри"
+
+#: templates/catalog/products.html:132
+msgid "Search by name or SKU…"
+msgstr "Пошук за назвою або артикулом…"
+
+#: templates/catalog/products.html:135 templates/catalog/products.html:141
+#, python-format
+msgid "All %(plural)s"
+msgstr "Усі %(plural)s"
+
+#: templates/catalog/products.html:150
+msgid "Reset"
+msgstr "Скинути"
+
+#: templates/contacts/contact.html:8 templates/content/home.html:67
+#: templates/partials/_contact_modal.html:7
+msgid "Contact us"
+msgstr "Зв’язатися з нами"
+
+#: templates/contacts/contact.html:11
+msgid "Fill in the form and we'll get back to you shortly"
+msgstr "Заповніть форму, і ми відповімо найближчим часом"
+
+#: templates/contacts/contact.html:64
+msgid "Send message"
+msgstr "Надіслати повідомлення"
+
+#: templates/content/home.html:4
+msgid "Wide product catalog, current promotions and news"
+msgstr "Широкий каталог товарів, актуальні акції та новини"
+
+#: templates/content/home.html:51
+msgid "Official representative · 2026"
+msgstr "Офіційний представник · 2026"
+
+#: templates/content/home.html:54
+msgid "A shorter **distance** to quality brands."
+msgstr "Інша **відстань** до якісних брендів."
+
+#: templates/content/home.html:58
+msgid ""
+"A catalog that delivers the product without noise. A contact request in two "
+"clicks."
+msgstr ""
+"Каталог, який доносить продукт без зайвого шуму. Запит на зв'язок — у два "
+"кліки."
+
+#: templates/content/home.html:63
+#, python-format
+msgid "Browse %(label)s"
+msgstr "Переглянути %(label)s"
+
+#: templates/content/home.html:106
+msgid "brands"
+msgstr "бренди"
+
+#: templates/content/home.html:106
+#, python-format
+msgid "Our %(plural)s"
+msgstr "Наші %(plural)s"
+
+#: templates/content/home.html:138
+msgid "promotions"
+msgstr "акції"
+
+#: templates/content/home.html:138 templates/content/home.html:158
+#: templates/content/home.html:176 templates/vacancies/detail.html:115
+#, python-format
+msgid "All %(label)s"
+msgstr "Весь %(label)s"
+
+#: templates/content/home.html:155
+#, python-format
+msgid "Popular %(plural)s"
+msgstr "Популярні %(plural)s"
+
+#: templates/content/home.html:158
+msgid "catalog"
+msgstr "каталог"
+
+#: templates/content/home.html:176
+msgid "news"
+msgstr "новини"
+
+#: templates/content/news_detail.html:30
+msgid "All news"
+msgstr "Усі новини"
+
+#: templates/content/news_list.html:16
+msgid "No news yet"
+msgstr "Новин поки немає"
+
+#: templates/content/promo_detail.html:38
+msgid "Promotion:"
+msgstr "Акція:"
+
+#: templates/content/promo_detail.html:40
+msgid "Learn more"
+msgstr "Дізнатися деталі"
+
+#: templates/content/promo_detail.html:43
+msgid "All promotions"
+msgstr "Усі акції"
+
+#: templates/content/promo_list.html:15
+msgid "No active promotions yet"
+msgstr "Активних акцій поки немає"
+
+#: templates/partials/_contact_modal.html:10
+msgid "Close"
+msgstr "Закрити"
+
+#: templates/partials/_contact_modal.html:22
+msgid "Your name *"
+msgstr "Ваше ім’я *"
+
+#: templates/partials/_contact_modal.html:30
+msgid "Your message *"
+msgstr "Ваше повідомлення *"
+
+#: templates/partials/_contact_modal.html:36
+msgid "Send"
+msgstr "Надіслати"
+
+#: templates/partials/_contact_modal.html:37
+msgid "Sending…"
+msgstr "Надсилається…"
+
+#: templates/partials/_contact_modal.html:55
+msgid "I'd like to apply for the position:"
+msgstr "Хочу відгукнутися на вакансію:"
+
+#: templates/partials/_filter_range.html:7
+msgid "from"
+msgstr "від"
+
+#: templates/partials/_filter_range.html:10
+msgid "to"
+msgstr "до"
+
+#: templates/partials/_footer.html:9
+msgid "Official representative of the world's leading brands"
+msgstr "Офіційний представник провідних світових брендів"
+
+#: templates/partials/_footer.html:24
+msgid "Company"
+msgstr "Компанія"
+
+#: templates/partials/_footer.html:52
+msgid "Write to us"
+msgstr "Написати нам"
+
+#: templates/partials/_footer.html:61
+msgid "Distributor LLC. All rights reserved."
+msgstr "ТОВ «Дистриб’ютор». Усі права захищено."
+
+#: templates/partials/_footer.html:64
+msgid "Privacy policy"
+msgstr "Політика конфіденційності"
+
+#: templates/partials/_navbar.html:22
+msgid "Menu"
+msgstr "Меню"
+
+#: templates/partials/_navbar.html:169 templates/vacancies/list.html:50
+msgid "Contact"
+msgstr "Зв’язатись"
+
+#: templates/partials/_pagination.html:4
+msgid "Pagination"
+msgstr "Пагінація"
+
+#: templates/partials/_pagination.html:11
+msgid "First"
+msgstr "Перша"
+
+#: templates/partials/_pagination.html:31
+msgid "Back"
+msgstr "Назад"
+
+#: templates/partials/_pagination.html:73
+msgid "Last"
+msgstr "Остання"
+
+#: templates/partials/_product_card.html:59 templates/vacancies/list.html:46
+msgid "Details"
+msgstr "Детальніше"
+
+#: templates/partials/_product_card.html:69
+msgid "Inquire"
+msgstr "Запитати"
+
+#: templates/partials/_promo_card.html:27
+msgid "Until"
+msgstr "До"
+
+#: templates/vacancies/list.html:59
+msgid "No open vacancies yet"
+msgstr "Відкритих вакансій поки немає"

@@ -10,18 +10,18 @@ from apps.core.validators import raster_image_validators
 
 
 class Banner(models.Model):
-    title = models.CharField(_("Заголовок"), max_length=300)
-    subtitle = models.CharField(_("Підзаголовок"), max_length=500, blank=True)
-    background = models.ImageField(_("Фон"), upload_to="banners/",
+    title = models.CharField(_("Title"), max_length=300)
+    subtitle = models.CharField(_("Subtitle"), max_length=500, blank=True)
+    background = models.ImageField(_("Background"), upload_to="banners/",
                                    validators=raster_image_validators)
-    button_text = models.CharField(_("Текст кнопки"), max_length=100, blank=True)
-    button_url = models.CharField(_("Посилання кнопки"), max_length=500, blank=True)
-    is_active = models.BooleanField(_("Активний"), default=True, db_index=True)
-    order = models.PositiveIntegerField(_("Порядок"), default=0)
+    button_text = models.CharField(_("Button text"), max_length=100, blank=True)
+    button_url = models.CharField(_("Button URL"), max_length=500, blank=True)
+    is_active = models.BooleanField(_("Active"), default=True, db_index=True)
+    order = models.PositiveIntegerField(_("Order"), default=0)
 
     class Meta:
-        verbose_name = _("Банер")
-        verbose_name_plural = _("Банери")
+        verbose_name = _("Banner")
+        verbose_name_plural = _("Banners")
         ordering = ["order"]
 
     def __str__(self) -> str:
@@ -29,19 +29,19 @@ class Banner(models.Model):
 
 
 class News(models.Model):
-    title = models.CharField(_("Заголовок"), max_length=400)
+    title = models.CharField(_("Title"), max_length=400)
     slug = models.SlugField("Slug", max_length=400, unique=True, blank=True)
-    preview = models.TextField(_("Короткий опис"), max_length=500)
-    content = SummernoteTextField(_("Повний текст"))
-    image = models.ImageField(_("Зображення"), upload_to="news/",
+    preview = models.TextField(_("Short description"), max_length=500)
+    content = SummernoteTextField(_("Full text"))
+    image = models.ImageField(_("Image"), upload_to="news/",
                               validators=raster_image_validators)
-    is_active = models.BooleanField(_("Опублікована"), default=True, db_index=True)
-    published_at = models.DateTimeField(_("Дата публікації"))
+    is_active = models.BooleanField(_("Published"), default=True, db_index=True)
+    published_at = models.DateTimeField(_("Published at"))
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = _("Новина")
-        verbose_name_plural = _("Новини")
+        verbose_name = _("News item")
+        verbose_name_plural = _("News")
         ordering = ["-published_at"]
 
     def __str__(self) -> str:
@@ -58,25 +58,25 @@ class News(models.Model):
 
 
 class Promo(models.Model):
-    title = models.CharField(_("Заголовок"), max_length=400)
+    title = models.CharField(_("Title"), max_length=400)
     slug = models.SlugField("Slug", max_length=400, unique=True, blank=True)
-    description = SummernoteTextField(_("Опис"))
-    image = models.ImageField(_("Зображення"), upload_to="promos/",
+    description = SummernoteTextField(_("Description"))
+    image = models.ImageField(_("Image"), upload_to="promos/",
                               validators=raster_image_validators)
     brand = models.ForeignKey(
         "catalog.Brand",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
-        verbose_name=_("Бренд"),
+        verbose_name=_("Brand"),
     )
-    date_start = models.DateField(_("Початок акції"), null=True, blank=True)
-    date_end = models.DateField(_("Кінець акції"), null=True, blank=True)
-    is_active = models.BooleanField(_("Активна"), default=True, db_index=True)
+    date_start = models.DateField(_("Promotion start"), null=True, blank=True)
+    date_end = models.DateField(_("Promotion end"), null=True, blank=True)
+    is_active = models.BooleanField(_("Active"), default=True, db_index=True)
 
     class Meta:
-        verbose_name = _("Акція")
-        verbose_name_plural = _("Акції")
+        verbose_name = _("Promotion")
+        verbose_name_plural = _("Promotions")
         ordering = ["-date_start"]
 
     def __str__(self) -> str:

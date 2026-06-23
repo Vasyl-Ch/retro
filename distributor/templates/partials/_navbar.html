@@ -4,7 +4,7 @@
   <div class="px-6 m-auto max-w-6xl">
     <div class="flex flex-wrap lg:flex-nowrap items-center justify-between gap-x-4 py-3 lg:py-4">
 
-      {# ---- Лого + бургер (мобайл) ---- #}
+      {# ---- Logo + burger (mobile) ---- #}
       <div class="w-full items-center flex justify-between lg:w-auto lg:shrink-0">
         <a href="{% url 'content:home' %}"
            class="site-nav-brand flex items-center gap-2.5 sm:gap-3 font-semibold
@@ -16,10 +16,10 @@
           {% else %}
             <span class="inline-block size-3 rounded-full bg-gradient-to-br from-primary-500 to-primary-700"></span>
           {% endif %}
-          <span class="brand-style-{{ site_settings.brand_style|default:'plain' }}">{{ site_settings.brand_name|default:_("Дистриб’ютор") }}</span>
+          <span class="brand-style-{{ site_settings.brand_style|default:'plain' }}">{{ site_settings.brand_name|default:_("Distributor") }}</span>
         </a>
 
-        <button id="menu-btn" aria-label="{% trans 'Меню' %}"
+        <button id="menu-btn" aria-label="{% trans 'Menu' %}"
                 class="lg:hidden inline-flex items-center justify-center
                        size-10 rounded-full text-title
                        ring-1 ring-[color:var(--ui-border-color)] hover:bg-primary-500/15
@@ -42,7 +42,7 @@
         </button>
       </div>
 
-      {# ---- Меню + правая часть ---- #}
+      {# ---- Menu + right side ---- #}
       <div class="w-full group-data-[state=active]:max-h-[480px] max-h-0 lg:max-h-none lg:w-fit
                   overflow-hidden lg:overflow-visible transition-[max-height] duration-300
                   lg:flex lg:items-center lg:gap-4">
@@ -55,7 +55,7 @@
                class="block px-2.5 py-2 rounded-full whitespace-nowrap
                       hover:text-primary-600 hover:bg-primary-500/15
                       transition-colors duration-200">
-              {{ site_settings.nav_catalog_label|default:_("Каталог") }}
+              {{ site_settings.nav_catalog_label|default:_("Catalog") }}
             </a>
           </li>
           {% endif %}
@@ -65,7 +65,7 @@
                class="block px-2.5 py-2 rounded-full whitespace-nowrap
                       hover:text-primary-600 hover:bg-primary-500/15
                       transition-colors duration-200">
-              {{ site_settings.nav_brands_label|default:_("Бренди") }}
+              {{ site_settings.nav_brands_label|default:_("Brands") }}
             </a>
           </li>
           {% endif %}
@@ -75,7 +75,7 @@
                class="block px-2.5 py-2 rounded-full whitespace-nowrap
                       hover:text-primary-600 hover:bg-primary-500/15
                       transition-colors duration-200">
-              {{ site_settings.nav_promos_label|default:_("Акції") }}
+              {{ site_settings.nav_promos_label|default:_("Promotions") }}
             </a>
           </li>
           {% endif %}
@@ -85,7 +85,7 @@
                class="block px-2.5 py-2 rounded-full whitespace-nowrap
                       hover:text-primary-600 hover:bg-primary-500/15
                       transition-colors duration-200">
-              {{ site_settings.nav_news_label|default:_("Новини") }}
+              {{ site_settings.nav_news_label|default:_("News") }}
             </a>
           </li>
           {% endif %}
@@ -95,7 +95,7 @@
                class="block px-2.5 py-2 rounded-full whitespace-nowrap
                       hover:text-primary-600 hover:bg-primary-500/15
                       transition-colors duration-200">
-              {{ site_settings.nav_vacancies_label|default:_("Вакансії") }}
+              {{ site_settings.nav_vacancies_label|default:_("Vacancies") }}
             </a>
           </li>
           {% endif %}
@@ -105,18 +105,18 @@
                class="block px-2.5 py-2 rounded-full whitespace-nowrap
                       hover:text-primary-600 hover:bg-primary-500/15
                       transition-colors duration-200">
-              {{ site_settings.nav_contacts_label|default:_("Контакти") }}
+              {{ site_settings.nav_contacts_label|default:_("Contacts") }}
             </a>
           </li>
           {% endif %}
         </ul>
 
-        {# ---- Правая часть: переключатель языка + CTA ---- #}
+        {# ---- Right side: language switcher + CTA ---- #}
         <div class="mt-4 lg:mt-0 pt-4 lg:pt-0 border-t lg:border-0 lg:border-l
                     border-[color:var(--ui-border-color)] lg:pl-4
                     flex flex-col sm:flex-row items-stretch sm:items-center gap-3 lg:gap-2.5">
 
-          {# ---- Языковой свитчер (UA / EN) ---- #}
+          {# ---- Language switcher (UA / EN) ---- #}
           <form action="{% url 'set_language' %}" method="post"
                 class="inline-flex items-center rounded-full p-0.5
                        bg-[--ui-soft-bg] ring-1 ring-inset ring-[color:var(--ui-border-color)]
@@ -139,9 +139,9 @@
             {% endfor %}
           </form>
 
-          {# ---- Кошик (режим магазину) ---- #}
+          {# ---- Cart (shop mode) ---- #}
           {% if site_settings.cart_enabled %}
-          <a href="{% url 'cart:detail' %}" aria-label="{% trans 'Кошик' %}"
+          <a href="{% url 'cart:detail' %}" aria-label="{% trans 'Cart' %}"
              class="relative inline-flex items-center justify-center size-10 rounded-full text-title
                     ring-1 ring-[color:var(--ui-border-color)] hover:bg-primary-500/15
                     transition-colors duration-200 self-center">
@@ -166,7 +166,7 @@
                          transition-all duration-200 active:scale-[0.98]
                          focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-400
                          focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-950">
-            <span>{{ site_settings.cta_label|default:_("Зв’язатись") }}</span>
+            <span>{{ site_settings.cta_label|default:_("Contact") }}</span>
             <svg class="size-4 transition-transform duration-200 group-hover/cta:translate-x-0.5"
                  xmlns="http://www.w3.org/2000/svg" fill="none"
                  viewBox="0 0 24 24" stroke-width="2.25" stroke="currentColor" aria-hidden="true">

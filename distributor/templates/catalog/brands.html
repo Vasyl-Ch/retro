@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% load i18n %}
-{% block title %}{% trans "Бренди" %} — {% trans "Дистриб’ютор" %}{% endblock %}
+{% block title %}{% trans "Brands" %} — {% trans "Distributor" %}{% endblock %}
 {% block content %}
 <div class="pt-28 pb-24">
   <div class="mx-auto px-6 max-w-6xl">
-    <h1 class="text-4xl font-semibold text-title mb-12 text-center">{% trans "Наші бренди" %}</h1>
+    <h1 class="text-4xl font-semibold text-title mb-12 text-center">{% trans "Our brands" %}</h1>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {% for brand in brands %}
       <a href="{{ brand.get_absolute_url }}"

@@ -14,11 +14,11 @@ class SiteSettings(SingletonModel):
     PRESET_SHOP = "shop"
     PRESET_GENERIC = "generic"
     PRESET_CHOICES = [
-        (PRESET_DISTRIBUTOR, _("Дистриб'ютор")),
-        (PRESET_AUTO, _("Автосалон")),
-        (PRESET_FOOD, _("Їжа / ресторан")),
-        (PRESET_SHOP, _("Магазин (кошик)")),
-        (PRESET_GENERIC, _("Універсальний лендінг")),
+        (PRESET_DISTRIBUTOR, _("Distributor")),
+        (PRESET_AUTO, _("Auto dealership")),
+        (PRESET_FOOD, _("Food / restaurant")),
+        (PRESET_SHOP, _("Shop (cart)")),
+        (PRESET_GENERIC, _("Generic landing")),
     ]
 
     THEME_CLASSIC = "classic"
@@ -26,21 +26,21 @@ class SiteSettings(SingletonModel):
     THEME_NUDE = "nude"
     THEME_DARKLUX = "darklux"
     THEME_CHOICES = [
-        (THEME_CLASSIC, _("Classic (світло-синя)")),
-        (THEME_CYBERPUNK, _("Cyberpunk (неон)")),
-        (THEME_NUDE, _("Nude (пастель)")),
-        (THEME_DARKLUX, _("Dark Lux (преміум темна)")),
+        (THEME_CLASSIC, _("Classic (light blue)")),
+        (THEME_CYBERPUNK, _("Cyberpunk (neon)")),
+        (THEME_NUDE, _("Nude (pastel)")),
+        (THEME_DARKLUX, _("Dark Lux (premium dark)")),
     ]
 
     preset = models.CharField(
-        _("Пресет (вертикаль)"),
+        _("Preset (vertical)"),
         max_length=20,
         choices=PRESET_CHOICES,
         default=PRESET_DISTRIBUTOR,
-        help_text=_("Тип сайту. Використовується командою apply_preset для заповнення дефолтів."),
+        help_text=_("Site type. Used by the apply_preset command to fill defaults."),
     )
     theme = models.CharField(
-        _("Тема"),
+        _("Theme"),
         max_length=20,
         choices=THEME_CHOICES,
         default=THEME_CLASSIC,
@@ -51,148 +51,148 @@ class SiteSettings(SingletonModel):
     BRAND_STYLE_UNDERLINE = "underline"
     BRAND_STYLE_SCRIPT = "script"
     BRAND_STYLE_CHOICES = [
-        (BRAND_STYLE_PLAIN, _("Звичайний")),
-        (BRAND_STYLE_GRADIENT, _("Градієнт")),
-        (BRAND_STYLE_UNDERLINE, _("З підкресленням")),
-        (BRAND_STYLE_SCRIPT, _("Розписний (курсив)")),
+        (BRAND_STYLE_PLAIN, _("Plain")),
+        (BRAND_STYLE_GRADIENT, _("Gradient")),
+        (BRAND_STYLE_UNDERLINE, _("Underline")),
+        (BRAND_STYLE_SCRIPT, _("Script (italic)")),
     ]
 
-    brand_name = models.CharField(_("Назва сайту"), max_length=120, default="Дистриб'ютор")
+    brand_name = models.CharField(_("Site name"), max_length=120, default="Distributor")
     brand_style = models.CharField(
-        _("Стиль назви сайту"),
+        _("Site name style"),
         max_length=20,
         choices=BRAND_STYLE_CHOICES,
         default=BRAND_STYLE_PLAIN,
-        help_text=_("Оформлення тексту назви в шапці/футері."),
+        help_text=_("Name text styling in the header/footer."),
     )
-    tagline = models.CharField(_("Слоган"), max_length=300, blank=True)
-    brand_logo = models.ImageField(_("Логотип"), upload_to="branding/", blank=True, null=True,
+    tagline = models.CharField(_("Tagline"), max_length=300, blank=True)
+    brand_logo = models.ImageField(_("Logo"), upload_to="branding/", blank=True, null=True,
                                    validators=branding_image_validators)
     favicon = models.ImageField(_("Favicon"), upload_to="branding/", blank=True, null=True,
                                 validators=branding_image_validators)
-    meta_description = models.CharField(_("SEO-опис (за замовчуванням)"), max_length=300, blank=True)
-    footer_copyright = models.CharField(_("Копірайт у футері"), max_length=200, blank=True)
-    cta_label = models.CharField(_("Текст кнопки CTA"), max_length=80, default="Зв’язатись")
+    meta_description = models.CharField(_("SEO description (default)"), max_length=300, blank=True)
+    footer_copyright = models.CharField(_("Footer copyright"), max_length=200, blank=True)
+    cta_label = models.CharField(_("CTA button text"), max_length=80, default="Contact us")
 
     cart_enabled = models.BooleanField(
-        _("Кошик (режим магазину)"),
+        _("Cart (shop mode)"),
         default=False,
         help_text=_(
-            "Показувати ціни, кнопки «У кошик» і сторінку кошика. "
-            "Вмикається пресетом «Магазин». Замовлення надходять у розділ «Замовлення»."
+            'Show prices, "Add to cart" buttons and the cart page. '
+            'Enabled by the "Shop" preset. Orders arrive in the "Orders" section.'
         ),
     )
 
-    contact_phone = models.CharField(_("Контактний телефон"), max_length=40, blank=True)
-    contact_email = models.EmailField(_("Контактний email"), blank=True)
-    contact_address = models.CharField(_("Адреса"), max_length=200, blank=True)
+    contact_phone = models.CharField(_("Contact phone"), max_length=40, blank=True)
+    contact_email = models.EmailField(_("Contact email"), blank=True)
+    contact_address = models.CharField(_("Address"), max_length=200, blank=True)
 
     side_logo_left = models.ImageField(
-        _("Бокове лого (ліворуч)"), upload_to="branding/", blank=True, null=True,
+        _("Side logo (left)"), upload_to="branding/", blank=True, null=True,
         validators=branding_image_validators,
         help_text=_(
-            "На широких екранах — закріплене ліворуч (тримається при прокручуванні). "
-            "На смартфоні — внизу перед футером."
+            "On wide screens — pinned to the left (stays while scrolling). "
+            "On mobile — below the content, before the footer."
         ),
     )
     side_logo_right = models.ImageField(
-        _("Бокове лого (праворуч)"), upload_to="branding/", blank=True, null=True,
+        _("Side logo (right)"), upload_to="branding/", blank=True, null=True,
         validators=branding_image_validators,
-        help_text=_("Те саме, але праворуч / друге лого внизу на смартфоні."),
+        help_text=_("Same as left, but on the right / second logo at the bottom on mobile."),
     )
     SIDE_LOGO_SM = "sm"
     SIDE_LOGO_MD = "md"
     SIDE_LOGO_LG = "lg"
     SIDE_LOGO_SIZE_CHOICES = [
-        (SIDE_LOGO_SM, _("Маленький")),
-        (SIDE_LOGO_MD, _("Середній")),
-        (SIDE_LOGO_LG, _("Великий")),
+        (SIDE_LOGO_SM, _("Small")),
+        (SIDE_LOGO_MD, _("Medium")),
+        (SIDE_LOGO_LG, _("Large")),
     ]
     side_logo_size = models.CharField(
-        _("Розмір бокових лого"),
+        _("Side logo size"),
         max_length=2,
         choices=SIDE_LOGO_SIZE_CHOICES,
         default=SIDE_LOGO_MD,
         help_text=_(
-            "Розмір бокових лого. На широких екранах — ширина закріплених лого "
-            "(обмежена бічним полем, щоб не перекривати контент); на смартфоні — висота "
-            "лого в ряду внизу."
+            "Side logo size. On wide screens — the width of the pinned logos "
+            "(constrained by the side margin so they don't overlap content); on mobile — "
+            "the height of the logos in the bottom row."
         ),
     )
 
-    nav_catalog_label = models.CharField(_("Меню: Каталог — назва"), max_length=80, default="Каталог")
-    nav_catalog_visible = models.BooleanField(_("Меню: Каталог — показувати"), default=True)
-    nav_brands_label = models.CharField(_("Меню: Бренди — назва"), max_length=80, default="Бренди")
-    nav_brands_visible = models.BooleanField(_("Меню: Бренди — показувати"), default=True)
-    nav_promos_label = models.CharField(_("Меню: Акції — назва"), max_length=80, default="Акції")
-    nav_promos_visible = models.BooleanField(_("Меню: Акції — показувати"), default=True)
-    nav_news_label = models.CharField(_("Меню: Новини — назва"), max_length=80, default="Новини")
-    nav_news_visible = models.BooleanField(_("Меню: Новини — показувати"), default=True)
-    nav_vacancies_label = models.CharField(_("Меню: Вакансії — назва"), max_length=80, default="Вакансії")
-    nav_vacancies_visible = models.BooleanField(_("Меню: Вакансії — показувати"), default=True)
-    nav_contacts_label = models.CharField(_("Меню: Контакти — назва"), max_length=80, default="Контакти")
-    nav_contacts_visible = models.BooleanField(_("Меню: Контакти — показувати"), default=False)
+    nav_catalog_label = models.CharField(_("Menu: Catalog — label"), max_length=80, default="Catalog")
+    nav_catalog_visible = models.BooleanField(_("Menu: Catalog — visible"), default=True)
+    nav_brands_label = models.CharField(_("Menu: Brands — label"), max_length=80, default="Brands")
+    nav_brands_visible = models.BooleanField(_("Menu: Brands — visible"), default=True)
+    nav_promos_label = models.CharField(_("Menu: Promotions — label"), max_length=80, default="Promotions")
+    nav_promos_visible = models.BooleanField(_("Menu: Promotions — show"), default=True)
+    nav_news_label = models.CharField(_("Menu: News — label"), max_length=80, default="News")
+    nav_news_visible = models.BooleanField(_("Menu: News — visible"), default=True)
+    nav_vacancies_label = models.CharField(_("Menu: Vacancies — label"), max_length=80, default="Vacancies")
+    nav_vacancies_visible = models.BooleanField(_("Menu: Vacancies — visible"), default=True)
+    nav_contacts_label = models.CharField(_("Menu: Contacts — label"), max_length=80, default="Contacts")
+    nav_contacts_visible = models.BooleanField(_("Menu: Contacts — show"), default=False)
 
-    term_product_singular = models.CharField(_("Термін: товар (однина)"), max_length=80, default="Товар")
-    term_product_plural = models.CharField(_("Термін: товари (множина)"), max_length=80, default="Товари")
-    term_brand_singular = models.CharField(_("Термін: бренд (однина)"), max_length=80, default="Бренд")
-    term_brand_plural = models.CharField(_("Термін: бренди (множина)"), max_length=80, default="Бренди")
-    term_category_singular = models.CharField(_("Термін: категорія (однина)"), max_length=80, default="Категорія")
-    term_category_plural = models.CharField(_("Термін: категорії (множина)"), max_length=80, default="Категорії")
+    term_product_singular = models.CharField(_("Term: product (singular)"), max_length=80, default="Product")
+    term_product_plural = models.CharField(_("Term: products (plural)"), max_length=80, default="Products")
+    term_brand_singular = models.CharField(_("Term: brand (singular)"), max_length=80, default="Brand")
+    term_brand_plural = models.CharField(_("Term: brands (plural)"), max_length=80, default="Brands")
+    term_category_singular = models.CharField(_("Term: category (singular)"), max_length=80, default="Category")
+    term_category_plural = models.CharField(_("Term: categories (plural)"), max_length=80, default="Categories")
 
     LAYOUT_CLASSIC = "classic"
     LAYOUT_EDITORIAL = "editorial"
     LAYOUT_CINEMATIC = "cinematic"
     LAYOUT_CHOICES = [
-        (LAYOUT_CLASSIC, _("Classic (текуща)")),
-        (LAYOUT_EDITORIAL, _("Editorial (журнальний — великий типографічний hero)")),
-        (LAYOUT_CINEMATIC, _("Cinematic (повноекранний hero з відео/фото)")),
+        (LAYOUT_CLASSIC, _("Classic (current)")),
+        (LAYOUT_EDITORIAL, _("Editorial (magazine — large typographic hero)")),
+        (LAYOUT_CINEMATIC, _("Cinematic (full-screen hero with video/photo)")),
     ]
     home_layout = models.CharField(
-        _("Макет головної"),
+        _("Home layout"),
         max_length=20,
         choices=LAYOUT_CHOICES,
         default=LAYOUT_EDITORIAL,
-        help_text=_("Стиль hero-секції на головній сторінці."),
+        help_text=_("Hero section style on the home page."),
     )
 
     vacancy_description_label = models.CharField(
-        _("Вакансія: заголовок секції \"Опис\""), max_length=80, default="Опис")
+        _("Vacancy: \"Description\" section heading"), max_length=80, default="Description")
     vacancy_requirements_label = models.CharField(
-        _("Вакансія: заголовок секції \"Вимоги\""), max_length=80, default="Вимоги")
+        _("Vacancy: \"Requirements\" section heading"), max_length=80, default="Requirements")
     vacancy_conditions_label = models.CharField(
-        _("Вакансія: заголовок секції \"Умови\""), max_length=80, default="Умови")
+        _("Vacancy: \"Conditions\" section heading"), max_length=80, default="Conditions")
     vacancy_apply_label = models.CharField(
-        _("Вакансія: текст кнопки відгуку"), max_length=80, default="Відгукнутися")
+        _("Vacancy: apply button text"), max_length=80, default="Apply")
 
-    hero_eyebrow = models.CharField(_("Hero: верхня плашка"), max_length=80, blank=True,
-                                    help_text=_("Малий текст над великим заголовком (напр., \"Офіційний дистриб'ютор · 2026\")."))
-    hero_title = models.CharField(_("Hero: великий заголовок"), max_length=200, blank=True,
-                                  help_text=_("Замінює дефолтний. Для kinetic-ефекту можна підкреслити слово через **слово**."))
-    hero_subtitle = models.CharField(_("Hero: підзаголовок"), max_length=400, blank=True)
+    hero_eyebrow = models.CharField(_("Hero: eyebrow"), max_length=80, blank=True,
+                                    help_text=_("Small text above the large heading (e.g., \"Official distributor · 2026\")."))
+    hero_title = models.CharField(_("Hero: main heading"), max_length=200, blank=True,
+                                  help_text=_("Replaces the default. For the kinetic effect, emphasize a word with **word**."))
+    hero_subtitle = models.CharField(_("Hero: subheading"), max_length=400, blank=True)
 
     anim_page_transitions = models.BooleanField(
-        _("Анімація: плавні переходи між сторінками"), default=True,
-        help_text=_("View Transitions API. Працює в Chrome/Edge/Safari; у Firefox без анімації."),
+        _("Animation: smooth page transitions"), default=True,
+        help_text=_("View Transitions API. Works in Chrome/Edge/Safari; no animation in Firefox."),
     )
     anim_scroll_reveal = models.BooleanField(
-        _("Анімація: появи блоків при прокручуванні (fade-up + stagger)"), default=True,
+        _("Animation: scroll reveal (fade-up + stagger)"), default=True,
     )
     anim_magnetic_buttons = models.BooleanField(
-        _("Анімація: \"магнітні\" кнопки на hover"), default=True,
-        help_text=_("Вимикається на тач-пристроях автоматично."),
+        _("Animation: magnetic buttons on hover"), default=True,
+        help_text=_("Disabled on touch devices automatically."),
     )
     anim_cursor_follower = models.BooleanField(
-        _("Анімація: кастомний кругляк-курсор"), default=False,
-        help_text=_("Сильний ефект; не для всіх брендів. Вимикається на тач-пристроях автоматично."),
+        _("Animation: custom dot cursor"), default=False,
+        help_text=_("Strong effect; not for every brand. Disabled automatically on touch devices."),
     )
     anim_kinetic_hero = models.BooleanField(
-        _("Анімація: \"кінетичне\" появлення hero-заголовка"), default=True,
+        _("Animation: kinetic hero title reveal"), default=True,
     )
 
     class Meta:
-        verbose_name = _("Налаштування сайту")
-        verbose_name_plural = _("Налаштування сайту")
+        verbose_name = _("Site settings")
+        verbose_name_plural = _("Site settings")
 
     def __str__(self) -> str:
         return str(self._meta.verbose_name)
@@ -208,41 +208,41 @@ class PageBackground(models.Model):
     SITE_KEY = "site"
 
     PAGE_CHOICES = [
-        (SITE_KEY, _("Увесь сайт (за замовчуванням)")),
-        ("content:home", _("Головна")),
-        ("catalog:product_list", _("Каталог — список товарів")),
-        ("catalog:product_detail", _("Каталог — картка товару")),
-        ("brands:brand_list", _("Бренди — список")),
-        ("brands:brand_detail", _("Бренди — сторінка бренду")),
-        ("content:promo_list", _("Акції — список")),
-        ("content:promo_detail", _("Акції — сторінка акції")),
-        ("content:news_list", _("Новини — список")),
-        ("content:news_detail", _("Новини — сторінка новини")),
-        ("vacancies:list", _("Вакансії — список")),
-        ("vacancies:detail", _("Вакансії — сторінка вакансії")),
-        ("contacts:contact", _("Контакти")),
+        (SITE_KEY, _("Whole site (default)")),
+        ("content:home", _("Home")),
+        ("catalog:product_list", _("Catalog — product list")),
+        ("catalog:product_detail", _("Catalog — product page")),
+        ("brands:brand_list", _("Brands — list")),
+        ("brands:brand_detail", _("Brands — brand page")),
+        ("content:promo_list", _("Promotions — list")),
+        ("content:promo_detail", _("Promotions — promotion page")),
+        ("content:news_list", _("News — list")),
+        ("content:news_detail", _("News — article page")),
+        ("vacancies:list", _("Vacancies — list")),
+        ("vacancies:detail", _("Vacancies — vacancy page")),
+        ("contacts:contact", _("Contacts")),
     ]
 
     page_key = models.CharField(
-        _("Сторінка"),
+        _("Page"),
         max_length=64,
         unique=True,
         choices=PAGE_CHOICES,
         default=SITE_KEY,
     )
-    image = models.ImageField(_("Зображення"), upload_to="backgrounds/",
+    image = models.ImageField(_("Image"), upload_to="backgrounds/",
                               validators=raster_image_validators)
-    is_active = models.BooleanField(_("Активний"), default=True, db_index=True)
+    is_active = models.BooleanField(_("Active"), default=True, db_index=True)
     overlay_opacity = models.PositiveSmallIntegerField(
-        _("Затемнення, %"),
+        _("Overlay, %"),
         default=40,
-        help_text=_("Прозорість підкладки поверх фону (0–90), щоб текст залишався читабельним."),
+        help_text=_("Opacity of the overlay above the background (0–90) to keep text readable."),
     )
-    updated_at = models.DateTimeField(_("Оновлено"), auto_now=True)
+    updated_at = models.DateTimeField(_("Updated"), auto_now=True)
 
     class Meta:
-        verbose_name = _("Фон сторінки")
-        verbose_name_plural = _("Фони сторінок")
+        verbose_name = _("Page background")
+        verbose_name_plural = _("Page backgrounds")
         ordering = ["page_key"]
 
     def __str__(self) -> str:

@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 {% load i18n %}
-{% block title %}{% trans "Контакти" %} — {% trans "Дистриб’ютор" %}{% endblock %}
+{% block title %}{% trans "Contacts" %} — {% trans "Distributor" %}{% endblock %}
 {% block content %}
 <div class="pt-28 pb-24">
   <div class="mx-auto px-6 max-w-2xl">
     <h1 class="text-4xl font-semibold text-title mb-4 text-center">
-      {% trans "Зв’яжіться з нами" %}
+      {% trans "Contact us" %}
     </h1>
     <p class="text-body text-center mb-12">
-      {% trans "Заповніть форму, і ми відповімо найближчим часом" %}
+      {% trans "Fill in the form and we'll get back to you shortly" %}
     </p>
     <div class="card variant-outlined p-8">
       <form method="post">
@@ -21,7 +21,7 @@
         <div class="space-y-4">
           <div>
             <label class="text-sm font-medium text-title mb-1 block">
-              {% trans "Ім’я" %} *
+              {% trans "Name" %} *
             </label>
             {{ form.name }}
             {% if form.name.errors %}
@@ -31,7 +31,7 @@
           <div class="grid sm:grid-cols-2 gap-4">
             <div>
               <label class="text-sm font-medium text-title mb-1 block">
-                {% trans "Телефон" %}
+                {% trans "Phone" %}
               </label>
               {{ form.phone }}
             </div>
@@ -44,13 +44,13 @@
           </div>
           <div>
             <label class="text-sm font-medium text-title mb-1 block">
-              {% trans "Тема" %}
+              {% trans "Subject" %}
             </label>
             {{ form.subject }}
           </div>
           <div>
             <label class="text-sm font-medium text-title mb-1 block">
-              {% trans "Повідомлення" %} *
+              {% trans "Message" %} *
             </label>
             {{ form.message }}
             {% if form.message.errors %}
@@ -61,7 +61,7 @@
           </div>
         </div>
         <button type="submit" class="btn variant-primary w-full mt-6">
-          <span class="btn-label">{% trans "Надіслати повідомлення" %}</span>
+          <span class="btn-label">{% trans "Send message" %}</span>
         </button>
       </form>
     </div>
