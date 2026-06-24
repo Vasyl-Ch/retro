@@ -5,6 +5,17 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.urls import reverse
 
+
+class TranslationRegistrationTests(TestCase):
+    def test_translated_fields_exist(self):
+        from apps.catalog.models import Brand, Product
+        fields = {f.name for f in Brand._meta.get_fields()}
+        self.assertIn("name_en", fields)
+        self.assertIn("name_uk", fields)
+        pfields = {f.name for f in Product._meta.get_fields()}
+        self.assertIn("description_en", pfields)
+        self.assertIn("location_uk", pfields)
+
 from .models import (
     Brand,
     Category,

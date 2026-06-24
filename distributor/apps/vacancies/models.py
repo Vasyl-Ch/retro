@@ -2,8 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
-from django_summernote.fields import SummernoteTextField
-
+from apps.core.fields import SummernoteTextField
 from apps.core.sanitizer import sanitize_html
 from apps.core.validators import raster_image_validators
 
