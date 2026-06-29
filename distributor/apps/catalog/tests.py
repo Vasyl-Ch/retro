@@ -172,3 +172,35 @@ class BackfillUkTests(TestCase):
             name_uk, name_en = cur.fetchone()
         self.assertEqual(name_uk, "Сила")
         self.assertIsNone(name_en)
+
+
+class ContentFallbackTests(TestCase):
+    def test_uk_only_content_falls_back_under_english(self):
+        from django.utils import translation
+
+        from apps.catalog.models import Brand
+
+        b = Brand.objects.create(slug="b1")
+        b.name_uk = "Сила"
+        b.name_en = ""
+        b.save()
+        b.refresh_from_db()
+        with translation.override("uk"):
+            self.assertEqual(b.name, "Сила")
+        with translation.override("en"):
+            self.assertEqual(b.name, "Сила")  # en empty → fallback to uk
+
+    def test_english_value_wins_under_english(self):
+        from django.utils import translation
+
+        from apps.catalog.models import Brand
+
+        b = Brand.objects.create(slug="b2")
+        b.name_uk = "Сила"
+        b.name_en = "Power"
+        b.save()
+        b.refresh_from_db()
+        with translation.override("en"):
+            self.assertEqual(b.name, "Power")
+        with translation.override("uk"):
+            self.assertEqual(b.name, "Сила")
