@@ -150,3 +150,25 @@ class ProductImageValidationTests(TestCase):
         )
         # full_clean must not raise on the image field (extension allowed).
         product.full_clean()
+
+
+class BackfillUkTests(TestCase):
+    def test_backfill_copies_base_into_uk(self):
+        from django.db import connection
+
+        from apps.catalog.migrations import _bilingua_backfill  # created in Task 2 Step 3
+        from apps.catalog.models import Brand
+
+        b = Brand.objects.create(name="Acme", slug="acme")
+        # Simulate legacy data: base column set, both translations empty.
+        with connection.cursor() as cur:
+            cur.execute(
+                "UPDATE catalog_brand SET name='Сила', name_en=NULL, name_uk=NULL WHERE id=%s",
+                [b.id],
+            )
+        _bilingua_backfill.backfill(connection, [("catalog_brand", ["name"])])
+        with connection.cursor() as cur:
+            cur.execute("SELECT name_uk, name_en FROM catalog_brand WHERE id=%s", [b.id])
+            name_uk, name_en = cur.fetchone()
+        self.assertEqual(name_uk, "Сила")
+        self.assertIsNone(name_en)
