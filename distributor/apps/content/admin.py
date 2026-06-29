@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from django_summernote.admin import SummernoteModelAdmin
+from modeltranslation.admin import TabbedTranslationAdmin
 
 from apps.core.admin import image_preview_method
 
@@ -9,7 +10,7 @@ from .models import Banner, News, Promo
 
 
 @admin.register(Banner)
-class BannerAdmin(admin.ModelAdmin):
+class BannerAdmin(TabbedTranslationAdmin):
     list_display = ["bg_preview", "title", "is_active", "order"]
     list_editable = ["is_active", "order"]
     list_display_links = ["title"]
@@ -20,8 +21,8 @@ class BannerAdmin(admin.ModelAdmin):
 
 
 @admin.register(News)
-class NewsAdmin(SummernoteModelAdmin):
-    summernote_fields = ("content",)
+class NewsAdmin(SummernoteModelAdmin, TabbedTranslationAdmin):
+    summernote_fields = ("content_en", "content_uk")
     list_display = ["image_preview", "title", "published_at", "is_active"]
     list_editable = ["is_active"]
     list_display_links = ["title"]
@@ -33,8 +34,8 @@ class NewsAdmin(SummernoteModelAdmin):
 
 
 @admin.register(Promo)
-class PromoAdmin(SummernoteModelAdmin):
-    summernote_fields = ("description",)
+class PromoAdmin(SummernoteModelAdmin, TabbedTranslationAdmin):
+    summernote_fields = ("description_en", "description_uk")
     list_display = [
         "image_preview",
         "title",

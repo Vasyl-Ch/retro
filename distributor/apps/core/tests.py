@@ -233,3 +233,28 @@ class SummernoteTextFieldNoneSafetyTests(SimpleTestCase):
         cleaned = field.to_python("<p>ok</p><script>alert(1)</script>")
         self.assertIn("<p>ok</p>", cleaned)
         self.assertNotIn("<script", cleaned)
+
+
+class TranslatedAdminSmokeTests(DBTestCase):
+    @classmethod
+    def setUpTestData(cls):
+        from django.contrib.auth import get_user_model
+
+        cls.admin = get_user_model().objects.create_superuser("a", "a@x.com", "pw")
+
+    def setUp(self):
+        self.client.force_login(self.admin)
+
+    def test_add_pages_render_with_language_fields(self):
+        from django.urls import reverse
+
+        for url_name, marker in [
+            ("admin:catalog_brand_add", "name_en"),
+            ("admin:catalog_product_add", "name_uk"),
+            ("admin:content_news_add", "content_en"),
+            ("admin:content_promo_add", "description_uk"),
+            ("admin:vacancies_vacancy_add", "description_en"),
+        ]:
+            resp = self.client.get(reverse(url_name))
+            self.assertEqual(resp.status_code, 200, url_name)
+            self.assertContains(resp, marker)
