@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from apps.core.fields import SummernoteTextField
-from apps.core.sanitizer import sanitize_html
+from apps.core.sanitizer import sanitize_instance_html
 from apps.core.validators import raster_image_validators
 
 
@@ -39,9 +39,7 @@ class Vacancy(models.Model):
     def save(self, *args, **kwargs) -> None:
         if not self.slug:
             self.slug = slugify(self.title)
-        self.description = sanitize_html(self.description)
-        self.requirements = sanitize_html(self.requirements)
-        self.conditions = sanitize_html(self.conditions)
+        sanitize_instance_html(self, "description", "requirements", "conditions")
         super().save(*args, **kwargs)
 
     def get_absolute_url(self) -> str:

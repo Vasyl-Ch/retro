@@ -26,3 +26,17 @@ class PromoSanitizationTests(TestCase):
         )
         self.assertNotIn("<script", promo.description)
         self.assertIn("<p>ok</p>", promo.description)
+
+
+class NewsTranslatedSanitizationTests(TestCase):
+    def test_script_stripped_in_both_languages(self):
+        news = News.objects.create(
+            title="T", preview="p", published_at=timezone.now(),
+            content_en="<p>en</p><script>alert(1)</script>",
+            content_uk="<p>uk</p><img src=x onerror=alert(2)>",
+        )
+        # In-memory assert (SummernoteTextField masks on read).
+        self.assertNotIn("<script", news.content_en)
+        self.assertIn("<p>en</p>", news.content_en)
+        self.assertNotIn("onerror", news.content_uk)
+        self.assertIn("<p>uk</p>", news.content_uk)

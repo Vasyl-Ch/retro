@@ -43,3 +43,14 @@ def sanitize_html(value: str | None) -> str:
         protocols=ALLOWED_PROTOCOLS,
         strip=True,
     )
+
+
+def sanitize_instance_html(instance, *field_names, languages=("en", "uk")):
+    """Sanitize rich-text fields on `instance`, including modeltranslation
+    language variants (<field>_<lang>) when those attributes exist."""
+    for base in field_names:
+        for name in (base, *(f"{base}_{lang}" for lang in languages)):
+            if hasattr(instance, name):
+                value = getattr(instance, name)
+                if value:
+                    setattr(instance, name, sanitize_html(value))
