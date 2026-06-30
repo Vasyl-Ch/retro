@@ -5,6 +5,17 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.urls import reverse
 
+
+class TranslationRegistrationTests(TestCase):
+    def test_translated_fields_exist(self):
+        from apps.catalog.models import Brand, Product
+        fields = {f.name for f in Brand._meta.get_fields()}
+        self.assertIn("name_en", fields)
+        self.assertIn("name_uk", fields)
+        pfields = {f.name for f in Product._meta.get_fields()}
+        self.assertIn("description_en", pfields)
+        self.assertIn("location_uk", pfields)
+
 from .models import (
     Brand,
     Category,
@@ -139,3 +150,57 @@ class ProductImageValidationTests(TestCase):
         )
         # full_clean must not raise on the image field (extension allowed).
         product.full_clean()
+
+
+class BackfillUkTests(TestCase):
+    def test_backfill_copies_base_into_uk(self):
+        from django.db import connection
+
+        from apps.catalog.migrations import _bilingua_backfill  # created in Task 2 Step 3
+        from apps.catalog.models import Brand
+
+        b = Brand.objects.create(name="Acme", slug="acme")
+        # Simulate legacy data: base column set, both translations empty.
+        with connection.cursor() as cur:
+            cur.execute(
+                "UPDATE catalog_brand SET name='Сила', name_en=NULL, name_uk=NULL WHERE id=%s",
+                [b.id],
+            )
+        _bilingua_backfill.backfill(connection, [("catalog_brand", ["name"])])
+        with connection.cursor() as cur:
+            cur.execute("SELECT name_uk, name_en FROM catalog_brand WHERE id=%s", [b.id])
+            name_uk, name_en = cur.fetchone()
+        self.assertEqual(name_uk, "Сила")
+        self.assertIsNone(name_en)
+
+
+class ContentFallbackTests(TestCase):
+    def test_uk_only_content_falls_back_under_english(self):
+        from django.utils import translation
+
+        from apps.catalog.models import Brand
+
+        b = Brand.objects.create(slug="b1")
+        b.name_uk = "Сила"
+        b.name_en = ""
+        b.save()
+        b.refresh_from_db()
+        with translation.override("uk"):
+            self.assertEqual(b.name, "Сила")
+        with translation.override("en"):
+            self.assertEqual(b.name, "Сила")  # en empty → fallback to uk
+
+    def test_english_value_wins_under_english(self):
+        from django.utils import translation
+
+        from apps.catalog.models import Brand
+
+        b = Brand.objects.create(slug="b2")
+        b.name_uk = "Сила"
+        b.name_en = "Power"
+        b.save()
+        b.refresh_from_db()
+        with translation.override("en"):
+            self.assertEqual(b.name, "Power")
+        with translation.override("uk"):
+            self.assertEqual(b.name, "Сила")

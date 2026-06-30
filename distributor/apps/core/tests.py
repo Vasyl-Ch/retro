@@ -207,3 +207,54 @@ class ApplyPresetI18nTests(DBTestCase):
         self.assertEqual(s.term_product_singular, s.term_product_singular_en)
         # uk variant still populated from the preset
         self.assertTrue(s.nav_catalog_label_uk)
+
+
+class SummernoteTextFieldNoneSafetyTests(SimpleTestCase):
+    """Regression: the rich-text field must not crash on None.
+
+    modeltranslation adds null=True `_en`/`_uk` copies of the rich-text
+    fields. Django computes their column default via get_prep_value(None)
+    (and a runtime save() of a row with an empty variant does the same),
+    which the upstream SummernoteTextField.to_python feeds to bleach.clean
+    -> TypeError. Our subclass guards None like Django's TextField does.
+    """
+
+    def test_to_python_and_get_prep_value_pass_none_through(self):
+        from apps.core.fields import SummernoteTextField
+
+        field = SummernoteTextField()
+        self.assertIsNone(field.to_python(None))
+        self.assertIsNone(field.get_prep_value(None))
+
+    def test_str_values_are_still_sanitized(self):
+        from apps.core.fields import SummernoteTextField
+
+        field = SummernoteTextField()
+        cleaned = field.to_python("<p>ok</p><script>alert(1)</script>")
+        self.assertIn("<p>ok</p>", cleaned)
+        self.assertNotIn("<script", cleaned)
+
+
+class TranslatedAdminSmokeTests(DBTestCase):
+    @classmethod
+    def setUpTestData(cls):
+        from django.contrib.auth import get_user_model
+
+        cls.admin = get_user_model().objects.create_superuser("a", "a@x.com", "pw")
+
+    def setUp(self):
+        self.client.force_login(self.admin)
+
+    def test_add_pages_render_with_language_fields(self):
+        from django.urls import reverse
+
+        for url_name, marker in [
+            ("admin:catalog_brand_add", "name_en"),
+            ("admin:catalog_product_add", "name_uk"),
+            ("admin:content_news_add", "content_en"),
+            ("admin:content_promo_add", "description_uk"),
+            ("admin:vacancies_vacancy_add", "description_en"),
+        ]:
+            resp = self.client.get(reverse(url_name))
+            self.assertEqual(resp.status_code, 200, url_name)
+            self.assertContains(resp, marker)

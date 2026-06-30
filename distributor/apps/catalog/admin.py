@@ -1,6 +1,11 @@
 from django.contrib import admin
 from django.db.utils import OperationalError, ProgrammingError
 from django.utils.translation import gettext_lazy as _
+from modeltranslation.admin import (
+    TabbedTranslationAdmin,
+    TranslationStackedInline,
+    TranslationTabularInline,
+)
 
 from apps.core.admin import image_preview_method
 from apps.core.models import SiteSettings
@@ -27,7 +32,7 @@ class ProductImageInline(admin.TabularInline):
     )
 
 
-class VehicleSpecInline(admin.StackedInline):
+class VehicleSpecInline(TranslationStackedInline):
     """Vehicle specs inline — only for the "Auto dealership" preset."""
 
     model = VehicleSpec
@@ -38,7 +43,7 @@ class VehicleSpecInline(admin.StackedInline):
     verbose_name_plural = _("Vehicle specs")
 
 
-class ProductSpecInline(admin.TabularInline):
+class ProductSpecInline(TranslationTabularInline):
     """Arbitrary parameters (key-value) — configurator for any vertical."""
 
     model = ProductSpec
@@ -47,7 +52,7 @@ class ProductSpecInline(admin.TabularInline):
 
 
 @admin.register(Brand)
-class BrandAdmin(admin.ModelAdmin):
+class BrandAdmin(TabbedTranslationAdmin):
     list_display = ["logo_preview", "name", "is_active", "order"]
     list_editable = ["is_active", "order"]
     list_display_links = ["name"]
@@ -60,7 +65,7 @@ class BrandAdmin(admin.ModelAdmin):
 
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(TabbedTranslationAdmin):
     list_display = ["name", "parent", "is_active"]
     list_editable = ["is_active"]
     list_display_links = ["name"]
@@ -68,7 +73,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(TabbedTranslationAdmin):
     list_display = [
         "image_preview",
         "name",

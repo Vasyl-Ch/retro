@@ -1,13 +1,14 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from django_summernote.admin import SummernoteModelAdmin
+from modeltranslation.admin import TabbedTranslationAdmin, TranslationTabularInline
 
 from apps.core.admin import image_preview_method
 
 from .models import Vacancy, VacancyImage
 
 
-class VacancyImageInline(admin.TabularInline):
+class VacancyImageInline(TranslationTabularInline):
     model = VacancyImage
     extra = 1
     fields = ["image", "caption", "order"]
@@ -15,8 +16,12 @@ class VacancyImageInline(admin.TabularInline):
 
 
 @admin.register(Vacancy)
-class VacancyAdmin(SummernoteModelAdmin):
-    summernote_fields = ("description", "requirements", "conditions")
+class VacancyAdmin(SummernoteModelAdmin, TabbedTranslationAdmin):
+    summernote_fields = (
+        "description_en", "description_uk",
+        "requirements_en", "requirements_uk",
+        "conditions_en", "conditions_uk",
+    )
     inlines = [VacancyImageInline]
 
     list_display = ["cover_preview", "title", "city", "is_urgent", "is_active", "order", "created_at"]
