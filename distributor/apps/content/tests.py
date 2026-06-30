@@ -35,7 +35,9 @@ class NewsTranslatedSanitizationTests(TestCase):
             content_en="<p>en</p><script>alert(1)</script>",
             content_uk="<p>uk</p><img src=x onerror=alert(2)>",
         )
-        # In-memory assert (SummernoteTextField masks on read).
+        # Assert on the in-memory instance: save() reassigns the sanitized
+        # value (the field does not mask on read), so this reflects our
+        # save()-time sanitization of each language variant.
         self.assertNotIn("<script", news.content_en)
         self.assertIn("<p>en</p>", news.content_en)
         self.assertNotIn("onerror", news.content_uk)
