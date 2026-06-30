@@ -87,3 +87,27 @@ class AppearanceServiceTests(SimpleTestCase):
         from apps.core.appearance.services import preview_vars
 
         self.assertEqual(preview_vars(accent="nope"), {})
+
+
+from django.test import TestCase as _DBTestCase
+
+
+class AppearanceModelTests(_DBTestCase):
+    def test_sitesettings_appearance_fields_exist_and_drive_css(self):
+        from apps.core.appearance.services import build_appearance_css
+        from apps.core.models import SiteSettings
+
+        s = SiteSettings.get_solo()
+        s.custom_accent = "#2563eb"
+        s.chrome_opacity = 70
+        s.save()
+        css = build_appearance_css(SiteSettings.get_solo())
+        self.assertIn("--primary-600: 37 99 235;", css)
+        self.assertIn("--chrome-alpha: 0.7;", css)
+
+    def test_pagebackground_position_size_defaults(self):
+        from apps.core.models import PageBackground
+
+        bg = PageBackground(page_key=PageBackground.SITE_KEY)
+        self.assertEqual(bg.position, "center")
+        self.assertEqual(bg.size, "cover")

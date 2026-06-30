@@ -1,3 +1,5 @@
+from colorfield.fields import ColorField
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from solo.models import SingletonModel
@@ -44,6 +46,23 @@ class SiteSettings(SingletonModel):
         max_length=20,
         choices=THEME_CHOICES,
         default=THEME_CLASSIC,
+    )
+
+    custom_accent = ColorField(
+        _("Custom accent colour"), blank=True, default="",
+        help_text=_("Overrides the theme's primary colour. Empty = use the selected theme."),
+    )
+    chrome_bg = ColorField(
+        _("Header/footer background"), blank=True, default="",
+        help_text=_("Overrides the header & footer background. Empty = theme default."),
+    )
+    chrome_text = ColorField(
+        _("Header/footer text"), blank=True, default="",
+    )
+    chrome_opacity = models.PositiveSmallIntegerField(
+        _("Header/footer opacity, %"), default=100,
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+        help_text=_("100 = solid, lower = more transparent."),
     )
 
     BRAND_STYLE_PLAIN = "plain"
@@ -237,6 +256,20 @@ class PageBackground(models.Model):
         _("Overlay, %"),
         default=40,
         help_text=_("Opacity of the overlay above the background (0–90) to keep text readable."),
+    )
+    POSITION_CHOICES = [
+        ("center", _("Center")), ("top", _("Top")), ("bottom", _("Bottom")),
+        ("left", _("Left")), ("right", _("Right")),
+        ("top left", _("Top-left")), ("top right", _("Top-right")),
+        ("bottom left", _("Bottom-left")), ("bottom right", _("Bottom-right")),
+    ]
+    SIZE_CHOICES = [("cover", _("Cover (fill)")), ("contain", _("Contain (fit)"))]
+
+    position = models.CharField(
+        _("Background position"), max_length=20, choices=POSITION_CHOICES, default="center",
+    )
+    size = models.CharField(
+        _("Background size"), max_length=10, choices=SIZE_CHOICES, default="cover",
     )
     updated_at = models.DateTimeField(_("Updated"), auto_now=True)
 
