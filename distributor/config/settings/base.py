@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.sitemaps",
     "django_summernote",
     "solo",
+    "colorfield",
     "apps.core",
     "apps.catalog",
     "apps.content",
