@@ -49,3 +49,41 @@ class AppearanceThemeTests(SimpleTestCase):
         self.assertIn("--primary-600: 37 99 235;", css)
         self.assertIn("--chrome-bg: #111827;", css)
         self.assertIn("--chrome-alpha: 0.8;", css)
+
+
+class _StubSettings:
+    custom_accent = "#2563eb"
+    chrome_bg = ""
+    chrome_text = ""
+    chrome_opacity = 80
+
+
+class _EmptySettings:
+    custom_accent = ""
+    chrome_bg = ""
+    chrome_text = ""
+    chrome_opacity = 100
+
+
+class AppearanceServiceTests(SimpleTestCase):
+    def test_build_css_matches_preview_vars(self):
+        from apps.core.appearance.services import build_appearance_css, preview_vars
+
+        css = build_appearance_css(_StubSettings())
+        for name, value in preview_vars(accent="#2563eb", chrome_opacity=80).items():
+            self.assertIn(f"{name}: {value};", css)
+
+    def test_empty_settings_produce_no_css(self):
+        from apps.core.appearance.services import build_appearance_css
+
+        self.assertEqual(build_appearance_css(_EmptySettings()), "")
+
+    def test_opacity_100_emits_no_alpha(self):
+        from apps.core.appearance.services import preview_vars
+
+        self.assertNotIn("--chrome-alpha", preview_vars(accent="#2563eb", chrome_opacity=100))
+
+    def test_invalid_accent_returns_empty_map(self):
+        from apps.core.appearance.services import preview_vars
+
+        self.assertEqual(preview_vars(accent="nope"), {})
