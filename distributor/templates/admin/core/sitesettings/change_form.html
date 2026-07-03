@@ -33,4 +33,39 @@
 </div>
 
 {{ block.super }}
+
+<div id="appearance-preview" style="margin-top:1rem">
+  <h3>{% trans "Live preview" %}</h3>
+  <iframe id="appearance-frame" src="/?appearance_preview=1"
+          style="width:100%;height:520px;border:1px solid #ccc;border-radius:8px"></iframe>
+</div>
+<script>
+(function () {
+  var frame = document.getElementById("appearance-frame");
+  if (!frame) return;
+  var ids = ["id_custom_accent", "id_chrome_bg", "id_chrome_text", "id_chrome_opacity"];
+  var timer = null;
+  function push() {
+    var params = new URLSearchParams({
+      accent: (document.getElementById("id_custom_accent") || {}).value || "",
+      chrome_bg: (document.getElementById("id_chrome_bg") || {}).value || "",
+      chrome_text: (document.getElementById("id_chrome_text") || {}).value || "",
+      chrome_opacity: (document.getElementById("id_chrome_opacity") || {}).value || "100",
+    });
+    fetch("preview-css/?" + params.toString(), {credentials: "same-origin"})
+      .then(function (r) { return r.json(); })
+      .then(function (vars) {
+        if (frame.contentWindow) {
+          frame.contentWindow.postMessage({type: "appearance", vars: vars}, location.origin);
+        }
+      });
+  }
+  function debounced() { clearTimeout(timer); timer = setTimeout(push, 200); }
+  ids.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) { el.addEventListener("input", debounced); el.addEventListener("change", debounced); }
+  });
+  frame.addEventListener("load", push);
+})();
+</script>
 {% endblock %}

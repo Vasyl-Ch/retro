@@ -94,5 +94,16 @@
 
     {% vite_js %}
     {% block extra_js %}{% endblock %}
+    {% if request.GET.appearance_preview %}
+    <script>
+    window.addEventListener("message", function (e) {
+      if (e.origin !== location.origin) return;
+      var d = e.data || {};
+      if (d.type !== "appearance" || !d.vars) return;
+      var root = document.documentElement;
+      Object.keys(d.vars).forEach(function (k) { root.style.setProperty(k, d.vars[k]); });
+    });
+    </script>
+    {% endif %}
 </body>
 </html>

@@ -131,3 +131,34 @@ class AppearanceRenderTests(_DBTestCase):
         SiteSettings.get_solo()  # defaults: no custom appearance
         resp = self.client.get("/")
         self.assertNotContains(resp, "appearance-overrides")
+
+
+from django.contrib.auth import get_user_model
+from django.urls import reverse
+
+
+class AppearancePreviewEndpointTests(_DBTestCase):
+    def test_preview_endpoint_returns_var_map_for_staff(self):
+        admin = get_user_model().objects.create_superuser("ap", "ap@x.com", "pw")
+        self.client.force_login(admin)
+        url = reverse("admin:core_sitesettings_preview_css")
+        resp = self.client.get(url, {"accent": "#2563eb", "chrome_opacity": "80"})
+        self.assertEqual(resp.status_code, 200)
+        data = resp.json()
+        self.assertEqual(data["--primary-600"], "37 99 235")
+        self.assertEqual(data["--chrome-alpha"], "0.8")
+
+    def test_preview_endpoint_blocks_anonymous(self):
+        url = reverse("admin:core_sitesettings_preview_css")
+        resp = self.client.get(url, {"accent": "#2563eb"})
+        self.assertIn(resp.status_code, (302, 403))
+
+
+class AppearanceAdminFormTests(_DBTestCase):
+    def test_change_form_shows_appearance_fields(self):
+        admin = get_user_model().objects.create_superuser("ap2", "ap2@x.com", "pw")
+        self.client.force_login(admin)
+        resp = self.client.get(reverse("admin:core_sitesettings_change", args=[1]))
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, "custom_accent")
+        self.assertContains(resp, "chrome_opacity")
