@@ -15,7 +15,9 @@ subagent-driven исполнение → ревью → мёрж):
 | 1 | **Ремедиация** (безопасность/корректность/производительность) | ✅ влито в `main` (merge `2983824`) |
 | 2a | **Билингва: статический UI + админка** | ✅ влито в `main` (merge `1cb7c73`) |
 | 2b | **Билингва: контент** (modeltranslation) | ✅ влито в `main` (merge `61db8c0`) |
-| 3 | **Конструктор** (цвета/прозрачность/позиции/фоны + живое превью) | ⬜ Не начато (следующее) |
+| 3 | **Конструктор** (цвета/прозрачность/позиции/фоны + живое превью) | ✅ влито в `main` (merge `964e181`) |
+
+**Все 3 направления завершены и влиты в `main`.** Полный сьют — 89/89. В remote не пушилось.
 
 Дорожная карта и заметки — в памяти проекта (`remediation-roadmap.md`, `summernote-readmask.md`).
 
@@ -55,7 +57,7 @@ subagent-driven исполнение → ревью → мёрж):
 ```
 docker compose -f docker-compose.dev.yml exec -T web python manage.py test --settings=config.settings.development
 ```
-Ожидается **71/71**, `check` чисто, `makemigrations --check --dry-run` → No changes detected.
+Ожидается **89/89**, `check` чисто, `makemigrations --check --dry-run` → No changes detected.
 
 > ⚠️ Из Git Bash для docker exec с абсолютными путями контейнера используй префикс `MSYS_NO_PATHCONV=1`
 > (иначе `/app/...` манглится в `C:/Program Files/Git/...`). Стек поднимать с `WEB_PORT=8008 DB_PORT=5438`.
@@ -63,16 +65,26 @@ docker compose -f docker-compose.dev.yml exec -T web python manage.py test --set
 
 ---
 
-## 5. Что осталось — Направление 3 (Конструктор)
+## 5. Направление 3 (Конструктор) — готово
 
-Цель: админ-управляемый визуальный кастомайзер страниц — редактируемые цвета/прозрачность/позиции и
-фоновые изображения с живым превью.
+Админ-редактор внешнего вида (`apps/core/appearance/` — чистый домен `palette.py` + сервис
+`services.py`; поля на `SiteSettings`/`PageBackground`; **coloraide** + **django-colorfield**):
+кастомный акцент → палитра `--primary-*` (перекрывает тему), прозрачность шапки/футера
+(`--chrome-alpha` через CSS `color-mix`), позиция/размер фона, живое превью в `<iframe>`
+(postMessage). Спека/план: `docs/superpowers/{specs,plans}/2026-06-25-constructor*`.
 
-- **Хорошая база:** тема уже на CSS-переменных (`data-theme` + `--primary-*`/`--chrome-*`,
-  см. `ada-frontend/assets/css/tailus.css`); есть `apps/core/models.py::SiteSettings`,
-  `PageBackground`, `presets.py`. Drag-drop/блочной системы пока нет.
-- **Нужен отдельный цикл брейншторма** (объём/скоуп: какие именно элементы настраиваются, где живёт
-  превью — админка vs фронт, готовые библиотеки vs своё) → спека → план → subagent-driven исполнение.
+**Будущие под-проекты (не начаты):** drag-drop конструктор блоков, несколько сохранённых тем,
+поэлементное редактирование лейаута, шрифты.
+
+## 5a. Нюансы окружения (Docker)
+- Веб-контейнер сам выполняет `migrate` при старте (см. `command` в `docker-compose.dev.yml`) —
+  **НЕ** запускать `migrate` вручную параллельно (был race → duplicate pg_type). Для сброса грязной
+  dev-БД: `docker compose -f docker-compose.dev.yml down -v`, затем подъём заново.
+- Зависимости (`coloraide`, `django-colorfield`) ставятся при билде образа — после добавления новых
+  зависимостей нужен `docker compose -f docker-compose.dev.yml build`, иначе пересозданный контейнер
+  не стартует.
+- Jazzmin-админка тянет внешние CDN-ассеты — в песочнице страница админки может «висеть» на загрузке
+  (UI-автоматизация админки затруднена); публичный фронт грузится нормально.
 
 ## 6. Процесс/нюансы
 - subagent-driven (свежий имплементер на задачу + ревью; финальное ревью на opus). Прогресс — в
