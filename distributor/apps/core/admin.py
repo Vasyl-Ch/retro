@@ -4,8 +4,10 @@ from typing import Any
 
 from django.contrib import admin, messages
 from django.db.models.fields.files import ImageFieldFile
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import path, reverse
+
+from apps.core.appearance.services import preview_vars
 from django.utils.html import format_html
 from django.utils.safestring import SafeString
 from django.utils.translation import gettext_lazy as _
@@ -114,8 +116,21 @@ class SiteSettingsAdmin(SingletonModelAdmin, TranslationAdmin):
                 self.admin_site.admin_view(self.apply_preset_view),
                 name="core_sitesettings_apply_preset",
             ),
+            path(
+                "preview-css/",
+                self.admin_site.admin_view(self.preview_css_view),
+                name="core_sitesettings_preview_css",
+            ),
         ]
         return custom + urls
+
+    def preview_css_view(self, request):
+        return JsonResponse(preview_vars(
+            accent=request.GET.get("accent", ""),
+            chrome_bg=request.GET.get("chrome_bg", ""),
+            chrome_text=request.GET.get("chrome_text", ""),
+            chrome_opacity=request.GET.get("chrome_opacity", 100) or 100,
+        ))
 
     def apply_preset_view(self, request, name):
         if name not in PRESETS:
@@ -141,6 +156,10 @@ class SiteSettingsAdmin(SingletonModelAdmin, TranslationAdmin):
         (_("General"), {
             "fields": ("preset", "theme", "brand_name", "brand_style", "tagline", "brand_logo", "favicon",
                        "meta_description", "footer_copyright", "cta_label", "cart_enabled"),
+        }),
+        (_("Appearance (colors & transparency)"), {
+            "fields": ("custom_accent", "chrome_bg", "chrome_text", "chrome_opacity"),
+            "description": _("Live preview updates below as you change these."),
         }),
         (_("Contacts"), {
             "fields": ("contact_phone", "contact_email", "contact_address"),

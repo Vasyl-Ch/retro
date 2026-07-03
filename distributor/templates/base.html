@@ -27,6 +27,9 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&display=swap">
     {% vite_css %}
+    {% if appearance_css %}
+    <style id="appearance-overrides">:root[data-theme][data-theme]{ {{ appearance_css }} }</style>
+    {% endif %}
     {% if page_background %}
     <style>
       body.has-page-bg {
@@ -34,8 +37,8 @@
           linear-gradient(rgba(255, 255, 255, calc({{ page_background_overlay }} / 100)),
                           rgba(255, 255, 255, calc({{ page_background_overlay }} / 100))),
           url("{{ page_background }}");
-        background-size: cover;
-        background-position: center;
+        background-size: {{ page_background_size|default:'cover' }};
+        background-position: {{ page_background_position|default:'center' }};
         background-attachment: fixed;
         background-repeat: no-repeat;
       }
@@ -91,5 +94,16 @@
 
     {% vite_js %}
     {% block extra_js %}{% endblock %}
+    {% if request.GET.appearance_preview %}
+    <script>
+    window.addEventListener("message", function (e) {
+      if (e.origin !== location.origin) return;
+      var d = e.data || {};
+      if (d.type !== "appearance" || !d.vars) return;
+      var root = document.documentElement;
+      Object.keys(d.vars).forEach(function (k) { root.style.setProperty(k, d.vars[k]); });
+    });
+    </script>
+    {% endif %}
 </body>
 </html>

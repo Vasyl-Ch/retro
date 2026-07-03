@@ -102,8 +102,9 @@
 }
 
 /* Theme-aware site chrome (navbar + footer) */
+:root { --chrome-alpha: 1; }
 .site-nav {
-    background-color: var(--chrome-bg);
+    background-color: color-mix(in srgb, var(--chrome-bg), transparent calc((1 - var(--chrome-alpha)) * 100%));
     border-bottom: 1px solid var(--chrome-border);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -118,7 +119,7 @@
     color: var(--display-text-color);
 }
 .site-footer {
-    background-color: var(--chrome-bg);
+    background-color: color-mix(in srgb, var(--chrome-bg), transparent calc((1 - var(--chrome-alpha)) * 100%));
     border-top: 1px solid var(--chrome-border);
     color: var(--chrome-text);
 }
