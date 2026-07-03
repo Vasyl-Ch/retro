@@ -31,7 +31,8 @@ def page_background(request: HttpRequest) -> dict[str, Any]:
         qs = PageBackground.objects.filter(is_active=True, page_key__in=keys)
         backgrounds = {bg.page_key: bg for bg in qs}
     except (OperationalError, ProgrammingError):
-        return {"page_background": None, "page_background_overlay": 0}
+        return {"page_background": None, "page_background_overlay": 0,
+                "page_background_position": "center", "page_background_size": "cover"}
 
     chosen = None
     if current_key and current_key in backgrounds:
@@ -40,18 +41,26 @@ def page_background(request: HttpRequest) -> dict[str, Any]:
         chosen = backgrounds[PageBackground.SITE_KEY]
 
     if chosen is None or not chosen.image:
-        return {"page_background": None, "page_background_overlay": 0}
+        return {"page_background": None, "page_background_overlay": 0,
+                "page_background_position": "center", "page_background_size": "cover"}
 
     return {
         "page_background": chosen.image.url,
         "page_background_overlay": max(0, min(chosen.overlay_opacity, 90)),
+        "page_background_position": chosen.position,
+        "page_background_size": chosen.size,
     }
 
 
 def site_settings(request: HttpRequest) -> dict[str, Any]:
-    """Expose the SiteSettings singleton in every template as ``site_settings``."""
+    """Expose the SiteSettings singleton + computed appearance CSS in every template."""
+    from apps.core.appearance.services import build_appearance_css
+
     try:
         settings_obj = SiteSettings.get_solo()
     except (OperationalError, ProgrammingError):
-        return {"site_settings": None}
-    return {"site_settings": settings_obj}
+        return {"site_settings": None, "appearance_css": ""}
+    return {
+        "site_settings": settings_obj,
+        "appearance_css": build_appearance_css(settings_obj),
+    }

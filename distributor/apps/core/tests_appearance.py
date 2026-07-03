@@ -111,3 +111,23 @@ class AppearanceModelTests(_DBTestCase):
         bg = PageBackground(page_key=PageBackground.SITE_KEY)
         self.assertEqual(bg.position, "center")
         self.assertEqual(bg.size, "cover")
+
+
+class AppearanceRenderTests(_DBTestCase):
+    def test_home_emits_override_style_when_accent_set(self):
+        from apps.core.models import SiteSettings
+
+        s = SiteSettings.get_solo()
+        s.custom_accent = "#2563eb"
+        s.save()
+        resp = self.client.get("/")
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, "appearance-overrides")
+        self.assertContains(resp, "--primary-600: 37 99 235;")
+
+    def test_home_has_no_override_style_by_default(self):
+        from apps.core.models import SiteSettings
+
+        SiteSettings.get_solo()  # defaults: no custom appearance
+        resp = self.client.get("/")
+        self.assertNotContains(resp, "appearance-overrides")
