@@ -26,8 +26,15 @@ docker compose -f docker-compose.dev.yml up -d --build
 Первичное наполнение (один раз, в отдельном терминале):
 
 ```bash
-# суперпользователь для админки
+# суперпользователь для админки (интерактивно — спросит имя/email/пароль)
 docker compose -f docker-compose.dev.yml exec web python manage.py createsuperuser
+
+# ...или без промптов, логин+пароль сразу (удобно для dev):
+docker compose -f docker-compose.dev.yml exec \
+  -e DJANGO_SUPERUSER_USERNAME=admin \
+  -e DJANGO_SUPERUSER_EMAIL=admin@example.com \
+  -e DJANGO_SUPERUSER_PASSWORD=admin12345 \
+  web python manage.py createsuperuser --noinput
 
 # применить пресет вертикали (auto / shop / food / distributor / generic)
 docker compose -f docker-compose.dev.yml exec web python manage.py apply_preset auto
