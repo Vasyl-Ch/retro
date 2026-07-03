@@ -162,3 +162,6 @@ class AppearanceAdminFormTests(_DBTestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, "custom_accent")
         self.assertContains(resp, "chrome_opacity")
+        # Live-preview JS must fetch the absolute admin endpoint, not a path
+        # relative to the change page (which would 404 at runtime).
+        self.assertContains(resp, reverse("admin:core_sitesettings_preview_css"))

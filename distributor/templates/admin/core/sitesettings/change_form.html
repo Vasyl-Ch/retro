@@ -52,7 +52,7 @@
       chrome_text: (document.getElementById("id_chrome_text") || {}).value || "",
       chrome_opacity: (document.getElementById("id_chrome_opacity") || {}).value || "100",
     });
-    fetch("preview-css/?" + params.toString(), {credentials: "same-origin"})
+    fetch("{% url 'admin:core_sitesettings_preview_css' %}?" + params.toString(), {credentials: "same-origin"})
       .then(function (r) { return r.json(); })
       .then(function (vars) {
         if (frame.contentWindow) {
