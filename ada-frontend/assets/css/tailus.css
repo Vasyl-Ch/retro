@@ -116,7 +116,9 @@
     color: var(--chrome-text-hover);
 }
 .site-nav .site-nav-brand {
-    color: var(--display-text-color);
+    /* Follows the custom "header/footer text" colour when set (--chrome-brand),
+       otherwise the theme's display colour. */
+    color: var(--chrome-brand, var(--display-text-color));
 }
 .site-footer {
     background-color: color-mix(in srgb, var(--chrome-bg), transparent calc((1 - var(--chrome-alpha)) * 100%));
@@ -130,7 +132,7 @@
     color: var(--chrome-text-hover);
 }
 .site-footer h3 {
-    color: var(--display-text-color);
+    color: var(--chrome-brand, var(--display-text-color));
 }
 
 @media (prefers-reduced-motion: reduce) {

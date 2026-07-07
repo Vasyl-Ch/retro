@@ -220,6 +220,85 @@ class ConstructorRenderTests(TestCase):
         self.assertEqual(self.client.get("/")["X-Frame-Options"], "SAMEORIGIN")
 
 
+class TranslationFallbackTests(TestCase):
+    """A translation equal to the field's *default* must still count as defined.
+
+    modeltranslation's stock behaviour treats such values as "undefined" and
+    falls back to the other language — the EN site showed Ukrainian menu
+    labels whenever the English label matched the default ("News", "Catalog").
+    Fixed via fallback_undefined = "" in SiteSettingsTranslationOptions.
+    """
+
+    def test_english_value_equal_to_default_is_used(self):
+        from django.utils.translation import activate
+
+        from apps.core.models import SiteSettings
+
+        s = SiteSettings.get_solo()
+        s.nav_news_label_en = "News"  # == field default
+        s.nav_news_label_uk = "Новини"
+        s.save()
+        s = SiteSettings.get_solo()
+        try:
+            activate("en")
+            self.assertEqual(s.nav_news_label, "News")
+            activate("uk")
+            self.assertEqual(s.nav_news_label, "Новини")
+        finally:
+            activate("en")
+
+    def test_empty_translation_still_falls_back(self):
+        from django.utils.translation import activate
+
+        from apps.core.models import SiteSettings
+
+        s = SiteSettings.get_solo()
+        s.nav_news_label_en = ""
+        s.nav_news_label_uk = "Новини"
+        s.save()
+        s = SiteSettings.get_solo()
+        try:
+            activate("en")
+            self.assertEqual(s.nav_news_label, "Новини")
+        finally:
+            activate("en")
+
+
+class ChromeOverrideTests(TestCase):
+    """Chrome colour overrides must beat the theme on every theme.
+
+    Dark themes define --chrome-* on <body>; the override rule therefore has
+    to target body as well, or the settings silently do nothing outside the
+    classic theme.
+    """
+
+    def test_override_style_targets_body_too(self):
+        from apps.core.models import SiteSettings
+
+        s = SiteSettings.get_solo()
+        s.theme = "darklux"
+        s.chrome_bg = "#112233"
+        s.chrome_text = "#f5f5f5"
+        s.chrome_opacity = 70
+        s.save()
+        resp = self.client.get("/")
+        self.assertContains(resp, ":root[data-theme][data-theme] body")
+        self.assertContains(resp, "--chrome-bg: #112233;")
+        self.assertContains(resp, "--chrome-alpha: 0.7;")
+
+    def test_chrome_text_emits_brand_and_hover_vars(self):
+        from apps.core.appearance.services import preview_vars
+
+        css = preview_vars(chrome_text="#f5f5f5")
+        self.assertEqual(css["--chrome-brand"], "#f5f5f5")
+        self.assertEqual(css["--chrome-text-hover"], "rgb(var(--primary-600))")
+
+    def test_no_brand_var_without_chrome_text(self):
+        from apps.core.appearance.services import preview_vars
+
+        self.assertNotIn("--chrome-brand", preview_vars(accent="#2563eb"))
+
+
 class PreviewUrlTests(TestCase):
     def test_site_maps_to_home(self):
         self.assertEqual(preview_url_for("site"), "/")

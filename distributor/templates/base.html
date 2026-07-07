@@ -28,7 +28,10 @@
           href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&display=swap">
     {% vite_css %}
     {% if appearance_css %}
-    <style id="appearance-overrides">:root[data-theme][data-theme]{ {{ appearance_css }} }</style>
+    {# Dark themes define --chrome-* on <body> (closer than :root wins var lookup), so the
+       override must target both html and body to beat every theme. #}
+    <style id="appearance-overrides">:root[data-theme][data-theme],
+:root[data-theme][data-theme] body { {{ appearance_css }} }</style>
     {% endif %}
     <style id="element-overrides">{{ element_styles_css }}</style>
     {% if page_background_kind == 'image' and page_background %}
@@ -119,9 +122,17 @@
         var root = document.documentElement;
         if (d.type === "appearance" && d.vars) {
           // Drop vars from the previous push so cleared fields reset to the theme.
-          appliedVars.forEach(function (k) { root.style.removeProperty(k); });
+          // Set on <body> too: dark themes define chrome vars there, and the
+          // nearest ancestor definition wins the custom-property lookup.
+          appliedVars.forEach(function (k) {
+            root.style.removeProperty(k);
+            document.body.style.removeProperty(k);
+          });
           appliedVars = Object.keys(d.vars);
-          appliedVars.forEach(function (k) { root.style.setProperty(k, d.vars[k]); });
+          appliedVars.forEach(function (k) {
+            root.style.setProperty(k, d.vars[k]);
+            document.body.style.setProperty(k, d.vars[k]);
+          });
         } else if (d.type === "appearance-css" && typeof d.css === "string") {
           var el = document.getElementById("element-overrides");
           if (el) el.textContent = d.css;

@@ -72,6 +72,10 @@ class AppearanceTheme:
             css["--chrome-bg"] = self.chrome_bg
         if self.chrome_text:
             css["--chrome-text"] = self.chrome_text
+            # Keep the whole chrome consistent: the brand name / footer
+            # headings follow the custom text colour, hover shifts to accent.
+            css["--chrome-brand"] = self.chrome_text
+            css["--chrome-text-hover"] = "rgb(var(--primary-600))"
         if self.chrome_alpha is not None:
             css["--chrome-alpha"] = f"{self.chrome_alpha:g}"
         return css

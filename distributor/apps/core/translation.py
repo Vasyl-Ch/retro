@@ -7,6 +7,12 @@ from .models import SiteSettings
 
 @register(SiteSettings)
 class SiteSettingsTranslationOptions(TranslationOptions):
+    # Without this, modeltranslation treats a translation that EQUALS the
+    # field's default (e.g. nav_news_label_en == "News") as "undefined" and
+    # falls back to Ukrainian — the English site showed Ukrainian labels.
+    # Empty string = "not translated, fall back"; any other value is real.
+    fallback_undefined = ""
+
     fields = (
         "tagline",
         "meta_description",
