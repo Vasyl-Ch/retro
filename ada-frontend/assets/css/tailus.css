@@ -1164,3 +1164,122 @@
     .side-logo-bottom.is-sm { width: 7rem; }
     .side-logo-bottom.is-lg { width: 13rem; }
 }
+/* ============================================================
+   Constructor: animated page backgrounds (PageBackground.kind)
+   Layer sits behind all content; "overlay %" fades it toward the
+   body background (higher = calmer), speed scales all durations.
+   ============================================================ */
+.anim-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: calc((100 - var(--bg-dim, 40)) / 100);
+}
+
+.anim-bg-gradient {
+    background: linear-gradient(115deg,
+        var(--bg-c1, rgb(var(--primary-400))),
+        var(--bg-c2, rgb(var(--primary-600))),
+        var(--bg-c3, rgb(var(--primary-300))),
+        var(--bg-c1, rgb(var(--primary-400))));
+    background-size: 300% 300%;
+    animation: bg-gradient-pan calc(18s * var(--bg-speed-factor, 1)) ease-in-out infinite;
+}
+@keyframes bg-gradient-pan {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.anim-bg-aurora {
+    background: radial-gradient(45vmax at 70% 15%,
+        color-mix(in srgb, var(--bg-c3, rgb(var(--primary-300))) 45%, transparent),
+        transparent 70%);
+}
+.anim-bg-aurora::before,
+.anim-bg-aurora::after {
+    content: "";
+    position: absolute;
+    width: 60vmax;
+    height: 60vmax;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.55;
+    will-change: transform;
+}
+.anim-bg-aurora::before {
+    background: radial-gradient(circle, var(--bg-c1, rgb(var(--primary-400))), transparent 65%);
+    top: -15vmax;
+    left: -10vmax;
+    animation: aurora-drift-a calc(26s * var(--bg-speed-factor, 1)) ease-in-out infinite alternate;
+}
+.anim-bg-aurora::after {
+    background: radial-gradient(circle, var(--bg-c2, rgb(var(--primary-600))), transparent 65%);
+    bottom: -20vmax;
+    right: -10vmax;
+    animation: aurora-drift-b calc(32s * var(--bg-speed-factor, 1)) ease-in-out infinite alternate;
+}
+@keyframes aurora-drift-a {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(30vw, 20vh) scale(1.25); }
+}
+@keyframes aurora-drift-b {
+    from { transform: translate(0, 0) scale(1.15); }
+    to { transform: translate(-25vw, -18vh) scale(0.9); }
+}
+
+.anim-bg-particles canvas { position: absolute !important; inset: 0; }
+
+/* ============================================================
+   Constructor: element effects (ElementStyle.effect)
+   fade-in/slide-up define only `from` so the element's own
+   (possibly customized) opacity/position is the end state.
+   ============================================================ */
+@keyframes el-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+@keyframes el-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+}
+@keyframes el-fade-in {
+    from { opacity: 0; }
+}
+@keyframes el-slide-up {
+    from { opacity: 0; transform: translateY(24px); }
+}
+
+/* Waves — two huge slowly rotating rounded blocks; the uneven border-radius
+   makes their top edge roll like a water line near the bottom of the screen. */
+.anim-bg-waves {
+    background: linear-gradient(to bottom, transparent 45%,
+        color-mix(in srgb, var(--bg-c3, rgb(var(--primary-300))) 22%, transparent));
+}
+.anim-bg-waves::before,
+.anim-bg-waves::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 72%;
+    width: 220vmax;
+    height: 220vmax;
+    translate: -50% 0;
+    will-change: transform;
+}
+.anim-bg-waves::before {
+    background: color-mix(in srgb, var(--bg-c1, rgb(var(--primary-400))) 50%, transparent);
+    border-radius: 43%;
+    animation: waves-rotate calc(26s * var(--bg-speed-factor, 1)) linear infinite;
+}
+.anim-bg-waves::after {
+    background: color-mix(in srgb, var(--bg-c2, rgb(var(--primary-600))) 35%, transparent);
+    border-radius: 46%;
+    animation: waves-rotate calc(38s * var(--bg-speed-factor, 1)) linear infinite reverse;
+}
+@keyframes waves-rotate {
+    from { rotate: 0deg; }
+    to { rotate: 360deg; }
+}
