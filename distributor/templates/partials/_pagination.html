@@ -1,7 +1,7 @@
 {% load i18n pagination_tags %}
 {% if page_obj.has_other_pages %}
 <nav class="flex items-center justify-center gap-1.5 mt-12 flex-wrap"
-     aria-label="{% trans 'Pagination' %}">
+     aria-label="{% trans 'Pagination' %}" data-el="pagination">
 
   {# First #}
   {% if page_obj.number > 2 %}

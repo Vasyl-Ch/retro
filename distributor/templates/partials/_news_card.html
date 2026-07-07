@@ -1,5 +1,5 @@
 {% load i18n %}
-<div class="card variant-outlined overflow-hidden">
+<div class="card variant-outlined overflow-hidden" data-el="card-news">
   {% if news.image %}
   <a href="{{ news.get_absolute_url }}">
     <img src="{{ news.image.url }}" alt="{{ news.title }}"

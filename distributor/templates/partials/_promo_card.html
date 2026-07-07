@@ -1,5 +1,5 @@
 {% load i18n %}
-<div class="card variant-outlined overflow-hidden">
+<div class="card variant-outlined overflow-hidden" data-el="card-promo">
   {% if promo.image %}
   <a href="{{ promo.get_absolute_url }}">
     <img src="{{ promo.image.url }}" alt="{{ promo.title }}"

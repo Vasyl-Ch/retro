@@ -1,10 +1,17 @@
 from colorfield.fields import ColorField
+from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from solo.models import SingletonModel
 
-from apps.core.validators import branding_image_validators, raster_image_validators
+from apps.core.appearance.elements import ELEMENTS
+from apps.core.validators import (
+    branding_image_validators,
+    raster_image_validators,
+    validate_css_declarations,
+    validate_json_object,
+)
 
 
 class SiteSettings(SingletonModel):
@@ -63,6 +70,24 @@ class SiteSettings(SingletonModel):
         _("Header/footer opacity, %"), default=100,
         validators=[MinValueValidator(0), MaxValueValidator(100)],
         help_text=_("100 = solid, lower = more transparent."),
+    )
+
+    ROUNDING_CHOICES = [
+        ("none", _("None (sharp corners)")),
+        ("small", _("Small")),
+        ("medium", _("Medium")),
+        ("large", _("Large")),
+        ("xlarge", _("Extra large")),
+        ("2xlarge", _("2× extra large")),
+        ("3xlarge", _("3× extra large (default)")),
+        ("full", _("Full (pill buttons)")),
+    ]
+    corner_style = models.CharField(
+        _("Corner rounding"),
+        max_length=10,
+        choices=ROUNDING_CHOICES,
+        default="3xlarge",
+        help_text=_("Roundness of cards, buttons and inputs across the site."),
     )
 
     BRAND_STYLE_PLAIN = "plain"
@@ -242,6 +267,29 @@ class PageBackground(models.Model):
         ("contacts:contact", _("Contacts")),
     ]
 
+    KIND_IMAGE = "image"
+    KIND_GRADIENT = "gradient"
+    KIND_AURORA = "aurora"
+    KIND_WAVES = "waves"
+    KIND_PARTICLES = "particles"
+    KIND_BUBBLES = "bubbles"
+    KIND_SNOW = "snow"
+    KIND_STARS = "stars"
+    KIND_CUSTOM = "custom"
+    KIND_CHOICES = [
+        (KIND_IMAGE, _("Image (static photo)")),
+        (KIND_GRADIENT, _("Animated gradient")),
+        (KIND_AURORA, _("Aurora (soft drifting glow)")),
+        (KIND_WAVES, _("Waves (flowing bands)")),
+        (KIND_PARTICLES, _("Particles (interactive network)")),
+        (KIND_BUBBLES, _("Bubbles (floating up)")),
+        (KIND_SNOW, _("Snow (falling flakes)")),
+        (KIND_STARS, _("Stars (twinkling)")),
+        (KIND_CUSTOM, _("Custom (own tsparticles JSON config)")),
+    ]
+    # Kinds rendered by the tsparticles engine (need the JS module).
+    PARTICLE_KINDS = {KIND_PARTICLES, KIND_BUBBLES, KIND_SNOW, KIND_STARS, KIND_CUSTOM}
+
     page_key = models.CharField(
         _("Page"),
         max_length=64,
@@ -249,8 +297,34 @@ class PageBackground(models.Model):
         choices=PAGE_CHOICES,
         default=SITE_KEY,
     )
-    image = models.ImageField(_("Image"), upload_to="backgrounds/",
-                              validators=raster_image_validators)
+    kind = models.CharField(
+        _("Background type"),
+        max_length=12,
+        choices=KIND_CHOICES,
+        default=KIND_IMAGE,
+        help_text=_("Animated types use the colours below (empty = the theme's accent)."),
+    )
+    image = models.ImageField(_("Image"), upload_to="backgrounds/", blank=True,
+                              validators=raster_image_validators,
+                              help_text=_("Required for the “Image” type; ignored otherwise."))
+    # NB: unchecking "Active" removes the background from the page entirely.
+    color_1 = ColorField(_("Colour 1"), blank=True, default="", format="hexa")
+    color_2 = ColorField(_("Colour 2"), blank=True, default="", format="hexa")
+    color_3 = ColorField(_("Colour 3"), blank=True, default="", format="hexa")
+    speed = models.PositiveSmallIntegerField(
+        _("Animation speed, %"),
+        default=100,
+        validators=[MinValueValidator(10), MaxValueValidator(300)],
+        help_text=_("100 = normal. Lower is slower and calmer, higher is faster."),
+    )
+    custom_config = models.TextField(
+        _("Custom background config (JSON)"), blank=True, default="",
+        validators=[validate_json_object],
+        help_text=_(
+            "For the “Custom” type: a tsparticles options object (JSON). "
+            "See https://particles.js.org for examples — paste any preset here."
+        ),
+    )
     is_active = models.BooleanField(_("Active"), default=True, db_index=True)
     overlay_opacity = models.PositiveSmallIntegerField(
         _("Overlay, %"),
@@ -280,3 +354,115 @@ class PageBackground(models.Model):
 
     def __str__(self) -> str:
         return self.get_page_key_display()
+
+    def clean(self) -> None:
+        if self.kind == self.KIND_IMAGE and not self.image:
+            raise ValidationError({"image": _("Upload an image or pick an animated background type.")})
+        if self.kind == self.KIND_CUSTOM and not (self.custom_config or "").strip():
+            raise ValidationError({"custom_config": _(
+                "The “Custom” type needs a tsparticles JSON config (or pick a built-in type)."
+            )})
+
+    @property
+    def colors(self) -> list[str]:
+        """Non-empty custom colours in order (may be empty → theme accent is used)."""
+        return [c for c in (self.color_1, self.color_2, self.color_3) if c]
+
+
+class ElementStyle(models.Model):
+    """Стиль конкретного елемента сторінки, керований з конструктора в адмінці.
+
+    Прив'язка — до якоря ``data-el`` у шаблонах; область дії — весь сайт
+    (``page_key = "site"``) або одна сторінка. CSS генерує
+    ``apps.core.appearance.elements.build_element_css``.
+    """
+
+    ELEMENT_CHOICES = [(key, _(label)) for key, label in ELEMENTS]
+    ALIGN_CHOICES = [
+        ("", _("Theme default")),
+        ("left", _("Left")),
+        ("center", _("Center")),
+        ("right", _("Right")),
+    ]
+    EFFECT_CHOICES = [
+        ("", _("None")),
+        ("float", _("Float (gentle up/down)")),
+        ("pulse", _("Pulse (breathing)")),
+        ("fade-in", _("Fade in on load")),
+        ("slide-up", _("Slide up on load")),
+    ]
+
+    page_key = models.CharField(
+        _("Page"),
+        max_length=64,
+        choices=PageBackground.PAGE_CHOICES,
+        default=PageBackground.SITE_KEY,
+        help_text=_("“Whole site” applies everywhere; a page-specific style overrides it."),
+    )
+    element_key = models.CharField(_("Element"), max_length=40, choices=ELEMENT_CHOICES)
+    is_active = models.BooleanField(_("Active"), default=True, db_index=True)
+
+    text_color = ColorField(_("Text colour"), blank=True, default="", format="hexa")
+    bg_color = ColorField(_("Background colour"), blank=True, default="", format="hexa")
+    opacity = models.PositiveSmallIntegerField(
+        _("Opacity, %"), default=100,
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+    )
+    font_size = models.PositiveSmallIntegerField(
+        _("Font size, px"), null=True, blank=True,
+        validators=[MinValueValidator(8), MaxValueValidator(200)],
+        help_text=_("Empty = theme size."),
+    )
+    text_align = models.CharField(_("Text alignment"), max_length=6, blank=True,
+                                  choices=ALIGN_CHOICES, default="")
+    offset_x = models.SmallIntegerField(
+        _("Shift right/left, px"), default=0,
+        validators=[MinValueValidator(-500), MaxValueValidator(500)],
+        help_text=_("Positive = right, negative = left."),
+    )
+    offset_y = models.SmallIntegerField(
+        _("Shift down/up, px"), default=0,
+        validators=[MinValueValidator(-500), MaxValueValidator(500)],
+        help_text=_("Positive = down, negative = up."),
+    )
+    scale = models.PositiveSmallIntegerField(
+        _("Size (scale), %"), default=100,
+        validators=[MinValueValidator(10), MaxValueValidator(300)],
+        help_text=_("Visual zoom of the element. 100 = normal size."),
+    )
+    max_width = models.PositiveSmallIntegerField(
+        _("Max width, px"), null=True, blank=True,
+        validators=[MinValueValidator(40), MaxValueValidator(3000)],
+    )
+    border_radius = models.PositiveSmallIntegerField(
+        _("Corner radius, px"), null=True, blank=True,
+        validators=[MaxValueValidator(200)],
+    )
+    padding = models.PositiveSmallIntegerField(
+        _("Inner padding, px"), null=True, blank=True,
+        validators=[MaxValueValidator(300)],
+    )
+    hidden = models.BooleanField(
+        _("Hide element"), default=False,
+        help_text=_("Removes the element from the page entirely."),
+    )
+    effect = models.CharField(_("Animation"), max_length=10, blank=True,
+                              choices=EFFECT_CHOICES, default="")
+    custom_css = models.TextField(
+        _("Extra CSS (advanced)"), blank=True, default="",
+        validators=[validate_css_declarations],
+        help_text=_("Extra CSS declarations, e.g. “letter-spacing: 2px; text-transform: uppercase;”"),
+    )
+    updated_at = models.DateTimeField(_("Updated"), auto_now=True)
+
+    class Meta:
+        verbose_name = _("Element style")
+        verbose_name_plural = _("Element styles (constructor)")
+        ordering = ["page_key", "element_key"]
+        constraints = [
+            models.UniqueConstraint(fields=["page_key", "element_key"],
+                                    name="unique_elementstyle_per_page_element"),
+        ]
+
+    def __str__(self) -> str:
+        return f"{self.get_element_key_display()} — {self.get_page_key_display()}"
