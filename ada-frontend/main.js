@@ -8,10 +8,12 @@ import PhotoSwipeLightbox from "photoswipe/lightbox";
 import "photoswipe/style.css";
 import { initAnimations } from "./src/animations.js";
 import { initAutocomplete } from "./src/autocomplete.js";
+import { initBackgrounds } from "./src/backgrounds.js";
 import { initCart } from "./src/cart.js";
 
 initAnimations();
 initAutocomplete();
+initBackgrounds();
 initCart();
 
 const mainHeader = document.querySelector("#header");
@@ -97,13 +99,20 @@ if (document.querySelector(".productGallery")) {
   lightbox.init();
 }
 
-if (document.querySelector(".brandsSlider")) {
+const brandsSliderEl = document.querySelector(".brandsSlider");
+if (brandsSliderEl) {
+  // Loop needs more slides than the widest slidesPerView, otherwise Swiper
+  // warns and disables it — fall back to a static (non-looping) slider.
+  const slideCount = brandsSliderEl.querySelectorAll(".swiper-slide").length;
+  const enableLoop = slideCount > 6;
   new Swiper(".brandsSlider", {
     slidesPerView: 2,
     spaceBetween: 16,
-    loop: true,
+    loop: enableLoop,
     grabCursor: true,
-    autoplay: { delay: 2200, disableOnInteraction: false, pauseOnMouseEnter: true },
+    autoplay: enableLoop
+      ? { delay: 2200, disableOnInteraction: false, pauseOnMouseEnter: true }
+      : false,
     breakpoints: {
       480: { slidesPerView: 3 },
       768: { slidesPerView: 4 },

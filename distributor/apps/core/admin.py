@@ -7,6 +7,8 @@ from django.db.models.fields.files import ImageFieldFile
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import path, reverse
 
+from apps.core.appearance.elements import ElementStyleValues, build_element_css
+from apps.core.appearance.preview import preview_url_for
 from apps.core.appearance.services import preview_vars
 from django.utils.html import format_html
 from django.utils.safestring import SafeString
@@ -14,7 +16,7 @@ from django.utils.translation import gettext_lazy as _
 from modeltranslation.admin import TranslationAdmin
 from solo.admin import SingletonModelAdmin
 
-from .models import PageBackground, SiteSettings
+from .models import ElementStyle, PageBackground, SiteSettings
 from .presets import PRESETS, apply_preset
 
 
@@ -72,18 +74,113 @@ def image_preview_method(
 
 @admin.register(PageBackground)
 class PageBackgroundAdmin(admin.ModelAdmin):
-    list_display = ["image_preview", "page_label", "is_active", "overlay_opacity", "updated_at"]
+    change_form_template = "admin/core/pagebackground/change_form.html"
+    list_display = ["image_preview", "page_label", "kind", "is_active", "overlay_opacity", "updated_at"]
     list_editable = ["is_active", "overlay_opacity"]
     list_display_links = ["image_preview", "page_label"]
-    list_filter = ["is_active"]
+    list_filter = ["is_active", "kind"]
     readonly_fields = ["updated_at"]
-    fields = ["page_key", "image", "is_active", "overlay_opacity", "updated_at"]
+    fieldsets = (
+        (None, {
+            "fields": ("page_key", "kind", "is_active", "overlay_opacity", "updated_at"),
+            "description": _("Uncheck “Active” to remove the background from the page entirely."),
+        }),
+        (_("Image background"), {
+            "fields": ("image", "position", "size"),
+            "description": _("Used when the type is “Image”."),
+        }),
+        (_("Animated background"), {
+            "fields": ("color_1", "color_2", "color_3", "speed", "custom_config"),
+            "description": _(
+                "Used by the animated types. Leave colours empty to inherit the theme's "
+                "accent colour. The JSON config applies to the “Custom” type only."
+            ),
+        }),
+    )
 
     image_preview = image_preview_method("image", description=_("Background"), height=50, width=90)
 
     @admin.display(description=_("Page"), ordering="page_key")
     def page_label(self, obj: PageBackground) -> str:
         return obj.get_page_key_display()
+
+    def changeform_view(self, request, object_id=None, form_url="", extra_context=None):
+        extra_context = extra_context or {}
+        extra_context["preview_urls"] = {
+            key: preview_url_for(key) for key, _label in PageBackground.PAGE_CHOICES
+        }
+        return super().changeform_view(request, object_id, form_url, extra_context)
+
+
+ELEMENT_STYLE_VALUE_FIELDS = [
+    "text_color", "bg_color", "opacity", "font_size", "text_align",
+    "offset_x", "offset_y", "scale", "max_width", "border_radius",
+    "padding", "hidden", "effect", "custom_css",
+]
+
+
+@admin.register(ElementStyle)
+class ElementStyleAdmin(admin.ModelAdmin):
+    change_form_template = "admin/core/elementstyle/change_form.html"
+    list_display = ["element_label", "page_label", "is_active", "updated_at"]
+    list_editable = ["is_active"]
+    list_filter = ["is_active", "page_key", "element_key"]
+    readonly_fields = ["updated_at"]
+    fieldsets = (
+        (None, {"fields": ("page_key", "element_key", "is_active")}),
+        (_("Colours & transparency"), {"fields": ("text_color", "bg_color", "opacity")}),
+        (_("Size & position"), {
+            "fields": ("scale", "font_size", "text_align",
+                       "offset_x", "offset_y", "max_width", "padding", "border_radius"),
+        }),
+        (_("Effects"), {"fields": ("effect", "hidden", "custom_css")}),
+        (None, {"fields": ("updated_at",)}),
+    )
+
+    @admin.display(description=_("Element"), ordering="element_key")
+    def element_label(self, obj: ElementStyle) -> str:
+        return obj.get_element_key_display()
+
+    @admin.display(description=_("Page"), ordering="page_key")
+    def page_label(self, obj: ElementStyle) -> str:
+        return obj.get_page_key_display()
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom = [
+            path(
+                "preview-css/",
+                self.admin_site.admin_view(self.preview_css_view),
+                name="core_elementstyle_preview_css",
+            ),
+        ]
+        return custom + urls
+
+    def preview_css_view(self, request):
+        """Full element CSS with the (unsaved) form values swapped in.
+
+        The saved rule for the edited (page, element) pair is excluded so the
+        preview exactly matches what a save would produce.
+        """
+        values = ElementStyleValues.from_mapping(request.GET.dict())
+        exclude_pk = request.GET.get("object_id") or None
+        styles = ElementStyle.objects.filter(is_active=True)
+        if exclude_pk and str(exclude_pk).isdigit():
+            styles = styles.exclude(pk=int(exclude_pk))
+        styles = [
+            s for s in styles
+            if not (s.page_key == values.page_key and s.element_key == values.element_key)
+        ]
+        css = build_element_css([*styles, values])
+        return JsonResponse({"css": css})
+
+    def changeform_view(self, request, object_id=None, form_url="", extra_context=None):
+        extra_context = extra_context or {}
+        extra_context["preview_urls"] = {
+            key: preview_url_for(key) for key, _label in PageBackground.PAGE_CHOICES
+        }
+        extra_context["object_id_for_preview"] = object_id or ""
+        return super().changeform_view(request, object_id, form_url, extra_context)
 
 
 PRESET_LABELS = {
@@ -158,7 +255,7 @@ class SiteSettingsAdmin(SingletonModelAdmin, TranslationAdmin):
                        "meta_description", "footer_copyright", "cta_label", "cart_enabled"),
         }),
         (_("Appearance (colors & transparency)"), {
-            "fields": ("custom_accent", "chrome_bg", "chrome_text", "chrome_opacity"),
+            "fields": ("custom_accent", "chrome_bg", "chrome_text", "chrome_opacity", "corner_style"),
             "description": _("Live preview updates below as you change these."),
         }),
         (_("Contacts"), {

@@ -28,7 +28,7 @@ SECURE_HSTS_PRELOAD = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
-X_FRAME_OPTIONS = "DENY"
+# Keep SAMEORIGIN from base.py: DENY would break the admin live-preview iframe.
 
 from apps.core.conf_checks import (  # noqa: E402
     assert_allowed_hosts,

@@ -50,6 +50,10 @@ INSTALLED_APPS = [
     "apps.orders",
 ]
 
+# SAMEORIGIN (not the Django default DENY): the admin appearance constructor renders
+# the site inside an <iframe> on the same origin for live preview.
+X_FRAME_OPTIONS = "SAMEORIGIN"
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -141,6 +145,8 @@ JAZZMIN_SETTINGS = {
         "orders.order": "fas fa-shopping-cart",
         "orders.orderitem": "fas fa-box",
         "core.pagebackground": "fas fa-image",
+        "core.elementstyle": "fas fa-paint-brush",
+        "core.sitesettings": "fas fa-sliders-h",
     },
     "default_icon_parents": "fas fa-folder",
     "default_icon_children": "fas fa-circle",

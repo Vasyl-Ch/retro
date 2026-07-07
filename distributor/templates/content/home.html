@@ -8,7 +8,7 @@
 {# ---- HERO ---- #}
 {% if site_settings.home_layout == 'cinematic' and banners %}
 {# Cinematic: full-screen banner slider (legacy) #}
-<section class="relative">
+<section class="relative" data-el="hero">
   <div class="relative pt-24 lg:pt-28">
     <div class="swiper heroSlider">
       <div class="swiper-wrapper">
@@ -43,21 +43,21 @@
 
 {% else %}
 {# Editorial: large kinetic typography, asymmetric grid, breathing space #}
-<section class="relative overflow-hidden pt-36 pb-24 lg:pt-44 lg:pb-32">
+<section class="relative overflow-hidden pt-36 pb-24 lg:pt-44 lg:pb-32" data-el="hero">
   <div class="mx-auto px-6 max-w-7xl">
     <div class="grid lg:grid-cols-12 gap-y-12 lg:gap-x-12 items-end">
       <div class="lg:col-span-8">
-        <span class="hero-editorial-eyebrow">
+        <span class="hero-editorial-eyebrow" data-el="hero-eyebrow">
           {{ site_settings.hero_eyebrow|default:_("Official representative · 2026") }}
         </span>
-        <h1 class="hero-editorial-title text-title mt-6"
+        <h1 class="hero-editorial-title text-title mt-6" data-el="hero-title"
             data-kinetic-text="{{ site_settings.hero_title|default:_('A shorter **distance** to quality brands.') }}"></h1>
       </div>
       <div class="lg:col-span-4 lg:pb-4" data-reveal>
-        <p class="text-body text-lg leading-relaxed max-w-md">
+        <p class="text-body text-lg leading-relaxed max-w-md" data-el="hero-subtitle">
           {{ site_settings.hero_subtitle|default:_("A catalog that delivers the product without noise. A contact request in two clicks.") }}
         </p>
-        <div class="mt-8 flex flex-wrap gap-3">
+        <div class="mt-8 flex flex-wrap gap-3" data-el="hero-actions">
           <a href="{% url 'catalog:product_list' %}" data-magnetic
              class="btn variant-primary sz-lg">
             <span class="btn-label">{% blocktrans with label=site_settings.nav_catalog_label|default:_("Catalog") %}Browse {{ label }}{% endblocktrans %}</span>
@@ -72,7 +72,7 @@
 
     {% if banners %}
     {# Editorial collage strip — first banner as wide feature, rest as small thumbs #}
-    <div class="mt-24 grid grid-cols-12 gap-3 lg:gap-4" data-reveal-stagger>
+    <div class="mt-24 grid grid-cols-12 gap-3 lg:gap-4" data-reveal-stagger data-el="hero-collage">
       {% for banner in banners|slice:":4" %}
       <a href="{{ banner.button_url|default:'#' }}"
          class="{% if forloop.first %}col-span-12 lg:col-span-8 aspect-[16/9]{% else %}col-span-6 lg:col-span-{% if banners|length == 2 %}4{% else %}{% if forloop.counter == 2 %}4{% else %}2{% endif %}{% endif %} aspect-[4/3]{% endif %}
@@ -100,7 +100,7 @@
 
 {# ---- BRANDS ---- #}
 {% if brands and site_settings.nav_brands_visible %}
-<section class="pt-24">
+<section class="pt-24" data-el="section-brands">
   <div class="mx-auto px-6 max-w-6xl">
     <h2 class="text-3xl text-title font-semibold text-center" data-reveal>
       {% blocktrans with plural=site_settings.term_brand_plural|default:_("brands") %}Our {{ plural }}{% endblocktrans %}
@@ -128,7 +128,7 @@
 
 {# ---- PROMOTIONS ---- #}
 {% if active_promos and site_settings.nav_promos_visible %}
-<section class="pt-24">
+<section class="pt-24" data-el="section-promos">
   <div class="mx-auto px-6 max-w-6xl">
     <div class="flex items-center justify-between" data-reveal>
       <h2 class="text-3xl text-title font-semibold">
@@ -148,7 +148,7 @@
 
 {# ---- FEATURED ---- #}
 {% if featured and site_settings.nav_catalog_visible %}
-<section class="pt-24">
+<section class="pt-24" data-el="section-featured">
   <div class="mx-auto px-6 max-w-6xl">
     <div class="flex items-center justify-between" data-reveal>
       <h2 class="text-3xl text-title font-semibold">
@@ -168,7 +168,7 @@
 
 {# ---- NEWS ---- #}
 {% if latest_news and site_settings.nav_news_visible %}
-<section class="py-24">
+<section class="py-24" data-el="section-news">
   <div class="mx-auto px-6 max-w-6xl">
     <div class="flex items-center justify-between" data-reveal>
       <h2 class="text-3xl text-title font-semibold">{{ site_settings.nav_news_label|default:_("News") }}</h2>
@@ -188,10 +188,12 @@
 
 {% block extra_js %}
 <script>
-  if (document.querySelector('.heroSlider')) {
+  var heroSlider = document.querySelector('.heroSlider');
+  if (heroSlider) {
+    var heroSlides = heroSlider.querySelectorAll('.swiper-slide').length;
     new Swiper('.heroSlider', {
-      loop: true,
-      autoplay: { delay: 5000, disableOnInteraction: false },
+      loop: heroSlides > 1,
+      autoplay: heroSlides > 1 ? { delay: 5000, disableOnInteraction: false } : false,
       pagination: { el: '.swiper-pagination', clickable: true },
       navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }
     });

@@ -15,6 +15,7 @@ class ContactForm(forms.ModelForm):
                 attrs={
                     "class": "input variant-outlined w-full",
                     "placeholder": _("Your name"),
+                    "autocomplete": "name",
                 }
             ),
             "phone": forms.TextInput(
@@ -22,12 +23,14 @@ class ContactForm(forms.ModelForm):
                     "class": "input variant-outlined w-full",
                     "placeholder": "Your Phone Number",
                     "pattern": r"[\+\d\s\-\(\)]{7,20}",
+                    "autocomplete": "tel",
                 }
             ),
             "email": forms.EmailInput(
                 attrs={
                     "class": "input variant-outlined w-full",
                     "placeholder": "email@example.com",
+                    "autocomplete": "email",
                 }
             ),
             "subject": forms.Select(

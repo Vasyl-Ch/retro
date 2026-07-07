@@ -1,6 +1,6 @@
 {% load static vite_tags i18n %}
 <!DOCTYPE html>
-<html data-shade="950" data-rounded="3xlarge"
+<html data-shade="950" data-rounded="{{ site_settings.corner_style|default:'3xlarge' }}"
       data-theme="{{ site_settings.theme|default:'classic' }}"
       lang="{{ LANGUAGE_CODE|default:'uk' }}">
 <head>
@@ -30,7 +30,8 @@
     {% if appearance_css %}
     <style id="appearance-overrides">:root[data-theme][data-theme]{ {{ appearance_css }} }</style>
     {% endif %}
-    {% if page_background %}
+    <style id="element-overrides">{{ element_styles_css }}</style>
+    {% if page_background_kind == 'image' and page_background %}
     <style>
       body.has-page-bg {
         background-image:
@@ -55,12 +56,26 @@
     {% endif %}
     {% block extra_css %}{% endblock %}
 </head>
-<body class="bg-white dark:bg-gray-950{% if page_background %} has-page-bg{% endif %}"
+<body class="bg-white dark:bg-gray-950{% if page_background_kind == 'image' and page_background %} has-page-bg{% endif %}"
+      {% if page_key %}data-page="{{ page_key }}"{% endif %}
       data-anim-scroll-reveal="{{ site_settings.anim_scroll_reveal|yesno:'1,0' }}"
       data-anim-magnetic="{{ site_settings.anim_magnetic_buttons|yesno:'1,0' }}"
       data-anim-cursor="{{ site_settings.anim_cursor_follower|yesno:'1,0' }}"
       data-anim-kinetic-hero="{{ site_settings.anim_kinetic_hero|yesno:'1,0' }}"
       data-anim-page-transitions="{{ site_settings.anim_page_transitions|yesno:'1,0' }}">
+
+    {% if page_background_kind and page_background_kind != 'image' %}
+    {# Animated background layer — behind all content. CSS kinds (gradient/aurora/waves)
+       animate via tailus.css; particle kinds are booted by src/backgrounds.js. #}
+    <div id="animated-bg" class="anim-bg anim-bg-{{ page_background_kind }}" aria-hidden="true"
+         data-bg-kind="{{ page_background_kind }}"
+         {% if page_background_is_particles %}data-particles{% endif %}
+         data-speed="{{ page_background_speed }}"
+         style="--bg-speed-factor: calc(100 / {{ page_background_speed }});
+                --bg-dim: {{ page_background_overlay }};
+                {% for color in page_background_colors %}--bg-c{{ forloop.counter }}: {{ color }};{% endfor %}"></div>
+    {% if page_background_config %}{{ page_background_config|json_script:"bg-custom-config" }}{% endif %}
+    {% endif %}
 
     {% include 'partials/_navbar.html' %}
 
@@ -84,7 +99,7 @@
     </script>
     {% endif %}
 
-    <main class="overflow-hidden">
+    <main class="overflow-hidden" data-el="content-body">
         {% block content %}{% endblock %}
     </main>
 
@@ -96,13 +111,47 @@
     {% block extra_js %}{% endblock %}
     {% if request.GET.appearance_preview %}
     <script>
-    window.addEventListener("message", function (e) {
-      if (e.origin !== location.origin) return;
-      var d = e.data || {};
-      if (d.type !== "appearance" || !d.vars) return;
-      var root = document.documentElement;
-      Object.keys(d.vars).forEach(function (k) { root.style.setProperty(k, d.vars[k]); });
-    });
+    (function () {
+      var appliedVars = [];
+      window.addEventListener("message", function (e) {
+        if (e.origin !== location.origin) return;
+        var d = e.data || {};
+        var root = document.documentElement;
+        if (d.type === "appearance" && d.vars) {
+          // Drop vars from the previous push so cleared fields reset to the theme.
+          appliedVars.forEach(function (k) { root.style.removeProperty(k); });
+          appliedVars = Object.keys(d.vars);
+          appliedVars.forEach(function (k) { root.style.setProperty(k, d.vars[k]); });
+        } else if (d.type === "appearance-css" && typeof d.css === "string") {
+          var el = document.getElementById("element-overrides");
+          if (el) el.textContent = d.css;
+        } else if (d.type === "appearance-highlight") {
+          var hl = document.getElementById("element-highlight");
+          if (!hl) {
+            hl = document.createElement("style");
+            hl.id = "element-highlight";
+            document.head.appendChild(hl);
+          }
+          hl.textContent = d.element
+            ? '[data-el="' + d.element + '"]{ outline: 2px dashed #ef4444 !important; outline-offset: 4px; }'
+            : "";
+        } else if (d.type === "appearance-attrs" && d.attrs) {
+          if (d.attrs.theme) root.setAttribute("data-theme", d.attrs.theme);
+          if (d.attrs.rounded) root.setAttribute("data-rounded", d.attrs.rounded);
+        } else if (d.type === "background" && window.__adaBackground) {
+          window.__adaBackground.apply(d.state || {});
+        }
+      });
+      // Keep preview mode alive when the admin user clicks around inside the iframe.
+      document.addEventListener("click", function (ev) {
+        var a = ev.target && ev.target.closest ? ev.target.closest("a[href]") : null;
+        if (!a) return;
+        var url = new URL(a.getAttribute("href"), location.href);
+        if (url.origin !== location.origin) return;
+        url.searchParams.set("appearance_preview", "1");
+        a.href = url.pathname + url.search + url.hash;
+      }, true);
+    })();
     </script>
     {% endif %}
 </body>

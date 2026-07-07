@@ -10,7 +10,7 @@
     <p class="text-body text-center mb-12">
       {% trans "Fill in the form and we'll get back to you shortly" %}
     </p>
-    <div class="card variant-outlined p-8">
+    <div class="card variant-outlined p-8" data-el="contact-form">
       <form method="post">
         {% csrf_token %}
         {% if form.non_field_errors %}

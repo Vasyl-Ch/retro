@@ -1,8 +1,8 @@
 {% load i18n %}
-<footer class="site-footer relative py-12 mt-12">
+<footer class="site-footer relative py-12 mt-12" data-el="footer">
   <div class="mx-auto px-6 max-w-6xl">
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-      <div>
+      <div data-el="footer-brand">
         <a href="{% url 'content:home' %}"
            class="brand-style-{{ site_settings.brand_style|default:'plain' }} text-title font-semibold text-lg">{{ site_settings.brand_name|default:_("Distributor") }}</a>
         <p class="mt-3 text-body text-sm">

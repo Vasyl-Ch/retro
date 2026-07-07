@@ -65,7 +65,21 @@
     var el = document.getElementById(id);
     if (el) { el.addEventListener("input", debounced); el.addEventListener("change", debounced); }
   });
-  frame.addEventListener("load", push);
+  function pushAttrs() {
+    if (!frame.contentWindow) return;
+    frame.contentWindow.postMessage({
+      type: "appearance-attrs",
+      attrs: {
+        theme: (document.getElementById("id_theme") || {}).value || "",
+        rounded: (document.getElementById("id_corner_style") || {}).value || "",
+      },
+    }, location.origin);
+  }
+  ["id_theme", "id_corner_style"].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener("change", pushAttrs);
+  });
+  frame.addEventListener("load", function () { push(); pushAttrs(); });
 })();
 </script>
 {% endblock %}

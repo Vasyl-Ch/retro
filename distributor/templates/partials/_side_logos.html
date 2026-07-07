@@ -4,18 +4,18 @@
 
 {# ---- Wide screens: logo fills the full side gutter (edge to content strip), stays on scroll ---- #}
 {% if site_settings.side_logo_left %}
-<div class="hidden 2xl:flex side-logo-gutter left is-{{ sz }}">
+<div class="hidden 2xl:flex side-logo-gutter left is-{{ sz }}" data-el="side-logos">
   <img src="{{ site_settings.side_logo_left.url }}" alt="{{ site_settings.brand_name }}" aria-hidden="true" class="select-none">
 </div>
 {% endif %}
 {% if site_settings.side_logo_right %}
-<div class="hidden 2xl:flex side-logo-gutter right is-{{ sz }}">
+<div class="hidden 2xl:flex side-logo-gutter right is-{{ sz }}" data-el="side-logos">
   <img src="{{ site_settings.side_logo_right.url }}" alt="{{ site_settings.brand_name }}" aria-hidden="true" class="select-none">
 </div>
 {% endif %}
 
 {# ---- Narrow screens / mobile: both logos in a row below the content, before the footer ---- #}
-<div class="2xl:hidden mx-auto px-6 max-w-6xl mt-16">
+<div class="2xl:hidden mx-auto px-6 max-w-6xl mt-16" data-el="side-logos">
   <div class="flex items-center justify-center gap-6 sm:gap-10 flex-wrap">
     {% if site_settings.side_logo_left %}
     <img src="{{ site_settings.side_logo_left.url }}" alt="{{ site_settings.brand_name }}"
